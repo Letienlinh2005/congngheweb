@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { getProduct } from "../../../services/Admin_API/SachAPI";
-import Product_List from "../Product/ProductList";
+import ProductList from "../Product/ProductList";
 
 function Dashboard(){
     return (
-        <Product_List/>
+        <>
+        <h1>Chào mừng bạn đến với trang quản trị </h1>
+        </>
     )
 }
 
