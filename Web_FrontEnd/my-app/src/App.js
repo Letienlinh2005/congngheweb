@@ -16,9 +16,7 @@ function App() {
       <Route path="/login" element={<Login />} />
 
       {/* ADMIN */}
-      <Route
-        path="/admin"
-        element={
+      <Route path="/admin" element={
           <PrivateRoute>
             <AdminLayout />
           </PrivateRoute>

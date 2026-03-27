@@ -1,8 +1,10 @@
 import React from "react";
 import {
   LaptopOutlined,
-  NotificationOutlined,
   UserOutlined,
+  BookOutlined,
+  TagsOutlined,
+  TeamOutlined,
 } from "@ant-design/icons";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
 import { Outlet, useNavigate } from "react-router-dom";
@@ -28,11 +30,31 @@ const AdminLayout = () => {
       icon: <UserOutlined />,
       label: "Quản lý",
       children: [
-        { key: "/admin", label: "Dashboard" },
-        { key: "/admin/products", label: "Sản phẩm" },
-        { key: "/admin/accounts", label: "Tài khoản" },
-        { key: "/admin/categories", label: "Thể loại" },
-        { key: "/admin/readers", label: "Bạn đọc" },
+        {
+          key: "/admin",
+          label: "Dashboard",
+          icon: <LaptopOutlined />,
+        },
+        {
+          key: "/admin/products",
+          label: "Sản phẩm",
+          icon: <BookOutlined />,
+        },
+        {
+          key: "/admin/accounts",
+          label: "Tài khoản",
+          icon: <UserOutlined />,
+        },
+        {
+          key: "/admin/categories",
+          label: "Thể loại",
+          icon: <TagsOutlined />,
+        },
+        {
+          key: "/admin/readers",
+          label: "Bạn đọc",
+          icon: <TeamOutlined />,
+        },
       ],
     },
   ];

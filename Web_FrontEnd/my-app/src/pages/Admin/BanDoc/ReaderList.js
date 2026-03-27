@@ -1,16 +1,35 @@
-import { Table, Tag, Space } from "antd";
+import {
+    Table,
+    Tag,
+    Space,
+    Modal,
+    Form,
+    Input,
+    Button,
+    Popconfirm,
+    message,
+} from "antd";
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { getBanDocs } from "../../../services/Admin_API/BanDocAPI";
+
+import {
+    getBanDocs,
+    updateBanDoc,
+    deleteBanDoc,
+} from "../../../services/Admin_API/BanDocAPI";
 
 function ReaderList() {
     const [data, setData] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [editingReader, setEditingReader] = useState(null);
 
-    const fetchProducts = async () => {
+    const [form] = Form.useForm();
+
+    // fetch
+    const fetchReaders = async () => {
         try {
-            const res = await getBanDocs()
+            const res = await getBanDocs();
 
-            const mapped = res.data.data.map((item, index) => ({
+            const mapped = res.data.data.map((item) => ({
                 key: item.maBanDoc,
                 tenBanDoc: item.hoTen,
                 soThe: item.soThe,
@@ -18,7 +37,7 @@ function ReaderList() {
                 dienThoai: item.dienThoai,
                 hanThe: item.hanThe,
                 trangThaiThe: item.trangThaiThe,
-                duNo: item.duNo
+                duNo: item.duNo,
             }));
 
             setData(mapped);
@@ -28,8 +47,50 @@ function ReaderList() {
     };
 
     useEffect(() => {
-        fetchProducts();
+        fetchReaders();
     }, []);
+
+    // mở modal
+    const handleEdit = (record) => {
+        setEditingReader(record);
+        setIsModalOpen(true);
+
+        form.setFieldsValue({
+            hoTen: record.tenBanDoc,
+            soThe: record.soThe,
+            email: record.email,
+            dienThoai: record.dienThoai,
+        });
+    };
+
+    // update
+    const handleUpdate = async (values) => {
+        try {
+            await updateBanDoc(editingReader.key, values);
+
+            message.success("Cập nhật thành công");
+
+            setIsModalOpen(false);
+            fetchReaders();
+        } catch (err) {
+            console.log(err);
+            message.error("Cập nhật thất bại");
+        }
+    };
+
+    // delete
+    const handleDelete = async (id) => {
+        try {
+            await deleteBanDoc(id);
+
+            message.success("Xoá thành công");
+
+            fetchReaders();
+        } catch (err) {
+            console.log(err);
+            message.error("Xoá thất bại");
+        }
+    };
 
     const columns = [
         {
@@ -51,6 +112,8 @@ function ReaderList() {
         {
             title: "Hạn thẻ",
             dataIndex: "hanThe",
+            render: (date) =>
+                new Date(date).toLocaleDateString("vi-VN"),
         },
         {
             title: "Trạng thái",
@@ -66,7 +129,7 @@ function ReaderList() {
             dataIndex: "duNo",
             render: (value) => (
                 <span style={{ color: value > 0 ? "red" : "green" }}>
-                    {value}₫
+                    {value.toLocaleString("vi-VN")} ₫
                 </span>
             ),
         },
@@ -74,14 +137,60 @@ function ReaderList() {
             title: "Hành động",
             render: (_, record) => (
                 <Space>
-                    <a>Sửa</a>
-                    <a style={{ color: "red" }}>Xoá</a>
+                    <a onClick={() => handleEdit(record)}>Sửa</a>
+
+                    <Popconfirm
+                        title="Bạn có chắc muốn xoá?"
+                        onConfirm={() => handleDelete(record.key)}
+                        okText="Có"
+                        cancelText="Không"
+                    >
+                        <a style={{ color: "red" }}>Xoá</a>
+                    </Popconfirm>
                 </Space>
             ),
         },
     ];
 
-    return <Table columns={columns} dataSource={data} />;
+    return (
+        <>
+            <Table columns={columns} dataSource={data} />
+
+            {/* MODAL EDIT */}
+            <Modal
+                title="Sửa bạn đọc"
+                open={isModalOpen}
+                onCancel={() => setIsModalOpen(false)}
+                footer={null}
+            >
+                <Form form={form} onFinish={handleUpdate} layout="vertical">
+                    <Form.Item
+                        name="hoTen"
+                        label="Tên bạn đọc"
+                        rules={[{ required: true, message: "Không được để trống" }]}
+                    >
+                        <Input />
+                    </Form.Item>
+
+                    <Form.Item name="soThe" label="Số thẻ">
+                        <Input />
+                    </Form.Item>
+
+                    <Form.Item name="email" label="Email">
+                        <Input />
+                    </Form.Item>
+
+                    <Form.Item name="dienThoai" label="Điện thoại">
+                        <Input />
+                    </Form.Item>
+
+                    <Button type="primary" htmlType="submit" block>
+                        Cập nhật
+                    </Button>
+                </Form>
+            </Modal>
+        </>
+    );
 }
 
 export default ReaderList;
