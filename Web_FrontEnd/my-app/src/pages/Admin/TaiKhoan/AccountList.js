@@ -1,26 +1,42 @@
-import { Table, Tag, Space, message, Popconfirm, Form, Modal, Input, Button } from "antd";
+import {
+    Table,
+    Space,
+    message,
+    Popconfirm,
+    Form,
+    Modal,
+    Input,
+    Button,
+    Select,
+} from "antd";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import PageHeader from "../../../components/PageHeader";
 
-
-import { deleteTaiKhoan, getTaiKhoans, updateTaiKhoan } from "../../../services/Admin_API/TaiKhoanAPI";
+import {
+    createTaiKhoan,
+    deleteTaiKhoan,
+    getTaiKhoans,
+    updateTaiKhoan,
+} from "../../../services/Admin_API/TaiKhoanAPI";
 
 function AccountList() {
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [editingAccount, setEditingAccount] = useState(null);
     const [data, setData] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isCreateOpen, setIsCreateOpen] = useState(false);
+    const [editingAccount, setEditingAccount] = useState(null);
 
-    const [form] = Form.useForm()
+    const [form] = Form.useForm(); // edit
+    const [createForm] = Form.useForm(); // create
 
+    // fetch
     const fetchAccounts = async () => {
         try {
-            const res = await getTaiKhoans()
+            const res = await getTaiKhoans();
 
-            const mapped = res.data.data.map((item, index) => ({
+            const mapped = res.data.data.map((item) => ({
                 key: item.maTaiKhoan,
                 tenDangNhap: item.tenDangNhap,
-                vaiTro: item.vaiTro
+                vaiTro: item.vaiTro,
             }));
 
             setData(mapped);
@@ -33,29 +49,49 @@ function AccountList() {
         fetchAccounts();
     }, []);
 
-    // handle Edit
+    // CREATE
+    const handleCreate = async (values) => {
+        try {
+            await createTaiKhoan({
+                TenDangNhap: values.tenDangNhap,
+                MatKhau: values.matKhau,
+                VaiTro: values.vaiTro
+            });
+
+            message.success("Thêm tài khoản thành công");
+            setIsCreateOpen(false);
+            createForm.resetFields();
+            fetchAccounts();
+        } catch (err) {
+            console.log("🔥 ERROR:", err.response?.data);
+            message.error("Thêm tài khoản thất bại");
+        }
+    };
+
+    // EDIT
     const handleEdit = (record) => {
         setEditingAccount(record);
         setIsModalOpen(true);
+
         form.setFieldsValue({
             tenDangNhap: record.tenDangNhap,
-            vaiTro: record.vaiTro
+            vaiTro: record.vaiTro,
         });
-    }
+    };
 
-    // handleUpdate
     const handleUpdate = async (values) => {
         try {
             await updateTaiKhoan(editingAccount.key, values);
 
+            message.success("Cập nhật thành công");
             setIsModalOpen(false);
-            fetchAccounts()
+            fetchAccounts();
         } catch (err) {
-            console.log(err)
+            console.log(err);
         }
-    }
+    };
 
-    // handle delete
+    // DELETE
     const handleDelete = async (id) => {
         try {
             await deleteTaiKhoan(id);
@@ -63,10 +99,11 @@ function AccountList() {
             fetchAccounts();
         } catch (err) {
             console.log(err);
-            message.error("Xoá không thành công")
+            message.error("Xoá thất bại");
         }
-    }
+    };
 
+    // TABLE
     const columns = [
         {
             title: "Tên đăng nhập",
@@ -85,51 +122,109 @@ function AccountList() {
                     <Popconfirm
                         title="Bạn có chắc muốn xoá?"
                         onConfirm={() => handleDelete(record.key)}
-                        okText="Có"
-                        cancelText="Không"
                     >
                         <a style={{ color: "red" }}>Xoá</a>
                     </Popconfirm>
                 </Space>
             ),
-        }
+        },
     ];
 
     return (
         <>
-      <Table columns={columns} dataSource={data} />
+            {/* HEADER */}
+            <PageHeader
+                title="Quản lý tài khoản"
+                extra={
+                    <Button type="primary" onClick={() => setIsCreateOpen(true)}>
+                        Thêm
+                    </Button>
+                }
+            />
 
-      {/*  MODAL EDIT */}
-      <Modal
-        title="Sửa thông tin khách hàng"
-        open={isModalOpen}
-        onCancel={() => setIsModalOpen(false)}
-        footer={null}
-      >
-        <Form form={form} onFinish={handleUpdate} layout="vertical">
-          <Form.Item
-            name="tenDangNhap"
-            label="Tên đăng nhập"
-            rules={[{ required: true, message: "Không được để trống" }]}
-          >
-            <Input />
-          </Form.Item>
+            <Table columns={columns} dataSource={data} />
 
-          <Form.Item
-            name="vaiTro"
-            label="Vai trò"
-            rules={[{ required: true, message: "Không được để trống" }]}
-          >
-            <Input />
-          </Form.Item>
+            {/* CREATE */}
+            <Modal
+                title="Thêm tài khoản"
+                open={isCreateOpen}
+                onCancel={() => setIsCreateOpen(false)}
+                footer={null}
+            >
+                <Form form={createForm} onFinish={handleCreate} layout="vertical">
+                    <Form.Item
+                        name="tenDangNhap"
+                        label="Tên đăng nhập"
+                        rules={[{ required: true }]}
+                    >
+                        <Input />
+                    </Form.Item>
 
-          <Button type="primary" htmlType="submit" block>
-            Cập nhật
-          </Button>
-        </Form>
-      </Modal>
-    </>
-    )
+                    <Form.Item
+                        name="matKhau"
+                        label="Mật khẩu"
+                        rules={[{ required: true }]}
+                    >
+                        <Input.Password />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="vaiTro"
+                        label="Vai trò"
+                        rules={[{ required: true }]}
+                    >
+                        <Select
+                            options={[
+                                { value: "Quản trị", label: "Quản trị" },
+                                { value: "Thủ thư", label: "Thủ thư" },
+                                { value: "Bạn đọc", label: "Bạn đọc" }
+                            ]}
+                        />
+                    </Form.Item>
+
+                    <Button type="primary" htmlType="submit" block>
+                        Thêm
+                    </Button>
+                </Form>
+            </Modal>
+
+            {/* EDIT */}
+            <Modal
+                title="Sửa tài khoản"
+                open={isModalOpen}
+                onCancel={() => setIsModalOpen(false)}
+                footer={null}
+            >
+                <Form form={form} onFinish={handleUpdate} layout="vertical">
+                    <Form.Item
+                        name="tenDangNhap"
+                        label="Tên đăng nhập"
+                        rules={[{ required: true }]}
+                    >
+                        <Input />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="vaiTro"
+                        label="Vai trò"
+                        rules={[{ required: true }]}
+                    >
+                        <Select
+                            options={[
+                                { value: "Quản trị", label: "Quản trị" },
+                                { value: "Thủ thư", label: "Thủ thư" },
+                                { value: "Bạn đọc", label: "Bạn đọc" }
+                            ]}
+                        />
+                    </Form.Item>
+
+                    <Button type="primary" htmlType="submit" block>
+                        Cập nhật
+                    </Button>
+                </Form>
+            </Modal>
+        </>
+    );
 }
 
 export default AccountList;

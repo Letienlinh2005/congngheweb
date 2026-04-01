@@ -1,27 +1,18 @@
-import {
-    Table,
-    Space,
-    Modal,
-    Form,
-    Input,
-    Button,
-    Popconfirm,
-    message,
-} from "antd";
+import { Table, Space, Modal, Form, Input, Button, Popconfirm, message,} from "antd";
 import { useEffect, useState } from "react";
+import PageHeader from "../../../components/PageHeader";
 
-import {
-    getTheLoais,
-    updateTheLoai,
-    deleteTheLoai,
+import { getTheLoais, updateTheLoai, deleteTheLoai, createTheLoai,
 } from "../../../services/Admin_API/TheLoaiAPI";
 
 function CategoryList() {
     const [data, setData] = useState([]);
+    const [isCreateOpen, setIsCreateOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingCategory, setEditingCategory] = useState(null);
 
     const [form] = Form.useForm();
+    const [createForm] = Form.useForm();
 
     // fetch
     const fetchCategories = async () => {
@@ -43,6 +34,20 @@ function CategoryList() {
         fetchCategories();
     }, []);
 
+    // handle create
+    const handleCreate = async (values) => {
+        try{
+            await createTheLoai(values);
+            message.success("Thêm thể loại thành công");
+            setIsCreateOpen(false);
+            createForm.resetFields();
+            fetchCategories();
+
+        }catch(err){
+            console.log(err)
+            message.error("Thêm thể loại thất bại")
+        }
+    }
     // mở modal sửa
     const handleEdit = (record) => {
         setEditingCategory(record);
@@ -109,8 +114,31 @@ function CategoryList() {
 
     return (
         <>
+            <PageHeader title="Quản lý thể loại" extra={<Button type="primary" onClick={() => setIsCreateOpen(true)}>Thêm</Button>}/>
             <Table columns={columns} dataSource={data} />
 
+
+            {/* Modal create */}
+            <Modal
+                title="Thêm thể loại"
+                open={isCreateOpen}
+                onCancel={()=> setIsCreateOpen(false)}
+                footer={null}
+            >
+                <Form form={createForm} onFinish={handleCreate} layout="vertical">
+                    <Form.Item
+                        name="tenTheLoai"
+                        label="Tên thể loại"
+                        rules={[{required: true, message: "Không được để trống"}]}
+                    >
+                        <Input/>
+                    </Form.Item>
+
+                    <Button type="primary" htmlType="submit" block>
+                        Thêm
+                    </Button>
+                </Form>
+            </Modal>
             {/* MODAL EDIT */}
             <Modal
                 title="Sửa thể loại"

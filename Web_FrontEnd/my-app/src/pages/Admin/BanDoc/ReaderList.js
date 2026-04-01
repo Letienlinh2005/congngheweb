@@ -1,28 +1,16 @@
-import {
-    Table,
-    Tag,
-    Space,
-    Modal,
-    Form,
-    Input,
-    Button,
-    Popconfirm,
-    message,
-} from "antd";
+import { Table, Tag, Space, Modal, Form, Input, Button, Popconfirm, message } from "antd";
 import { useEffect, useState } from "react";
-
-import {
-    getBanDocs,
-    updateBanDoc,
-    deleteBanDoc,
-} from "../../../services/Admin_API/BanDocAPI";
+import PageHeader from "../../../components/PageHeader";
+import { getBanDocs, createBanDoc, updateBanDoc, deleteBanDoc } from "../../../services/Admin_API/BanDocAPI";
 
 function ReaderList() {
     const [data, setData] = useState([]);
+    const [isCreateOpen, setIsCreateOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingReader, setEditingReader] = useState(null);
 
     const [form] = Form.useForm();
+    const [createForm] = Form.useForm();
 
     // fetch
     const fetchReaders = async () => {
@@ -50,6 +38,21 @@ function ReaderList() {
         fetchReaders();
     }, []);
 
+    //handle create
+    const handleCreate = async (values) => {
+        try {
+            await createBanDoc(values);
+            message.success("Thêm bạn đọc thành công");
+            isCreateOpen(false);
+            createForm.resetFields()
+            fetchReaders()
+        }
+        catch (err) {
+            console.log(err)
+            message.error("Thêm bạn đọc thất bại")
+        }
+
+    }
     // mở modal
     const handleEdit = (record) => {
         setEditingReader(record);
@@ -154,8 +157,36 @@ function ReaderList() {
 
     return (
         <>
+            <PageHeader title="Thêm bạn đọc" extra={<Button onClick={() => setIsCreateOpen(true)}>Thêm</Button>} />
             <Table columns={columns} dataSource={data} />
+            {/* Modal create */}
+            <Modal title="Thêm bạn đọc" open={isCreateOpen} onCancel={() => setIsCreateOpen(false)} footer={null}>
+                <Form form={createForm} onFinish={handleCreate} layout="vertical">
+                    <Form.Item
+                        name="hoTen"
+                        label="Tên bạn đọc"
+                        rules={[{ required: true, message: "Không được để trống" }]}
+                    >
+                        <Input />
+                    </Form.Item>
 
+                    <Form.Item name="soThe" label="Số thẻ">
+                        <Input />
+                    </Form.Item>
+
+                    <Form.Item name="email" label="Email">
+                        <Input />
+                    </Form.Item>
+
+                    <Form.Item name="dienThoai" label="Điện thoại">
+                        <Input />
+                    </Form.Item>
+
+                    <Button type="primary" htmlType="submit" block>
+                        Thêm
+                    </Button>
+                </Form>
+            </Modal>
             {/* MODAL EDIT */}
             <Modal
                 title="Sửa bạn đọc"

@@ -12,7 +12,6 @@ const BorrowForm = () => {
   const [readers, setReaders] = useState([]);
   const [books, setBooks] = useState([]);
 
-  // 👉 load data
   useEffect(() => {
     fetchReaders();
     fetchBooks();
@@ -28,7 +27,6 @@ const BorrowForm = () => {
     setBooks(res.data.data);
   };
 
-  // 👉 submit
   const onFinish = async (values) => {
     try {
       const payload = {

@@ -67,9 +67,6 @@ const AdminLayout = () => {
         <Menu
           theme="dark"
           mode="horizontal"
-          // items={items1}
-          // onClick={({ key }) => navigate(key)}
-          // style={{ flex: 1 }}
         />
       </Header>
 

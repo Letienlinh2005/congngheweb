@@ -1,12 +1,18 @@
 import { Table, Tag, Space, Modal, Form, Input, Button, message, Popconfirm } from "antd";
 import { useEffect, useState } from "react";
-import { deleteSach, getSachs, updateSach } from "../../../services/Admin_API/SachAPI";
+import { createSach, deleteSach, getSachs, updateSach } from "../../../services/Admin_API/SachAPI";
+
+import PageHeader from "../../../components/PageHeader";
+
 
 function ProductList() {
     const [data, setData] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isCreateOpen, setIsCreateOpen] = useState(false);
     const [editingProduct, setEditingProduct] = useState(null);
     const [form] = Form.useForm();
+    const [createForm] = Form.useForm();
+
 
     // fetch data
     const fetchProducts = async () => {
@@ -31,6 +37,21 @@ function ProductList() {
     useEffect(() => {
         fetchProducts();
     }, []);
+
+    // handle create
+    const handleCreate = async(values) => {
+        try{
+            await createSach(values);
+            message.success("Thêm sách thành công");
+            setIsCreateOpen(false)
+            createForm.resetFields();
+            fetchProducts();
+        }
+        catch(err){
+            console.log(err);
+            message.error("Không thể thêm sách")
+        }
+    }
 
     // mở modal sửa
     const handleEdit = (record) => {
@@ -119,6 +140,7 @@ function ProductList() {
 
     return (
         <>
+            <PageHeader title="Quản lý sách" extra={<Button type="primary" onClick={() => setIsCreateOpen(true)}>Thêm</Button>} />
             <Table columns={columns} dataSource={data} />
 
             {/* Modal Edit */}
@@ -165,6 +187,36 @@ function ProductList() {
                         Cập nhật
                     </Button>
                 </Form>
+            </Modal>
+
+            {/* Modal Create */}
+            <Modal title="Thêm sản phẩm" open={isCreateOpen} onCancel={() => setIsCreateOpen(false)} footer={null}>
+                <Form form={createForm} onFinish={handleCreate} layout="vertical">
+                    <Form.Item name="tieuDe" label="Tên sách" rules={[{ required: true }]}>
+                        <Input />
+                    </Form.Item>
+
+                    <Form.Item name="tacGia" label="Tác giả">
+                        <Input />
+                    </Form.Item>
+
+                    <Form.Item name="namXuatBan" label="Năm">
+                        <Input />
+                    </Form.Item>
+
+                    <Form.Item name="maTheLoai" label="Thể loại">
+                        <Input />
+                    </Form.Item>
+
+                    <Form.Item name="anhBiaUrl" label="Ảnh URL">
+                        <Input />
+                    </Form.Item>
+
+                    <Button type="primary" htmlType="submit" block>
+                        Thêm
+                    </Button>
+                </Form>
+
             </Modal>
         </>
     );
