@@ -1,7 +1,7 @@
 import { Table, Tag, Space, Modal, Form, Input, Button, Popconfirm, message } from "antd";
 import { useEffect, useState } from "react";
-import PageHeader from "../../../components/PageHeader";
-import { getBanDocs, createBanDoc, updateBanDoc, deleteBanDoc } from "../../../services/Admin_API/BanDocAPI";
+import PageHeader from "../../components/PageHeader";
+import { getBanDocs, createBanDoc, updateBanDoc, deleteBanDoc } from "../../services/Admin_API/BanDocAPI";
 
 function ReaderList() {
     const [data, setData] = useState([]);

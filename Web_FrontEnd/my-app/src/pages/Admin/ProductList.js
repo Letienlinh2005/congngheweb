@@ -1,8 +1,8 @@
 import { Table, Tag, Space, Modal, Form, Input, Button, message, Popconfirm } from "antd";
 import { useEffect, useState } from "react";
-import { createSach, deleteSach, getSachs, updateSach } from "../../../services/Admin_API/SachAPI";
+import { createSach, deleteSach, getSachs, updateSach } from "../../services/Admin_API/SachAPI";
 
-import PageHeader from "../../../components/PageHeader";
+import PageHeader from "../../components/PageHeader";
 
 
 function ProductList() {

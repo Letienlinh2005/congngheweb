@@ -31,6 +31,7 @@ function App() {
           <Route path="accounts" element={<AccountList/>} />
           <Route path="categories" element={<CategoryList/>} />
           <Route path="readers" element={<ReaderList/>} />
+          
         </Route>
 
       </Routes>

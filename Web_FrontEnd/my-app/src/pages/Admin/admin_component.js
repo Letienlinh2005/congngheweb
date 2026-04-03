@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { getProduct } from "../../../services/Admin_API/SachAPI";
-import ProductList from "../Product/ProductList";
+import { getProduct } from "../../services/Admin_API/SachAPI";
+import ProductList from "./ProductList";
 
 function Dashboard(){
     return (

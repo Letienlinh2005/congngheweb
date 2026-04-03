@@ -1,9 +1,9 @@
 import { Table, Space, Modal, Form, Input, Button, Popconfirm, message,} from "antd";
 import { useEffect, useState } from "react";
-import PageHeader from "../../../components/PageHeader";
+import PageHeader from "../../components/PageHeader";
 
 import { getTheLoais, updateTheLoai, deleteTheLoai, createTheLoai,
-} from "../../../services/Admin_API/TheLoaiAPI";
+} from "../../services/Admin_API/TheLoaiAPI";
 
 function CategoryList() {
     const [data, setData] = useState([]);

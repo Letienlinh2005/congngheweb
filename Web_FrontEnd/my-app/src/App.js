@@ -1,15 +1,16 @@
 import { Routes, Route } from "react-router-dom";
 import Login from "./pages/Auth/Login";
 import AdminLayout from "./layouts/Admin_layouts";
-import Dashboard from "./pages/Admin/Dashboard/admin_component";
-import ProductList from "./pages/Admin/Product/ProductList";
+import Dashboard from "./pages/Admin/admin_component";
+import ProductList from "./pages/Admin/ProductList";
 import PrivateRoute from "./routes/PrivateRoute";
-import AccountList from "./pages/Admin/TaiKhoan/AccountList";
-import CategoryList from "./pages/Admin/TheLoai/Categories";
-import ReaderList from "./pages/Admin/BanDoc/ReaderList";
+import AccountList from "./pages/Admin/AccountList";
+import CategoryList from "./pages/Admin/Categories";
+import ReaderList from "./pages/Admin/ReaderList";
 import ProductListClient from "./pages/Client/Products";
 import ClientLayout from "./layouts/Client_layouts";
 import BookDetail from "./pages/Client/ProductDetail";
+import PhieuMuonList from "./pages/Admin/PhieuMuon";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         <Route path="accounts" element={<AccountList />} />
         <Route path="categories" element={<CategoryList />} />
         <Route path="readers" element={<ReaderList />} />
+        <Route path="phieumuon" element={<PhieuMuonList/>}/>
       </Route>
 
       {/* CLIENT */}

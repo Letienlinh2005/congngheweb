@@ -2,9 +2,9 @@ import { Form, Select, DatePicker, Button, message } from "antd";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 
-import { getBanDocs } from "../../../services/Admin_API/BanDocAPI";
+import { getBanDocs } from "../../services/Admin_API/BanDocAPI";
 import { getBanSaos } from "../../../services/Admin_API/BanSaoAPI";
-import { createPhieuMuon } from "../../../services/Admin_API/PhieuMuonAPI";
+import { createPhieuMuon } from "../../services/Admin_API/PhieuMuonAPI";
 
 const BorrowForm = () => {
   const [form] = Form.useForm();

@@ -10,14 +10,14 @@ import {
     Select,
 } from "antd";
 import { useEffect, useState } from "react";
-import PageHeader from "../../../components/PageHeader";
+import PageHeader from "../../components/PageHeader";
 
 import {
     createTaiKhoan,
     deleteTaiKhoan,
     getTaiKhoans,
     updateTaiKhoan,
-} from "../../../services/Admin_API/TaiKhoanAPI";
+} from "../../services/Admin_API/TaiKhoanAPI";
 
 function AccountList() {
     const [data, setData] = useState([]);
