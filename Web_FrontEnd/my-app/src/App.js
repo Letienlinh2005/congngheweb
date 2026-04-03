@@ -11,7 +11,7 @@ import ProductListClient from "./pages/Client/Products";
 import ClientLayout from "./layouts/Client_layouts";
 import BookDetail from "./pages/Client/ProductDetail";
 import PhieuMuonList from "./pages/Admin/PhieuMuon";
-
+import PhatList from "./pages/Admin/Phat";
 function App() {
   return (
     <Routes>
@@ -34,6 +34,7 @@ function App() {
         <Route path="categories" element={<CategoryList />} />
         <Route path="readers" element={<ReaderList />} />
         <Route path="phieumuon" element={<PhieuMuonList/>}/>
+        <Route path="phat" element={<PhatList/>}/>
       </Route>
 
       {/* CLIENT */}

@@ -59,6 +59,11 @@ const AdminLayout = () => {
           key: "/admin/phieumuon",
           label:"Phiếu mượn",
           icon: <TeamOutlined/>
+        },
+        {
+          key: "/admin/phat",
+          label: "Phạt",
+          icon: <TeamOutlined/>
         }
       ],
     },

@@ -10,6 +10,6 @@ export const getPhatByMaBanDoc = (id) =>
     axios.get(`${Phat_API}/by-bandoc/${id}`)
 
 export const thanhToanPhat = (data) => {
-    return axiosClient.post("/ThanhToan", data);
+    return axiosClient.post("/Phat/thanh-toan", data);
 }
     

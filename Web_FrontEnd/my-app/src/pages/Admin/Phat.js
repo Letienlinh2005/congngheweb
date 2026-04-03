@@ -15,7 +15,7 @@ import {
     thanhToanPhat
 } from "../../services/Admin_API/PhatAPI";
 
-function PhieuMuonList() {
+function PhatList() {
     const [data, setData] = useState([]);
 
     const fetchPhat = async () => {
@@ -44,76 +44,75 @@ function PhieuMuonList() {
         fetchPhat();
     }, []);
 
-    const handlePay = async (record) => {
-    try {
-        await thanhToanPhat({
-            maPhat: record.maPhat,
-            maThanhToan: "TT" + Date.now(),
-            hinhThuc: "Tiền mặt",
-            ghiChu: "Thanh toán tại quầy"
-        });
+    const handlePay = async (maPhat) => {
+        try {
+            await thanhToanPhat({
+                maPhat,
+                hinhThuc: "Tiền mặt",
+                ghiChu: "Thanh toán tại quầy"
+            });
 
-        message.success("Thanh toán thành công");
-        fetchPhat();
-    } catch (err) {
-        console.log(err);
-        message.error("Thanh toán thất bại");
-    }
-};
+            message.success("Thanh toán thành công");
+            fetchPhat();
+        } catch (err) {
+            message.error("Thanh toán thất bại");
+        }
+
+    };
 
     const columns = [
-    {
-        title: "Mã phạt",
-        dataIndex: "maPhat"
-    },
-    {
-        title: "Bạn đọc",
-        dataIndex: "hoTen"
-    },
-    {
-        title: "Sách",
-        dataIndex: "tieuDe"
-    },
-    {
-        title: "Số tiền",
-        dataIndex: "soTien",
-        render: (value) => value.toLocaleString() + " đ"
-    },
-    {
-        title: "Lý do",
-        dataIndex: "lyDo"
-    },
-    {
-        title: "Ngày tính",
-        dataIndex: "ngayTinh"
-    },
-    {
-        title: "Trạng thái",
-        dataIndex: "trangThai",
-        render: (status) => (
-            <Tag color={
-                status === "Đã trả" ? "green" : "red"
-            }>
-                {status}
-            </Tag>
-        )
-    },
-    {
-        title: "Hành động",
-        render: (_, record) => (
-            <Space>
-                {record.trangThai !== "Đã trả" && (
-                    <Popconfirm
-                        title="Thanh toán khoản phạt này?"
-                        onConfirm={() => handlePay(record)}
-                    >
-                        <a style={{ color: "blue" }}>Thanh toán</a>
-                    </Popconfirm>
-                )}
-            </Space>
-        )
-    }
-];
+        {
+            title: "Mã phạt",
+            dataIndex: "maPhat"
+        },
+        {
+            title: "Bạn đọc",
+            dataIndex: "hoTen"
+        },
+        {
+            title: "Sách",
+            dataIndex: "tieuDe"
+        },
+        {
+            title: "Số tiền",
+            dataIndex: "soTien",
+            render: (value) => value.toLocaleString() + " đ"
+        },
+        {
+            title: "Lý do",
+            dataIndex: "lyDo"
+        },
+        {
+            title: "Ngày tính",
+            dataIndex: "ngayTinh"
+        },
+        {
+            title: "Trạng thái",
+            dataIndex: "trangThai",
+            render: (status) => (
+                <Tag color={
+                    status === "Đã trả" ? "green" : "red"
+                }>
+                    {status}
+                </Tag>
+            )
+        },
+        {
+            title: "Hành động",
+            render: (_, record) => (
+                <Space>
+                    {record.trangThai !== "Đã trả" && (
+                        <Popconfirm
+                            title="Thanh toán khoản phạt này?"
+                            onConfirm={() => handlePay(record.maPhat)}
+                        >
+                            <a style={{ color: "blue" }}>Thanh toán</a>
+                        </Popconfirm>
+                    )}
+                </Space>
+            )
+        }
+    ];
 
     return (
         <>
@@ -124,4 +123,4 @@ function PhieuMuonList() {
     );
 }
 
-export default PhieuMuonList;
+export default PhatList;
