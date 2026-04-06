@@ -1,4 +1,4 @@
-import { Table, Tag, Space, Modal, Form, Input, Button, Popconfirm, message } from "antd";
+import { Table, Tag, Space, Modal, Form, Input, Button, Popconfirm, message, Select } from "antd";
 import { useEffect, useState } from "react";
 import PageHeader from "../../components/PageHeader";
 import { getBanDocs, createBanDoc, updateBanDoc, deleteBanDoc } from "../../services/Admin_API/BanDocAPI";
@@ -213,6 +213,18 @@ function ReaderList() {
 
                     <Form.Item name="dienThoai" label="Điện thoại">
                         <Input />
+                    </Form.Item>
+                    <Form.Item
+                        name="trangThaiThe"
+                        label="Trạng thái thẻ"
+                        rules={[{ required: true }]}
+                    >
+                        <Select
+                            options={[
+                                { value: "Hoạt động", label: "Hoạt động" },
+                                { value: "Hết hạn", label: "Hết hạn" }
+                            ]}
+                        />
                     </Form.Item>
 
                     <Button type="primary" htmlType="submit" block>

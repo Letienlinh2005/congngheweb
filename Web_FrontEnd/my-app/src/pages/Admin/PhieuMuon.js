@@ -11,7 +11,7 @@ import PageHeader from "../../components/PageHeader";
 
 import {
     getAllPhieuMuons,
-    returnPhieuMuon 
+    returnPhieuMuon
 } from "../../services/Admin_API/PhieuMuonAPI";
 
 function PhieuMuonList() {
@@ -94,23 +94,25 @@ function PhieuMuonList() {
             render: (status) => (
                 <Tag color={
                     status === "Đang mở" ? "blue" :
-                    status === "Đã trả" ? "green" : "red"
+                        status === "Đã trả" ? "green" : "red"
                 }>
                     {status}
                 </Tag>
             )
-         }
+        }
         ,
         {
             title: "Hành động",
             render: (_, record) => (
                 <Space>
-                    <Popconfirm
-                        title="Trả sách?"
-                        onConfirm={() => handleReturn(record.key)}
-                    >
-                        <a style={{ color: "red" }}>Trả sách</a>
-                    </Popconfirm>
+                    {record.trangThai !== "Đã đóng" && (
+                        <Popconfirm
+                            title="Trả sách?"
+                            onConfirm={() => handleReturn(record.key)}
+                        >
+                            <a style={{ color: "red" }}>Trả sách</a>
+                        </Popconfirm>
+                    )}
                 </Space>
             )
         }

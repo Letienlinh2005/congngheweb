@@ -1,30 +1,53 @@
-import { Table, Tag, Space, Modal, Form, Input, Button, message, Popconfirm } from "antd";
+import {
+    Table,
+    Tag,
+    Space,
+    Modal,
+    Form,
+    Input,
+    Button,
+    message,
+    Popconfirm,
+    Select
+} from "antd";
 import { useEffect, useState } from "react";
-import { createSach, deleteSach, getSachs, updateSach } from "../../services/Admin_API/SachAPI";
+
+import {
+    createSach,
+    deleteSach,
+    getSachs,
+    updateSach
+} from "../../services/Admin_API/SachAPI";
+
+import { getTheLoais } from "../../services/Admin_API/TheLoaiAPI";
 
 import PageHeader from "../../components/PageHeader";
 
-
 function ProductList() {
     const [data, setData] = useState([]);
+    const [theLoaiOptions, setTheLoaiOptions] = useState([]);
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isCreateOpen, setIsCreateOpen] = useState(false);
     const [editingProduct, setEditingProduct] = useState(null);
+
     const [form] = Form.useForm();
     const [createForm] = Form.useForm();
 
+    // ================= FETCH =================
 
-    // fetch data
     const fetchProducts = async () => {
         try {
             const res = await getSachs();
 
-            const mapped = res.data.data.map((item, index) => ({
-                key: item.maSach || index,
+            const mapped = res.data.data.map((item) => ({
+                key: item.maSach,
+                maSach: item.maSach,
                 tenSanPham: item.tieuDe,
                 tacGia: item.tacGia,
                 namXuatBan: item.namXuatBan,
-                theLoai: item.maTheLoai,
+                theLoai: item.theLoai,   // hiển thị
+                maTheLoai: item.maTheLoai,  // dùng cho edit
                 anhBiaUrl: item.anhBiaUrl,
             }));
 
@@ -34,26 +57,46 @@ function ProductList() {
         }
     };
 
+    const fetchTheLoai = async () => {
+        
+        try {
+            const res = await getTheLoais();
+            console.log(res)
+
+            const mapped = res.data.data.map(item => ({
+                value: item.maTheLoai,
+                label: item.theLoai
+            }));
+
+            setTheLoaiOptions(mapped);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     useEffect(() => {
         fetchProducts();
+        fetchTheLoai();
     }, []);
 
-    // handle create
-    const handleCreate = async(values) => {
-        try{
+    // ================= CREATE =================
+
+    const handleCreate = async (values) => {
+        try {
             await createSach(values);
             message.success("Thêm sách thành công");
-            setIsCreateOpen(false)
+
+            setIsCreateOpen(false);
             createForm.resetFields();
             fetchProducts();
-        }
-        catch(err){
+        } catch (err) {
             console.log(err);
-            message.error("Không thể thêm sách")
+            message.error("Không thể thêm sách");
         }
-    }
+    };
 
-    // mở modal sửa
+    // ================= EDIT =================
+
     const handleEdit = (record) => {
         setEditingProduct(record);
         setIsModalOpen(true);
@@ -62,38 +105,39 @@ function ProductList() {
             tieuDe: record.tenSanPham,
             tacGia: record.tacGia,
             namXuatBan: record.namXuatBan,
-            maTheLoai: record.theLoai,
+            maTheLoai: record.maTheLoai,
             anhBiaUrl: record.anhBiaUrl,
         });
     };
 
-    // update API
     const handleUpdate = async (values) => {
         try {
-            await updateSach(editingProduct.key, values);
+            await updateSach(editingProduct.maSach, values);
 
+            message.success("Cập nhật thành công");
             setIsModalOpen(false);
             fetchProducts();
         } catch (err) {
             console.log(err);
+            message.error("Cập nhật thất bại");
         }
     };
 
-    // Delete API
+    // ================= DELETE =================
+
     const handleDelete = async (id) => {
         try {
             await deleteSach(id);
             message.success("Xoá thành công!");
-
             fetchProducts();
-        }
-        catch (err) {
+        } catch (err) {
             console.log(err);
-            message.error("Xoá thất bại :(")
+            message.error("Xoá thất bại");
         }
-    }
+    };
 
-    // columns
+    // ================= TABLE =================
+
     const columns = [
         {
             title: "Tên sách",
@@ -127,9 +171,7 @@ function ProductList() {
 
                     <Popconfirm
                         title="Bạn có chắc muốn xoá?"
-                        onConfirm={() => handleDelete(record.key)}
-                        okText="Có"
-                        cancelText="Không"
+                        onConfirm={() => handleDelete(record.maSach)}
                     >
                         <a style={{ color: "red" }}>Xoá</a>
                     </Popconfirm>
@@ -140,43 +182,43 @@ function ProductList() {
 
     return (
         <>
-            <PageHeader title="Quản lý sách" extra={<Button type="primary" onClick={() => setIsCreateOpen(true)}>Thêm</Button>} />
+            <PageHeader
+                title="Quản lý sách"
+                extra={
+                    <Button type="primary" onClick={() => setIsCreateOpen(true)}>
+                        Thêm
+                    </Button>
+                }
+            />
+
             <Table columns={columns} dataSource={data} />
 
-            {/* Modal Edit */}
+            {/* ================= EDIT ================= */}
             <Modal
-                title="Sửa sản phẩm"
+                title="Sửa sách"
                 open={isModalOpen}
                 onCancel={() => setIsModalOpen(false)}
                 footer={null}
             >
                 <Form form={form} onFinish={handleUpdate} layout="vertical">
-                    <Form.Item
-                        name="tieuDe"
-                        label="Tên sách"
-                        rules={[{ required: true, message: "Không được để trống" }]}
-                    >
+                    <Form.Item name="tieuDe" label="Tên sách" rules={[{ required: true }]}>
+                        <Input />
+                    </Form.Item>
+
+                    <Form.Item name="tacGia" label="Tác giả" rules={[{ required: true }]}>
+                        <Input />
+                    </Form.Item>
+
+                    <Form.Item name="namXuatBan" label="Năm xuất bản" rules={[{ required: true }]}>
                         <Input />
                     </Form.Item>
 
                     <Form.Item
-                        name="tacGia"
-                        label="Tác giả"
-                        rules={[{ required: true, message: "Không được để trống" }]}
+                        name="maTheLoai"
+                        label="Thể loại"
+                        rules={[{ required: true }]}
                     >
-                        <Input />
-                    </Form.Item>
-
-                    <Form.Item
-                        name="namXuatBan"
-                        label="Năm xuất bản"
-                        rules={[{ required: true, message: "Không được để trống" }]}
-                    >
-                        <Input />
-                    </Form.Item>
-
-                    <Form.Item name="maTheLoai" label="Thể loại">
-                        <Input />
+                        <Select options={theLoaiOptions} />
                     </Form.Item>
 
                     <Form.Item name="anhBiaUrl" label="Ảnh URL">
@@ -189,8 +231,13 @@ function ProductList() {
                 </Form>
             </Modal>
 
-            {/* Modal Create */}
-            <Modal title="Thêm sản phẩm" open={isCreateOpen} onCancel={() => setIsCreateOpen(false)} footer={null}>
+            {/* ================= CREATE ================= */}
+            <Modal
+                title="Thêm sách"
+                open={isCreateOpen}
+                onCancel={() => setIsCreateOpen(false)}
+                footer={null}
+            >
                 <Form form={createForm} onFinish={handleCreate} layout="vertical">
                     <Form.Item name="tieuDe" label="Tên sách" rules={[{ required: true }]}>
                         <Input />
@@ -204,8 +251,17 @@ function ProductList() {
                         <Input />
                     </Form.Item>
 
-                    <Form.Item name="maTheLoai" label="Thể loại">
-                        <Input />
+                    <Form.Item
+                        name="maTheLoai"
+                        label="Thể loại"
+                        rules={[{ required: true }]}
+                    >
+                        <Select
+                            options={theLoaiOptions}
+                            placeholder="Chọn thể loại"
+                            showSearch
+                            optionFilterProp="label"
+                        />
                     </Form.Item>
 
                     <Form.Item name="anhBiaUrl" label="Ảnh URL">
@@ -216,7 +272,6 @@ function ProductList() {
                         Thêm
                     </Button>
                 </Form>
-
             </Modal>
         </>
     );

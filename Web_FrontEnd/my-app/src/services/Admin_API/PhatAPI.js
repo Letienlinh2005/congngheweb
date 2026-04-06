@@ -12,4 +12,3 @@ export const getPhatByMaBanDoc = (id) =>
 export const thanhToanPhat = (data) => {
     return axiosClient.post("/Phat/thanh-toan", data);
 }
-    

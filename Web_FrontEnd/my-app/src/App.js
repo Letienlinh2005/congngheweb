@@ -12,6 +12,8 @@ import ClientLayout from "./layouts/Client_layouts";
 import BookDetail from "./pages/Client/ProductDetail";
 import PhieuMuonList from "./pages/Admin/PhieuMuon";
 import PhatList from "./pages/Admin/Phat";
+import KeSachList from "./pages/Admin/KeSach";
+import BanSaoList from "./pages/Admin/BanSao";
 function App() {
   return (
     <Routes>
@@ -35,6 +37,8 @@ function App() {
         <Route path="readers" element={<ReaderList />} />
         <Route path="phieumuon" element={<PhieuMuonList/>}/>
         <Route path="phat" element={<PhatList/>}/>
+        <Route path="kesach" element={<KeSachList/>}/>
+        <Route path="bansao" element={<BanSaoList/>}/>
       </Route>
 
       {/* CLIENT */}
