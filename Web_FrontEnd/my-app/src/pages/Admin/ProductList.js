@@ -34,8 +34,6 @@ function ProductList() {
     const [form] = Form.useForm();
     const [createForm] = Form.useForm();
 
-    // ================= FETCH =================
-
     const fetchProducts = async () => {
         try {
             const res = await getSachs();
@@ -65,7 +63,7 @@ function ProductList() {
 
             const mapped = res.data.data.map(item => ({
                 value: item.maTheLoai,
-                label: item.theLoai
+                label: item.tenTheLoai
             }));
 
             setTheLoaiOptions(mapped);
@@ -79,7 +77,6 @@ function ProductList() {
         fetchTheLoai();
     }, []);
 
-    // ================= CREATE =================
 
     const handleCreate = async (values) => {
         try {
@@ -95,7 +92,6 @@ function ProductList() {
         }
     };
 
-    // ================= EDIT =================
 
     const handleEdit = (record) => {
         setEditingProduct(record);
@@ -123,7 +119,7 @@ function ProductList() {
         }
     };
 
-    // ================= DELETE =================
+    // ================= DELETE ================
 
     const handleDelete = async (id) => {
         try {
@@ -136,7 +132,6 @@ function ProductList() {
         }
     };
 
-    // ================= TABLE =================
 
     const columns = [
         {
@@ -193,7 +188,6 @@ function ProductList() {
 
             <Table columns={columns} dataSource={data} />
 
-            {/* ================= EDIT ================= */}
             <Modal
                 title="Sửa sách"
                 open={isModalOpen}
@@ -231,7 +225,6 @@ function ProductList() {
                 </Form>
             </Modal>
 
-            {/* ================= CREATE ================= */}
             <Modal
                 title="Thêm sách"
                 open={isCreateOpen}
