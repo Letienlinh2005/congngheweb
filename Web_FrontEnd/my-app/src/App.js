@@ -14,6 +14,10 @@ import PhieuMuonList from "./pages/Admin/PhieuMuon";
 import PhatList from "./pages/Admin/Phat";
 import KeSachList from "./pages/Admin/KeSach";
 import BanSaoList from "./pages/Admin/BanSao";
+import AboutPage from "./pages/Client/About";
+import ContactPage from "./pages/Client/Contact";
+import ProfilePage from "./pages/Client/Profile";
+import BorrowHistoryPage from "./pages/Client/BorrowHistory";
 function App() {
   return (
     <Routes>
@@ -46,6 +50,10 @@ function App() {
         <Route index element={<ProductListClient />} />
         <Route path="books" element={<ProductListClient />} />
         <Route path="books/:id" element={<BookDetail/>}/>
+        <Route path="about"   element={<AboutPage />} />
+  <Route path="contact" element={<ContactPage />} />
+  <Route path="profile"     element={<ProfilePage />} />
+  <Route path="history"     element={<BorrowHistoryPage />} />
       </Route>
 
       {/* 404 fallback */}

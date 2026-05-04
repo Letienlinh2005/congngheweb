@@ -46,8 +46,8 @@ function ProductList() {
                 tenSanPham: item.tieuDe,
                 tacGia: item.tacGia,
                 namXuatBan: item.namXuatBan,
-                theLoai: item.theLoai,   // hiển thị
-                maTheLoai: item.maTheLoai,  // dùng cho edit
+                theLoai: item.theLoai,
+                maTheLoai: item.maTheLoai,  
                 anhBiaUrl: item.anhBiaUrl,
             }));
 
