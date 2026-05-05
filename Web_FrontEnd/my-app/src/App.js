@@ -18,6 +18,7 @@ import AboutPage from "./pages/Client/About";
 import ContactPage from "./pages/Client/Contact";
 import ProfilePage from "./pages/Client/Profile";
 import BorrowHistoryPage from "./pages/Client/BorrowHistory";
+import ThongKeThuvien from "./pages/Admin/admin_component";
 function App() {
   return (
     <Routes>
@@ -34,26 +35,26 @@ function App() {
           </PrivateRoute>
         }
       >
-        <Route index element={<Dashboard />} />
+        <Route index element={<ThongKeThuvien />} />
         <Route path="products" element={<ProductList />} />
         <Route path="accounts" element={<AccountList />} />
         <Route path="categories" element={<CategoryList />} />
         <Route path="readers" element={<ReaderList />} />
-        <Route path="phieumuon" element={<PhieuMuonList/>}/>
-        <Route path="phat" element={<PhatList/>}/>
-        <Route path="kesach" element={<KeSachList/>}/>
-        <Route path="bansao" element={<BanSaoList/>}/>
+        <Route path="phieumuon" element={<PhieuMuonList />} />
+        <Route path="phat" element={<PhatList />} />
+        <Route path="kesach" element={<KeSachList />} />
+        <Route path="bansao" element={<BanSaoList />} />
       </Route>
 
       {/* CLIENT */}
       <Route path="/" element={<ClientLayout />}>
         <Route index element={<ProductListClient />} />
         <Route path="books" element={<ProductListClient />} />
-        <Route path="books/:id" element={<BookDetail/>}/>
-        <Route path="about"   element={<AboutPage />} />
-  <Route path="contact" element={<ContactPage />} />
-  <Route path="profile"     element={<ProfilePage />} />
-  <Route path="history"     element={<BorrowHistoryPage />} />
+        <Route path="books/:id" element={<BookDetail />} />
+        <Route path="about" element={<AboutPage />} />
+        <Route path="contact" element={<ContactPage />} />
+        <Route path="profile" element={<ProfilePage />} />
+        <Route path="history" element={<BorrowHistoryPage />} />
       </Route>
 
       {/* 404 fallback */}

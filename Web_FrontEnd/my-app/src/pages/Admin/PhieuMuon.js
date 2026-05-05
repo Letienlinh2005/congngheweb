@@ -4,10 +4,10 @@ import {
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import PageHeader from "../../components/PageHeader";
-import { getAllPhieuMuons, returnPhieuMuon } from "../../services/Admin_API/PhieuMuonAPI";
-import axiosClient from "../../services/axiosClient"; // chỉnh path nếu cần
+import { getAllPhieuMuons, giaHanPhieuMuon, returnPhieuMuon } from "../../services/Admin_API/PhieuMuonAPI";
+import axiosClient from "../../services/axiosClient";
 
-const GIA_HAN_NGAY = 3; // số ngày gia hạn thêm, đổi tuỳ ý
+const GIA_HAN_NGAY = 7;
 
 function PhieuMuonList() {
     const [data, setData] = useState([]);
@@ -49,19 +49,18 @@ function PhieuMuonList() {
         }
     };
 
-    // ── GIA HẠN ───────────────────────────────────────────────
     const handleGiaHan = async (record) => {
         try {
             const hanTraMoi = dayjs(record.hanTra)
                 .add(GIA_HAN_NGAY, "day")
                 .toISOString();
 
-            await axiosClient.put(`/PhieuMuon/gia-han/${record.maPhieuMuon}`, {
+            await giaHanPhieuMuon(`${record.maPhieuMuon}`, {
                 hanTra:      hanTraMoi,
                 soLanGiaHan: (record.soLanGiaHan || 0) + 1,
             });
+            message.success("Gia hạn thêm 7 ngày thành công!");
 
-            message.success(`Gia hạn thêm ${GIA_HAN_NGAY} ngày thành công`);
             fetchPhieuMuon();
         } catch (err) {
             console.log(err);

@@ -50,6 +50,8 @@ function ReaderList() {
         catch (err) {
             console.log(err)
             message.error("Thêm bạn đọc thất bại")
+
+            console.log(err.response?.data);
         }
 
     }
