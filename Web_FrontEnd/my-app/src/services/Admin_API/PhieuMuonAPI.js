@@ -12,3 +12,7 @@ export const returnPhieuMuon = (data) =>
 
 export const giaHanPhieuMuon = (maPhieuMuon) => 
   axios.post(`${API}/gia-han/${maPhieuMuon}`);
+
+export const getPhieuMuonByUser = (maBanDoc) => {
+  return axios.get(`${API}/user/${maBanDoc}`);
+};

@@ -19,6 +19,9 @@ import ContactPage from "./pages/Client/Contact";
 import ProfilePage from "./pages/Client/Profile";
 import BorrowHistoryPage from "./pages/Client/BorrowHistory";
 import ThongKeThuvien from "./pages/Admin/admin_component";
+import SearchResults from "./pages/Client/SearchResult";
+// import Login from "./pages/Auth/Login";
+import { Register } from "./pages/Auth/Login";
 
 function App() {
   return (
@@ -26,6 +29,8 @@ function App() {
 
       {/* LOGIN */}
       <Route path="/login" element={<Login />} />
+
+      <Route path="/register" element={<Register/>} />
 
       {/* 403 */}
       <Route path="/403" element={
@@ -71,6 +76,7 @@ function App() {
         <Route path="books/:id" element={<BookDetail />} />
         <Route path="about" element={<AboutPage />} />
         <Route path="contact" element={<ContactPage />} />
+        <Route path="/search" element={<SearchResults />} />
 
         {/* Phải đăng nhập mới vào được */}
         <Route path="profile" element={

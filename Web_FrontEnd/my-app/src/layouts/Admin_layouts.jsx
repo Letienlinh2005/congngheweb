@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   LaptopOutlined,
   UserOutlined,
@@ -6,7 +6,7 @@ import {
   TagsOutlined,
   TeamOutlined,
 } from "@ant-design/icons";
-import { Breadcrumb, Layout, Menu, theme } from "antd";
+import { Breadcrumb, Layout, Menu, Button, theme } from "antd";
 import { Outlet, useNavigate } from "react-router-dom";
 
 const { Header, Content, Sider } = Layout;
@@ -18,11 +18,22 @@ const AdminLayout = () => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
-  // const items1 = [
-  //   { key: "/admin", label: "Dashboard" },
-  //   { key: "/admin/products", label: "Products" },
-  //   { key: "/admin/accounts", label: "Accounts"}
-  // ];
+  // ✅ Protect route: nếu chưa login → đá về login
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+    }
+  }, [navigate]);
+
+  // ✅ Logout
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("maTaiKhoan");
+
+    navigate("/login");
+  };
 
   const items2 = [
     {
@@ -57,24 +68,24 @@ const AdminLayout = () => {
         },
         {
           key: "/admin/phieumuon",
-          label:"Phiếu mượn",
-          icon: <TeamOutlined/>
+          label: "Phiếu mượn",
+          icon: <TeamOutlined />,
         },
         {
           key: "/admin/phat",
           label: "Phạt",
-          icon: <TeamOutlined/>
+          icon: <TeamOutlined />,
         },
         {
           key: "/admin/kesach",
           label: "Kệ sách",
-          icon: <TeamOutlined/>
+          icon: <TeamOutlined />,
         },
         {
           key: "/admin/bansao",
           label: "Bản sao",
-          icon: <TeamOutlined/>
-        }
+          icon: <TeamOutlined />,
+        },
       ],
     },
   ];
@@ -82,12 +93,18 @@ const AdminLayout = () => {
   return (
     <Layout style={{ minHeight: "100vh" }}>
       {/* HEADER */}
-      <Header style={{ display: "flex", alignItems: "center" }}>
-        <div style={{ color: "#fff", marginRight: 20 }}>ADMIN</div>
-        <Menu
-          theme="dark"
-          mode="horizontal"
-        />
+      <Header
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <div style={{ color: "#fff", fontWeight: 600 }}>ADMIN</div>
+
+        <Button type="primary" danger onClick={handleLogout}>
+          Đăng xuất
+        </Button>
       </Header>
 
       <Layout>

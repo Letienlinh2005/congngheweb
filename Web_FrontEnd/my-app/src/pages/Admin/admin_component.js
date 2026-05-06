@@ -35,18 +35,15 @@ import {
   Pie,
   Cell,
 } from "recharts";
-import axios from "axios";
+import { getBanDocs } from "../../services/Admin_API/BanDocAPI";
+import { getAllPhieuMuons } from "../../services/Admin_API/PhieuMuonAPI";
+import { getBanSaos } from "../../services/Admin_API/BanSaoAPI";
+import { getAllPhats } from "../../services/Admin_API/PhatAPI";
+import { getTheLoais } from "../../services/Admin_API/TheLoaiAPI";
 
 const { Title, Text } = Typography;
 const { Option } = Select;
 
-// ─── API ────────────────────────────────────────────────────────────────────
-const BASE = "https://localhost:7159/api";
-const getAllPhieuMuons = () => axios.get(`${BASE}/PhieuMuon/chi-tiet`);
-const getBanSaos = () => axios.get(`${BASE}/BanSao`);
-const getTheLoais = () => axios.get(`${BASE}/TheLoai`);
-const getBanDocs = () => axios.get(`${BASE}/BanDoc`);
-const getPhats = () => axios.get(`${BASE}/Phat`);
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 const MONTH_LABELS = [
@@ -60,7 +57,6 @@ const COLORS = {
 };
 const DONUT_COLORS = ["#52c41a", "#1677ff", "#ff4d4f", "#faad14"];
 
-// DB: Phat.TrangThai IN ('Chưa trả', 'Đã trả', 'Miễn')
 const fineStatusTag = (st) => {
   if (st === "Đã trả") return <Tag color="success">Đã trả</Tag>;
   if (st === "Miễn")   return <Tag color="warning">Miễn</Tag>;
@@ -77,7 +73,6 @@ const fmtShort = (n) => {
 };
 
 const isOverdue = (p) => {
-  // Quá hạn = phiếu "Đang mở" mà HanTra < hôm nay
   const st = p.trangThai || p.TrangThai;
   if (st !== "Đang mở") return false;
   const han = new Date(p.hanTra || p.HanTra);
@@ -109,7 +104,7 @@ export default function ThongKeThuvien() {
         getBanSaos(),
         getTheLoais(),
         getBanDocs(),
-        getPhats(),
+        getAllPhats(),
       ]);
       setPhieus(p.data.data || []);
       setBanSaos(bs.data.data || []);

@@ -4,7 +4,7 @@ import { Row, Col, Card, Empty, Spin, Input, Select, Tag } from "antd";
 import {
   BookOutlined, SearchOutlined, FilterOutlined,
 } from "@ant-design/icons";
-import { getSachs } from "../services/Admin_API/SachAPI";
+import { getSachs } from "../../services/Admin_API/SachAPI"; 
 
 const { Option } = Select;
 
