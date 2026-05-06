@@ -9,3 +9,5 @@ export const createBanDoc = (data) => axios.post(Reader_API, data)
 export const updateBanDoc = (id, data) => axios.put(`${Reader_API}/${id}`, data)
 
 export const deleteBanDoc = (id) => axios.delete(`${Reader_API}/${id}`)
+
+export const getBanDocById = (id) => axios.get(`${Reader_API}/${id}`)

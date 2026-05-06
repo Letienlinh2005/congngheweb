@@ -161,7 +161,7 @@ function HomeContent() {
           </span>
         </div>
 
-        {/* DANH SÁCH SÁCH — chỉ render 1 lần duy nhất ở đây */}
+        {/* DANH SÁCH SÁCH */}
         <Row gutter={[16, 16]}>
           {loading
             ? [...Array(8)].map((_, i) => (
@@ -238,12 +238,15 @@ function HomeContent() {
               Đăng ký ngay để mượn sách, đánh giá và nhận gợi ý cá nhân hoá.
             </p>
           </div>
-          <button style={{
-            background: "#F1EFE8", color: "#1a1a18",
-            border: "none", padding: "10px 28px",
-            borderRadius: 8, fontWeight: 500, fontSize: 13,
-            cursor: "pointer", whiteSpace: "nowrap",
-          }}>
+          <button
+            onClick={() => navigate("/register")}
+            style={{
+              background: "#F1EFE8", color: "#1a1a18",
+              border: "none", padding: "10px 28px",
+              borderRadius: 8, fontWeight: 500, fontSize: 13,
+              cursor: "pointer", whiteSpace: "nowrap",
+            }}
+          >
             Đăng ký ngay
           </button>
         </div>
@@ -258,6 +261,26 @@ function ClientLayout() {
   const navigate = useNavigate();
   const location = useLocation();
   const isHome   = location.pathname === "/";
+
+  // ✅ Đọc thông tin user từ localStorage
+  const [user, setUser] = useState(() =>
+    JSON.parse(localStorage.getItem("user") || "null")
+  );
+  const isLoggedIn = !!user;
+
+  // ✅ Sync lại nếu user thay đổi (login/logout ở tab khác)
+  useEffect(() => {
+    const handleStorage = () =>
+      setUser(JSON.parse(localStorage.getItem("user") || "null"));
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.clear();
+    setUser(null);
+    navigate("/login");
+  };
 
   const userMenuItems = [
     { key: "profile", icon: <UserOutlined />,   label: "Tài khoản của tôi" },
@@ -309,35 +332,58 @@ function ClientLayout() {
           }}
         />
 
-        {/* USER DROPDOWN */}
-        <Dropdown
-          menu={{
-            items: userMenuItems,
-            onClick: ({ key }) => {
-              if (key === "logout") {
-                localStorage.clear();
-                navigate("/login");
-              } else {
-                navigate(`/${key}`);
-              }
-            },
-          }}
-          trigger={["click"]}
-        >
-          <div style={{
-            display: "flex", alignItems: "center", gap: 8,
-            cursor: "pointer", padding: "5px 10px",
-            borderRadius: 8, border: "1px solid #EEECEA", background: "#fff",
-          }}>
-            <Avatar size={26} style={{ background: "#444441", fontSize: 11, fontWeight: 500 }}>
-              HN
-            </Avatar>
-            <span style={{ fontSize: 13, fontWeight: 500, color: "#1a1a18" }}>
-              Người dùng
-            </span>
-            <DownOutlined style={{ fontSize: 10, color: "#aaa" }} />
+        {isLoggedIn ? (
+          <Dropdown
+            menu={{
+              items: userMenuItems,
+              onClick: ({ key }) => {
+                if (key === "logout") {
+                  handleLogout();
+                } else {
+                  navigate(`/${key}`);
+                }
+              },
+            }}
+            trigger={["click"]}
+          >
+            <div style={{
+              display: "flex", alignItems: "center", gap: 8,
+              cursor: "pointer", padding: "5px 10px",
+              borderRadius: 8, border: "1px solid #EEECEA", background: "#fff",
+            }}>
+              <Avatar size={26} style={{ background: "#444441", fontSize: 11, fontWeight: 500 }}>
+                {user?.hoTen?.slice(0, 2).toUpperCase() || "?"}
+              </Avatar>
+              <span style={{ fontSize: 13, fontWeight: 500, color: "#1a1a18" }}>
+                {user?.hoTen || "Người dùng"}
+              </span>
+              <DownOutlined style={{ fontSize: 10, color: "#aaa" }} />
+            </div>
+          </Dropdown>
+        ) : (
+          <div style={{ display: "flex", gap: 8 }}>
+            <button
+              onClick={() => navigate("/login")}
+              style={{
+                background: "#fff", color: "#1a1a18",
+                border: "1px solid #EEECEA", padding: "6px 16px",
+                borderRadius: 8, fontWeight: 500, fontSize: 13, cursor: "pointer",
+              }}
+            >
+              Đăng nhập
+            </button>
+            <button
+              onClick={() => navigate("/register")}
+              style={{
+                background: "#1a1a18", color: "#F1EFE8",
+                border: "none", padding: "6px 16px",
+                borderRadius: 8, fontWeight: 500, fontSize: 13, cursor: "pointer",
+              }}
+            >
+              Đăng ký
+            </button>
           </div>
-        </Dropdown>
+        )}
       </Header>
 
       {/* NAVBAR */}
@@ -364,7 +410,8 @@ function ClientLayout() {
           <Outlet />
         </Content>
       )}
-    <Footer />
+
+      <Footer />
     </Layout>
   );
 }

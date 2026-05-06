@@ -39,22 +39,20 @@ function ReaderList() {
     }, []);
 
     //handle create
+    // handle create — sửa setIsCreateOpen
     const handleCreate = async (values) => {
         try {
             await createBanDoc(values);
             message.success("Thêm bạn đọc thành công");
-            isCreateOpen(false);
-            createForm.resetFields()
-            fetchReaders()
-        }
-        catch (err) {
-            console.log(err)
-            message.error("Thêm bạn đọc thất bại")
-
+            setIsCreateOpen(false);
+            createForm.resetFields();
+            fetchReaders();
+        } catch (err) {
+            const msg = err.response?.data?.message || "Thêm bạn đọc thất bại";
+            message.error(msg);
             console.log(err.response?.data);
         }
-
-    }
+    };
     // mở modal
     const handleEdit = (record) => {
         setEditingReader(record);
@@ -124,8 +122,8 @@ function ReaderList() {
             title: "Trạng thái",
             dataIndex: "trangThaiThe",
             render: (text) => (
-                <Tag color={text ? "green" : "red"}>
-                    {text ? "Hoạt động" : "Hết hạn"}
+                <Tag color={text === "Hoạt động" ? "green" : "red"}>
+                    {text}
                 </Tag>
             ),
         },
@@ -162,31 +160,34 @@ function ReaderList() {
             <PageHeader title="Thêm bạn đọc" extra={<Button onClick={() => setIsCreateOpen(true)}>Thêm</Button>} />
             <Table columns={columns} dataSource={data} />
             {/* Modal create */}
+            {/* Modal Create — bỏ soThe, thêm matKhau */}
             <Modal title="Thêm bạn đọc" open={isCreateOpen} onCancel={() => setIsCreateOpen(false)} footer={null}>
                 <Form form={createForm} onFinish={handleCreate} layout="vertical">
-                    <Form.Item
-                        name="hoTen"
-                        label="Tên bạn đọc"
-                        rules={[{ required: true, message: "Không được để trống" }]}
-                    >
+                    <Form.Item name="hoTen" label="Tên bạn đọc"
+                        rules={[{ required: true, message: "Không được để trống" }]}>
                         <Input />
                     </Form.Item>
 
-                    <Form.Item name="soThe" label="Số thẻ">
+                    <Form.Item name="email" label="Email"
+                        rules={[{ required: true, type: "email", message: "Email không hợp lệ" }]}>
                         <Input />
                     </Form.Item>
 
-                    <Form.Item name="email" label="Email">
+                    <Form.Item name="dienThoai" label="Điện thoại"
+                        rules={[{ required: true, message: "Không được để trống" }]}>
                         <Input />
                     </Form.Item>
 
-                    <Form.Item name="dienThoai" label="Điện thoại">
+                    <Form.Item name="matKhau" label="Mật khẩu"
+                        rules={[{ required: true, message: "Không được để trống" }]}>
+                        <Input.Password />
+                    </Form.Item>
+
+                    <Form.Item name="tenDangNhap" label="Tên đăng nhập (để trống dùng Email)">
                         <Input />
                     </Form.Item>
 
-                    <Button type="primary" htmlType="submit" block>
-                        Thêm
-                    </Button>
+                    <Button type="primary" htmlType="submit" block>Thêm</Button>
                 </Form>
             </Modal>
             {/* MODAL EDIT */}

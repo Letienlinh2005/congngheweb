@@ -1,47 +1,53 @@
 import { useEffect, useState } from "react";
-import { Card, Avatar, Tag, Spin, Divider, Button, Modal, Form, Input, message } from "antd";
 import {
-  UserOutlined, MailOutlined, IdcardOutlined,
-  EditOutlined, LockOutlined,
+  Card,
+  Avatar,
+  Tag,
+  Spin,
+  Divider,
+  Button,
+  Modal,
+  Form,
+  Input,
+  message,
+} from "antd";
+import {
+  UserOutlined,
+  MailOutlined,
+  IdcardOutlined,
+  EditOutlined,
+  LockOutlined,
 } from "@ant-design/icons";
-import { getTaiKhoans, updateTaiKhoan } from "../../services/Admin_API/TaiKhoanAPI"
+import { updateTaiKhoan } from "../../services/Admin_API/TaiKhoanAPI";
 
 export default function ProfilePage() {
-  const [account, setAccount]   = useState(null);
-  const [loading, setLoading]   = useState(true);
+  const [account, setAccount] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [form] = Form.useForm();
 
-  // Lấy maTaiKhoan từ localStorage sau khi login (tuỳ app bạn lưu key gì)
-  const maTaiKhoan = localStorage.getItem("maTaiKhoan");
-
   useEffect(() => {
-    const fetchAccount = async () => {
-      try {
-        const res  = await getTaiKhoans();
-        const list = res.data.data ?? res.data;
-        const found = list.find((tk) => tk.maTaiKhoan === maTaiKhoan);
-        setAccount(found || list[0]); 
-      } catch (err) {
-        console.error("Lỗi lấy tài khoản:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchAccount();
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    setAccount(Object.keys(user).length ? user : null);
+    setLoading(false);
   }, []);
 
   const handleEdit = () => {
-    form.setFieldsValue({
-      tenDangNhap: account?.tenDangNhap,
-    });
+    form.setFieldsValue({ tenDangNhap: account?.tenDangNhap });
     setModalOpen(true);
   };
 
   const handleSave = async (values) => {
     try {
-      await updateTaiKhoan(account.maTaiKhoan, values);
-      setAccount((prev) => ({ ...prev, ...values }));
+      const payload = { tenDangNhap: values.tenDangNhap };
+      if (values.matKhauMoi) payload.matKhau = values.matKhauMoi;
+
+      await updateTaiKhoan(account.maTaiKhoan, payload);
+
+      const updated = { ...account, ...payload };
+      localStorage.setItem("user", JSON.stringify(updated));
+      setAccount(updated);
+
       message.success("Cập nhật tài khoản thành công!");
       setModalOpen(false);
     } catch (err) {
@@ -60,38 +66,54 @@ export default function ProfilePage() {
   if (!account) {
     return (
       <div style={{ textAlign: "center", padding: 80, color: "#888" }}>
-        Không tìm thấy thông tin tài khoản.
+        Không tìm thấy thông tin tài khoản. Vui lòng đăng nhập lại.
       </div>
     );
   }
 
   return (
     <div style={{ maxWidth: 720, margin: "0 auto" }}>
-
       {/* HEADER CARD */}
       <Card
-        style={{ borderRadius: 16, border: "0.5px solid #EEECEA", marginBottom: 20 }}
+        style={{
+          borderRadius: 16,
+          border: "0.5px solid #EEECEA",
+          marginBottom: 20,
+        }}
         bodyStyle={{ padding: "32px 36px" }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
           <Avatar
             size={72}
             style={{
-              background: "#2C2C2A", fontSize: 26,
-              fontWeight: 500, flexShrink: 0,
+              background: "#2C2C2A",
+              fontSize: 26,
+              fontWeight: 500,
+              flexShrink: 0,
             }}
           >
             {account.tenDangNhap?.[0]?.toUpperCase() ?? "U"}
           </Avatar>
           <div style={{ flex: 1 }}>
-            <div style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: 22, fontWeight: 600, color: "#1a1a18", marginBottom: 6,
-            }}>
+            <div
+              style={{
+                fontFamily: "'Playfair Display', serif",
+                fontSize: 22,
+                fontWeight: 600,
+                color: "#1a1a18",
+                marginBottom: 6,
+              }}
+            >
               {account.tenDangNhap}
             </div>
             <Tag
-              color={account.vaiTro === "Quản trị viên" ? "volcano" : "green"}
+              color={
+                account.vaiTro === "Quản trị"
+                  ? "volcano"
+                  : account.vaiTro === "Thủ thư"
+                    ? "blue"
+                    : "green"
+              }
               style={{ borderRadius: 6, fontSize: 12 }}
             >
               {account.vaiTro}
@@ -101,7 +123,8 @@ export default function ProfilePage() {
             icon={<EditOutlined />}
             onClick={handleEdit}
             style={{
-              borderRadius: 8, fontSize: 13,
+              borderRadius: 8,
+              fontSize: 13,
               border: "0.5px solid #EEECEA",
             }}
           >
@@ -112,13 +135,22 @@ export default function ProfilePage() {
 
       {/* THÔNG TIN CHI TIẾT */}
       <Card
-        style={{ borderRadius: 16, border: "0.5px solid #EEECEA", marginBottom: 20 }}
+        style={{
+          borderRadius: 16,
+          border: "0.5px solid #EEECEA",
+          marginBottom: 20,
+        }}
         bodyStyle={{ padding: "24px 36px" }}
       >
-        <div style={{
-          fontSize: 11, letterSpacing: "0.08em", color: "#aaa",
-          textTransform: "uppercase", marginBottom: 20,
-        }}>
+        <div
+          style={{
+            fontSize: 11,
+            letterSpacing: "0.08em",
+            color: "#aaa",
+            textTransform: "uppercase",
+            marginBottom: 20,
+          }}
+        >
           Thông tin tài khoản
         </div>
 
@@ -135,6 +167,11 @@ export default function ProfilePage() {
           },
           {
             icon: <UserOutlined style={{ color: "#888" }} />,
+            label: "Họ tên",
+            value: account.hoTen ?? "Chưa cập nhật",
+          },
+          {
+            icon: <UserOutlined style={{ color: "#888" }} />,
             label: "Vai trò",
             value: account.vaiTro,
           },
@@ -145,10 +182,14 @@ export default function ProfilePage() {
           },
         ].map((row, i, arr) => (
           <div key={row.label}>
-            <div style={{
-              display: "flex", alignItems: "center",
-              justifyContent: "space-between", padding: "14px 0",
-            }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "14px 0",
+              }}
+            >
               <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                 {row.icon}
                 <span style={{ fontSize: 13, color: "#888" }}>{row.label}</span>
@@ -164,21 +205,29 @@ export default function ProfilePage() {
         ))}
       </Card>
 
-      {/* ĐỔI MẬT KHẨU */}
+      {/* BẢO MẬT */}
       <Card
         style={{ borderRadius: 16, border: "0.5px solid #EEECEA" }}
         bodyStyle={{ padding: "24px 36px" }}
       >
-        <div style={{
-          fontSize: 11, letterSpacing: "0.08em", color: "#aaa",
-          textTransform: "uppercase", marginBottom: 16,
-        }}>
+        <div
+          style={{
+            fontSize: 11,
+            letterSpacing: "0.08em",
+            color: "#aaa",
+            textTransform: "uppercase",
+            marginBottom: 16,
+          }}
+        >
           Bảo mật
         </div>
-        <div style={{
-          display: "flex", alignItems: "center",
-          justifyContent: "space-between",
-        }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <LockOutlined style={{ color: "#888" }} />
             <div>
@@ -191,8 +240,10 @@ export default function ProfilePage() {
             </div>
           </div>
           <Button
+            onClick={handleEdit}
             style={{
-              borderRadius: 8, fontSize: 13,
+              borderRadius: 8,
+              fontSize: 13,
               border: "0.5px solid #EEECEA",
             }}
           >
@@ -204,21 +255,35 @@ export default function ProfilePage() {
       {/* MODAL CHỈNH SỬA */}
       <Modal
         title={
-          <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 18 }}>
+          <span
+            style={{ fontFamily: "'Playfair Display', serif", fontSize: 18 }}
+          >
             Chỉnh sửa tài khoản
           </span>
         }
         open={modalOpen}
-        onCancel={() => setModalOpen(false)}
+        onCancel={() => {
+          setModalOpen(false);
+          form.resetFields();
+        }}
         onOk={() => form.submit()}
         okText="Lưu thay đổi"
         cancelText="Huỷ"
         okButtonProps={{
-          style: { background: "#2C2C2A", borderColor: "#2C2C2A", borderRadius: 8 },
+          style: {
+            background: "#2C2C2A",
+            borderColor: "#2C2C2A",
+            borderRadius: 8,
+          },
         }}
         cancelButtonProps={{ style: { borderRadius: 8 } }}
       >
-        <Form form={form} layout="vertical" onFinish={handleSave} style={{ marginTop: 16 }}>
+        <Form
+          form={form}
+          layout="vertical"
+          onFinish={handleSave}
+          style={{ marginTop: 16 }}
+        >
           <Form.Item
             name="tenDangNhap"
             label="Tên đăng nhập"
@@ -239,9 +304,8 @@ export default function ProfilePage() {
             rules={[
               ({ getFieldValue }) => ({
                 validator(_, value) {
-                  if (!value || getFieldValue("matKhauMoi") === value) {
+                  if (!value || getFieldValue("matKhauMoi") === value)
                     return Promise.resolve();
-                  }
                   return Promise.reject("Mật khẩu xác nhận không khớp!");
                 },
               }),
@@ -251,7 +315,6 @@ export default function ProfilePage() {
           </Form.Item>
         </Form>
       </Modal>
-
     </div>
   );
 }

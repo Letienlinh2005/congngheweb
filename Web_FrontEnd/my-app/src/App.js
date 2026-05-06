@@ -1,9 +1,9 @@
 import { Routes, Route } from "react-router-dom";
 import Login from "./pages/Auth/Login";
 import AdminLayout from "./layouts/Admin_layouts";
+import PrivateRoute from "./routes/PrivateRoute";
 import Dashboard from "./pages/Admin/admin_component";
 import ProductList from "./pages/Admin/ProductList";
-import PrivateRoute from "./routes/PrivateRoute";
 import AccountList from "./pages/Admin/AccountList";
 import CategoryList from "./pages/Admin/Categories";
 import ReaderList from "./pages/Admin/ReaderList";
@@ -19,6 +19,7 @@ import ContactPage from "./pages/Client/Contact";
 import ProfilePage from "./pages/Client/Profile";
 import BorrowHistoryPage from "./pages/Client/BorrowHistory";
 import ThongKeThuvien from "./pages/Admin/admin_component";
+
 function App() {
   return (
     <Routes>
@@ -26,24 +27,41 @@ function App() {
       {/* LOGIN */}
       <Route path="/login" element={<Login />} />
 
-      {/* ADMIN */}
+      {/* 403 */}
+      <Route path="/403" element={
+        <div style={{ textAlign: "center", marginTop: "100px" }}>
+          <h1>403 - Không có quyền truy cập</h1>
+          <a href="/">Về trang chủ</a>
+        </div>
+      } />
+
+      {/* ADMIN - chỉ Quản trị + Thủ thư */}
       <Route
         path="/admin"
         element={
-          <PrivateRoute>
+          <PrivateRoute allowedRoles={["Quản trị", "Thủ thư"]}>
             <AdminLayout />
           </PrivateRoute>
         }
       >
         <Route index element={<ThongKeThuvien />} />
         <Route path="products" element={<ProductList />} />
-        <Route path="accounts" element={<AccountList />} />
         <Route path="categories" element={<CategoryList />} />
         <Route path="readers" element={<ReaderList />} />
         <Route path="phieumuon" element={<PhieuMuonList />} />
         <Route path="phat" element={<PhatList />} />
         <Route path="kesach" element={<KeSachList />} />
         <Route path="bansao" element={<BanSaoList />} />
+
+        {/* Chỉ Quản trị mới vào được accounts */}
+        <Route
+          path="accounts"
+          element={
+            <PrivateRoute allowedRoles={["Quản trị"]}>
+              <AccountList />
+            </PrivateRoute>
+          }
+        />
       </Route>
 
       {/* CLIENT */}
@@ -53,11 +71,21 @@ function App() {
         <Route path="books/:id" element={<BookDetail />} />
         <Route path="about" element={<AboutPage />} />
         <Route path="contact" element={<ContactPage />} />
-        <Route path="profile" element={<ProfilePage />} />
-        <Route path="history" element={<BorrowHistoryPage />} />
+
+        {/* Phải đăng nhập mới vào được */}
+        <Route path="profile" element={
+          <PrivateRoute>
+            <ProfilePage />
+          </PrivateRoute>
+        } />
+        <Route path="history" element={
+          <PrivateRoute>
+            <BorrowHistoryPage />
+          </PrivateRoute>
+        } />
       </Route>
 
-      {/* 404 fallback */}
+      {/* 404 */}
       <Route path="*" element={<div>404 Not Found</div>} />
 
     </Routes>
