@@ -80,7 +80,7 @@ export default function BorrowHistoryPage() {
 
   // ── Thống kê ──────────────────────────────────────────────────────────────
   const tongSo = data.length;
-  const dangMuon = data.filter((d) => d.trangThai === "Đang mượn").length;
+  const dangMuon = data.filter((d) => d.trangThai === "Đang mở").length;
   const daDong = data.filter((d) => d.trangThai === "Đã đóng").length;
   const quaHan = data.filter((d) => d.trangThai === "Quá hạn").length;
 

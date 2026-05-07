@@ -18,7 +18,6 @@ export default function Footer() {
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         <Row gutter={[48, 40]}>
 
-          {/* CỘT 1 — THƯƠNG HIỆU */}
           <Col span={8}>
             <div style={{
               display: "flex", alignItems: "center",
@@ -94,7 +93,6 @@ export default function Footer() {
             ))}
           </Col>
 
-          {/* CỘT 3 — THÔNG TIN LIÊN HỆ */}
           <Col span={6}>
             <div style={{
               fontSize: 11, letterSpacing: "0.1em",
@@ -104,9 +102,9 @@ export default function Footer() {
               Liên hệ
             </div>
             {[
-              { icon: <EnvironmentOutlined />, text: "123 Nguyễn Văn Linh, Đà Nẵng" },
-              { icon: <PhoneOutlined />,       text: "0236 123 456" },
-              { icon: <MailOutlined />,        text: "thuvien@library.vn" },
+              { icon: <EnvironmentOutlined />, text: "Chùa Hồng Phúc, Lưu Xá, Ân Thi, Hưng Yên" },
+              { icon: <PhoneOutlined />,       text: "0338554177" },
+              { icon: <MailOutlined />,        text: "letienlinh2005@gmail.com" },
               { icon: <ClockCircleOutlined />, text: "Thứ 2 – Thứ 7, 8:00 – 20:00" },
             ].map((c, i) => (
               <div key={i} style={{
@@ -131,7 +129,7 @@ export default function Footer() {
             <div style={{ borderRadius: 10, overflow: "hidden", height: 150 }}>
               <iframe
                 title="Bản đồ thư viện"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3834.2604932105!2d108.21200731483!3d16.06010888886!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x314219c792252a13%3A0x834f5a2cd2b4e3d6!2zTmd1eeG7hW4gVsSDbiBMaW5oLCDEkMOgIE7hurVuZw!5e0!3m2!1svi!2svn!4v1620000000000!5m2!1svi!2svn"
+                src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d1318.9915920185867!2d106.10895724071173!3d20.764100738325784!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMjDCsDQ1JzUyLjEiTiAxMDbCsDA2JzMzLjgiRQ!5e0!3m2!1svi!2s!4v1778169742498!5m2!1svi!2s"
                 width="100%"
                 height="150"
                 style={{ border: 0 }}

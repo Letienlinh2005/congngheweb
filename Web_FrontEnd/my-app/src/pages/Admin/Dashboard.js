@@ -48,23 +48,43 @@ const getTheLoais = () => axios.get(`${BASE}/TheLoai`);
 const getBanDocs = () => axios.get(`${BASE}/BanDoc`);
 const getPhats = () => axios.get(`${BASE}/Phat`);
 
+// ─── Normalizers ─────────────────────────────────────────────────────────────
+// Chuẩn hóa trangThai PhieuMuon → "active" | "overdue" | "returned" | "other"
+const normPhieu = (st = "") => {
+  if (st === "Đang mở" || st === "DangMuon" || st === 1) return "active";
+  if (st === "Quá hạn" || st === "QuaHan" || st === 2) return "overdue";
+  if (st === "Đã đóng" || st === "DaTra" || st === 0) return "returned";
+  return "other";
+};
+
+// Chuẩn hóa trangThai Phat → "paid" | "waived" | "unpaid"
+// Schema: "Chưa trả" | "Đã trả" | "Miễn"
+const normPhat = (st = "") => {
+  if (st === "Đã trả") return "paid";
+  if (st === "Miễn")   return "waived";
+  return "unpaid"; // "Chưa trả" hoặc bất kỳ giá trị nào khác
+};
+
+// Chuẩn hóa trangThai BanSao → "active" | "available"
+const normBanSao = (st = "") => {
+  if (st === "Đang mượn" || st === "DangMuon" || st === 1) return "active";
+  return "available";
+};
+
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 const MONTH_LABELS = ["T1","T2","T3","T4","T5","T6","T7","T8","T9","T10","T11","T12"];
 const COLORS = {
   new: "#1677ff",
   onTime: "#52c41a",
   late: "#ff4d4f",
-  returned: "#52c41a",
-  active: "#1677ff",
-  overdue: "#ff4d4f",
-  extended: "#faad14",
 };
 const DONUT_COLORS = ["#52c41a", "#1677ff", "#ff4d4f", "#faad14"];
 
 const fineStatusTag = (st) => {
-  if (st === "DaNop" || st === 2) return <Tag color="success">Đã nộp</Tag>;
-  if (st === "DangXuLy" || st === 1) return <Tag color="warning">Đang xử lý</Tag>;
-  return <Tag color="error">Chưa nộp</Tag>;
+  const n = normPhat(st);
+  if (n === "paid")   return <Tag color="success">Đã trả</Tag>;
+  if (n === "waived") return <Tag color="default">Miễn</Tag>;
+  return <Tag color="error">Chưa trả</Tag>;
 };
 
 const formatVND = (n) =>
@@ -101,11 +121,18 @@ export default function ThongKeThuvien() {
         getBanDocs(),
         getPhats(),
       ]);
-      setPhieus(p.data || []);
-      setBanSaos(bs.data || []);
-      setTheLoais(tl.data || []);
-      setBanDocs(bd.data || []);
-      setPhats(ph.data || []);
+      // Hỗ trợ cả { data: [...] } lẫn mảng thẳng
+      const unwrap = (res) => {
+        const d = res.data;
+        if (Array.isArray(d)) return d;
+        if (d && Array.isArray(d.data)) return d.data;
+        return [];
+      };
+      setPhieus(unwrap(p));
+      setBanSaos(unwrap(bs));
+      setTheLoais(unwrap(tl));
+      setBanDocs(unwrap(bd));
+      setPhats(unwrap(ph));
     } catch (e) {
       setError("Không thể kết nối đến máy chủ. Kiểm tra lại API và CORS.");
     } finally {
@@ -119,24 +146,23 @@ export default function ThongKeThuvien() {
   const filteredPhieus = phieus.filter((p) => {
     const d = new Date(p.ngayMuon || p.NgayMuon);
     const matchYear = isNaN(d) || d.getFullYear() === filterYear;
-    const st = p.trangThai;
+    const norm = normPhieu(p.trangThai);
     const matchStatus =
       filterStatus === "all" ||
-      (filterStatus === "active" && (st === "DangMuon" || st === 1)) ||
-      (filterStatus === "overdue" && (st === "QuaHan" || st === 2)) ||
-      (filterStatus === "returned" && (st === "DaTra" || st === 0));
+      norm === filterStatus;
     return matchYear && matchStatus;
   });
 
-  const total = filteredPhieus.length;
-  const activeCount = filteredPhieus.filter((p) => p.trangThai === "DangMuon" || p.trangThai === 1).length;
-  const overdueCount = filteredPhieus.filter((p) => p.trangThai === "QuaHan" || p.trangThai === 2).length;
-  const returnedCount = filteredPhieus.filter((p) => p.trangThai === "DaTra" || p.trangThai === 0).length;
+  const total         = filteredPhieus.length;
+  const activeCount   = filteredPhieus.filter((p) => normPhieu(p.trangThai) === "active").length;
+  const overdueCount  = filteredPhieus.filter((p) => normPhieu(p.trangThai) === "overdue").length;
+  const returnedCount = filteredPhieus.filter((p) => normPhieu(p.trangThai) === "returned").length;
   const extendedCount = filteredPhieus.filter((p) => (p.soLanGiaHan || p.SoLanGiaHan || 0) > 0).length;
 
   const totalFine = phats.reduce((s, p) => s + (p.soTien || p.SoTien || 0), 0);
+  // "Miễn" cũng không tính vào nợ còn lại
   const unpaidFine = phats
-    .filter((p) => p.trangThai !== "DaNop" && p.trangThai !== 2)
+    .filter((p) => normPhat(p.trangThai) === "unpaid")
     .reduce((s, p) => s + (p.soTien || p.SoTien || 0), 0);
 
   // Monthly chart data
@@ -148,12 +174,14 @@ export default function ThongKeThuvien() {
     const newCount = monthPhieus.length;
     let onTime = 0, late = 0;
     monthPhieus.forEach((p) => {
-      if (p.trangThai === "DaTra" || p.trangThai === 0) {
-        const han = new Date(p.hanTra || p.HanTra);
+      if (normPhieu(p.trangThai) === "returned") {
+        const han    = new Date(p.hanTra || p.HanTra);
         const thucTe = new Date(p.ngayTraThucTe || p.NgayTraThucTe);
         if (!isNaN(han) && !isNaN(thucTe)) {
           thucTe <= han ? onTime++ : late++;
-        } else { onTime++; }
+        } else {
+          onTime++;
+        }
       }
     });
     return { label, "Mượn mới": newCount, "Trả đúng hạn": onTime, "Trả trễ": late };
@@ -161,10 +189,10 @@ export default function ThongKeThuvien() {
 
   // Donut data
   const donutData = [
-    { name: `Đã trả (${total ? Math.round(returnedCount/total*100) : 0}%)`, value: returnedCount },
-    { name: `Đang mượn (${total ? Math.round(activeCount/total*100) : 0}%)`, value: activeCount },
-    { name: `Quá hạn (${total ? Math.round(overdueCount/total*100) : 0}%)`, value: overdueCount },
-    { name: `Gia hạn (${total ? Math.round(extendedCount/total*100) : 0}%)`, value: extendedCount },
+    { name: `Đã trả (${total ? Math.round(returnedCount / total * 100) : 0}%)`, value: returnedCount },
+    { name: `Đang mượn (${total ? Math.round(activeCount / total * 100) : 0}%)`, value: activeCount },
+    { name: `Quá hạn (${total ? Math.round(overdueCount / total * 100) : 0}%)`, value: overdueCount },
+    { name: `Gia hạn (${total ? Math.round(extendedCount / total * 100) : 0}%)`, value: extendedCount },
   ];
 
   // Genre borrowing rate
@@ -172,13 +200,13 @@ export default function ThongKeThuvien() {
     const map = {};
     theLoais.forEach((tl) => {
       const key = tl.maTheLoai || tl.MaTheLoai;
-      map[key] = { name: tl.tenTheLoai || tl.TenTheLoai, total: 0, active: 0 };
+      if (key) map[key] = { name: tl.tenTheLoai || tl.TenTheLoai || key, total: 0, active: 0 };
     });
     banSaos.forEach((bs) => {
       const key = bs.maTheLoai || bs.MaTheLoai;
       if (key && map[key]) {
         map[key].total++;
-        if (bs.trangThai === "DangMuon" || bs.trangThai === 1) map[key].active++;
+        if (normBanSao(bs.trangThai) === "active") map[key].active++;
       }
     });
     return Object.values(map)
@@ -189,24 +217,46 @@ export default function ThongKeThuvien() {
 
   // Fine table
   const docMap = {};
-  banDocs.forEach((d) => { docMap[d.maBanDoc || d.MaBanDoc] = d.hoTen || d.HoTen || "Không rõ"; });
+  banDocs.forEach((d) => {
+    docMap[d.maBanDoc || d.MaBanDoc] = d.hoTen || d.HoTen || "Không rõ";
+  });
 
   const unpaidList = phats
-    .filter((p) => p.trangThai !== "DaNop" && p.trangThai !== 2)
+    .filter((p) => normPhat(p.trangThai) === "unpaid")
     .slice(0, 8)
     .map((p) => ({
       key: p.maPhat || p.MaPhat,
-      hoTen: docMap[p.maBanDoc || p.MaBanDoc] || "Bạn đọc",
+      hoTen: p.hoTen || p.HoTen || docMap[p.maBanDoc || p.MaBanDoc] || "Bạn đọc",
       soPhieu: p.maPhieuMuon || p.MaPhieuMuon || "—",
       soTien: p.soTien || p.SoTien || 0,
       trangThai: p.trangThai,
     }));
 
   const fineColumns = [
-    { title: "Họ tên", dataIndex: "hoTen", key: "hoTen", render: (t) => <Text strong>{t}</Text> },
-    { title: "Số phiếu", dataIndex: "soPhieu", key: "soPhieu", render: (t) => <Text type="secondary">{t}</Text> },
-    { title: "Số tiền", dataIndex: "soTien", key: "soTien", render: (v) => <Text strong style={{ color: "#ff4d4f" }}>{formatVND(v)}</Text> },
-    { title: "Trạng thái", dataIndex: "trangThai", key: "trangThai", render: fineStatusTag },
+    {
+      title: "Họ tên",
+      dataIndex: "hoTen",
+      key: "hoTen",
+      render: (t) => <Text strong>{t}</Text>,
+    },
+    {
+      title: "Số phiếu",
+      dataIndex: "soPhieu",
+      key: "soPhieu",
+      render: (t) => <Text type="secondary">{t}</Text>,
+    },
+    {
+      title: "Số tiền",
+      dataIndex: "soTien",
+      key: "soTien",
+      render: (v) => <Text strong style={{ color: "#ff4d4f" }}>{formatVND(v)}</Text>,
+    },
+    {
+      title: "Trạng thái",
+      dataIndex: "trangThai",
+      key: "trangThai",
+      render: fineStatusTag,
+    },
   ];
 
   // ─── Render ─────────────────────────────────────────────────────────────────
@@ -216,7 +266,11 @@ export default function ThongKeThuvien() {
         type="error"
         message="Lỗi kết nối API"
         description={error}
-        action={<Button size="small" onClick={fetchAll} icon={<ReloadOutlined />}>Thử lại</Button>}
+        action={
+          <Button size="small" onClick={fetchAll} icon={<ReloadOutlined />}>
+            Thử lại
+          </Button>
+        }
         style={{ margin: 24 }}
       />
     );
@@ -241,7 +295,9 @@ export default function ThongKeThuvien() {
               <Option value="returned">Đã trả</Option>
             </Select>
             <Select value={filterYear} onChange={setFilterYear} style={{ width: 90 }}>
-              {[2024, 2025, 2026].map((y) => <Option key={y} value={y}>{y}</Option>)}
+              {[2024, 2025, 2026].map((y) => (
+                <Option key={y} value={y}>{y}</Option>
+              ))}
             </Select>
             <Button icon={<ReloadOutlined />} onClick={fetchAll} loading={loading}>
               Làm mới
@@ -259,7 +315,11 @@ export default function ThongKeThuvien() {
                 title="Tổng phiếu mượn"
                 value={total}
                 prefix={<BookOutlined style={{ color: "#1677ff" }} />}
-                suffix={<Text type="success" style={{ fontSize: 12 }}><ArrowUpOutlined /> 12%</Text>}
+                suffix={
+                  <Text type="success" style={{ fontSize: 12 }}>
+                    <ArrowUpOutlined /> 12%
+                  </Text>
+                }
               />
             </Card>
           </Col>
@@ -269,7 +329,11 @@ export default function ThongKeThuvien() {
                 title="Đang mượn"
                 value={activeCount}
                 prefix={<ClockCircleOutlined style={{ color: "#faad14" }} />}
-                suffix={<Text type="secondary" style={{ fontSize: 12 }}>{total ? Math.round(activeCount/total*100) : 0}%</Text>}
+                suffix={
+                  <Text type="secondary" style={{ fontSize: 12 }}>
+                    {total ? Math.round(activeCount / total * 100) : 0}%
+                  </Text>
+                }
               />
             </Card>
           </Col>
@@ -280,7 +344,11 @@ export default function ThongKeThuvien() {
                 value={overdueCount}
                 valueStyle={{ color: "#ff4d4f" }}
                 prefix={<ExclamationCircleOutlined style={{ color: "#ff4d4f" }} />}
-                suffix={<Text type="danger" style={{ fontSize: 12 }}>{total ? (overdueCount/total*100).toFixed(1) : 0}%</Text>}
+                suffix={
+                  <Text type="danger" style={{ fontSize: 12 }}>
+                    {total ? (overdueCount / total * 100).toFixed(1) : 0}%
+                  </Text>
+                }
               />
             </Card>
           </Col>
@@ -290,7 +358,11 @@ export default function ThongKeThuvien() {
                 title="Tổng tiền phạt"
                 value={fmtShort(totalFine)}
                 prefix={<DollarOutlined style={{ color: "#ff4d4f" }} />}
-                suffix={<Text type="danger" style={{ fontSize: 12 }}>Nợ: {fmtShort(unpaidFine)}</Text>}
+                suffix={
+                  <Text type="danger" style={{ fontSize: 12 }}>
+                    Nợ: {fmtShort(unpaidFine)}
+                  </Text>
+                }
               />
             </Card>
           </Col>
@@ -301,7 +373,11 @@ export default function ThongKeThuvien() {
           <Col xs={24} md={14}>
             <Card
               title="Hoạt động mượn – trả theo tháng"
-              extra={<Text type="secondary" style={{ fontSize: 12 }}>Năm {filterYear}</Text>}
+              extra={
+                <Text type="secondary" style={{ fontSize: 12 }}>
+                  Năm {filterYear}
+                </Text>
+              }
             >
               <ResponsiveContainer width="100%" height={240}>
                 <BarChart data={monthlyData} margin={{ top: 4, right: 8, left: -16, bottom: 0 }}>
@@ -309,9 +385,9 @@ export default function ThongKeThuvien() {
                   <YAxis tick={{ fontSize: 12 }} allowDecimals={false} />
                   <Tooltip />
                   <Legend wrapperStyle={{ fontSize: 12 }} />
-                  <Bar dataKey="Mượn mới" fill={COLORS.new} radius={[3,3,0,0]} />
-                  <Bar dataKey="Trả đúng hạn" fill={COLORS.onTime} radius={[3,3,0,0]} />
-                  <Bar dataKey="Trả trễ" fill={COLORS.late} radius={[3,3,0,0]} />
+                  <Bar dataKey="Mượn mới"      fill={COLORS.new}    radius={[3,3,0,0]} />
+                  <Bar dataKey="Trả đúng hạn"  fill={COLORS.onTime} radius={[3,3,0,0]} />
+                  <Bar dataKey="Trả trễ"       fill={COLORS.late}   radius={[3,3,0,0]} />
                 </BarChart>
               </ResponsiveContainer>
             </Card>
@@ -328,7 +404,7 @@ export default function ThongKeThuvien() {
                     outerRadius={90}
                     paddingAngle={3}
                     dataKey="value"
-                    label={({ name, percent }) => `${(percent*100).toFixed(0)}%`}
+                    label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
                     labelLine={false}
                   >
                     {donutData.map((_, i) => (
@@ -346,7 +422,14 @@ export default function ThongKeThuvien() {
         {/* Genre + Fine */}
         <Row gutter={[12, 12]}>
           <Col xs={24} md={10}>
-            <Card title="Tỉ lệ cho mượn theo thể loại" extra={<Text type="secondary" style={{ fontSize: 12 }}>Bản sao đang lưu hành</Text>}>
+            <Card
+              title="Tỉ lệ cho mượn theo thể loại"
+              extra={
+                <Text type="secondary" style={{ fontSize: 12 }}>
+                  Bản sao đang lưu hành
+                </Text>
+              }
+            >
               {genreStats.length === 0 ? (
                 <Text type="secondary">Không có dữ liệu</Text>
               ) : (
@@ -374,7 +457,11 @@ export default function ThongKeThuvien() {
           <Col xs={24} md={14}>
             <Card
               title="Phạt chưa thanh toán"
-              extra={<Text type="secondary" style={{ fontSize: 12 }}>Độc giả còn nợ phạt</Text>}
+              extra={
+                <Text type="secondary" style={{ fontSize: 12 }}>
+                  Độc giả còn nợ phạt
+                </Text>
+              }
             >
               <Table
                 columns={fineColumns}
@@ -388,7 +475,10 @@ export default function ThongKeThuvien() {
                   <Divider style={{ margin: "10px 0" }} />
                   <Row justify="space-between" align="middle">
                     <Text type="secondary" style={{ fontSize: 12 }}>
-                      Tổng chưa nộp: <Text strong style={{ color: "#ff4d4f" }}>{formatVND(unpaidFine)}</Text>
+                      Tổng chưa nộp:{" "}
+                      <Text strong style={{ color: "#ff4d4f" }}>
+                        {formatVND(unpaidFine)}
+                      </Text>
                     </Text>
                     <Button size="small" type="link">Xem tất cả →</Button>
                   </Row>

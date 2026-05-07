@@ -116,7 +116,7 @@ function PhatList() {
 
     return (
         <>
-            <PageHeader title="Quản lý phiếu mượn" />
+            <PageHeader title="Quản lý phạt" />
 
             <Table columns={columns} dataSource={data} />
         </>
