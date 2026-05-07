@@ -178,7 +178,6 @@ function BanSaoList() {
 
             <Table columns={columns} dataSource={data} />
 
-            {/* EDIT */}
             <Modal
                 title="Sửa bản sao"
                 open={isModalOpen}
@@ -211,7 +210,6 @@ function BanSaoList() {
                 </Form>
             </Modal>
 
-            {/* CREATE */}
             <Modal
                 title="Thêm bản sao"
                 open={isCreateOpen}

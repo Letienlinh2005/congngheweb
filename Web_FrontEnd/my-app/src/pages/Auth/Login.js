@@ -79,8 +79,6 @@ const Login = () => {
   );
 };
 
-// ================= REGISTER PAGE =================
-
 
 export const Register = () => {
   const navigate = useNavigate();

@@ -119,7 +119,6 @@ function ProductList() {
         }
     };
 
-    // ================= DELETE ================
 
     const handleDelete = async (id) => {
         try {

@@ -25,10 +25,9 @@ function AccountList() {
     const [isCreateOpen, setIsCreateOpen] = useState(false);
     const [editingAccount, setEditingAccount] = useState(null);
 
-    const [form] = Form.useForm(); // edit
-    const [createForm] = Form.useForm(); // create
+    const [form] = Form.useForm();
+    const [createForm] = Form.useForm();
 
-    // fetch
     const fetchAccounts = async () => {
         try {
             const res = await getTaiKhoans();
@@ -49,7 +48,6 @@ function AccountList() {
         fetchAccounts();
     }, []);
 
-    // CREATE
     const handleCreate = async (values) => {
         try {
             await createTaiKhoan({
@@ -68,7 +66,6 @@ function AccountList() {
         }
     };
 
-    // EDIT
     const handleEdit = (record) => {
         setEditingAccount(record);
         setIsModalOpen(true);
@@ -91,7 +88,6 @@ function AccountList() {
         }
     };
 
-    // DELETE
     const handleDelete = async (id) => {
         try {
             await deleteTaiKhoan(id);
@@ -132,7 +128,6 @@ function AccountList() {
 
     return (
         <>
-            {/* HEADER */}
             <PageHeader
                 title="Quản lý tài khoản"
                 extra={
@@ -144,7 +139,6 @@ function AccountList() {
 
             <Table columns={columns} dataSource={data} />
 
-            {/* CREATE */}
             <Modal
                 title="Thêm tài khoản"
                 open={isCreateOpen}
@@ -188,7 +182,6 @@ function AccountList() {
                 </Form>
             </Modal>
 
-            {/* EDIT */}
             <Modal
                 title="Sửa tài khoản"
                 open={isModalOpen}

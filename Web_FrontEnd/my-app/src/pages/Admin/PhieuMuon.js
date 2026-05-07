@@ -35,7 +35,6 @@ function PhieuMuonList() {
 
     useEffect(() => { fetchPhieuMuon(); }, []);
 
-    // ── TRẢ SÁCH ──────────────────────────────────────────────
     const handleReturn = async (id) => {
         try {
             await returnPhieuMuon({
@@ -128,7 +127,6 @@ function PhieuMuonList() {
             title: "Hành động",
             render: (_, record) => (
                 <Space>
-                    {/* NÚT GIA HẠN */}
                     {record.trangThai !== "Đã đóng" && (
                         <Popconfirm
                             title={`Gia hạn thêm ${GIA_HAN_NGAY} ngày?`}
@@ -150,7 +148,6 @@ function PhieuMuonList() {
                         </Popconfirm>
                     )}
 
-                    {/* NÚT TRẢ SÁCH */}
                     {record.trangThai !== "Đã đóng" && (
                         <Popconfirm
                             title="Xác nhận trả sách?"

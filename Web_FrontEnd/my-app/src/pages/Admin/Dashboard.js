@@ -48,8 +48,7 @@ const getTheLoais = () => axios.get(`${BASE}/TheLoai`);
 const getBanDocs = () => axios.get(`${BASE}/BanDoc`);
 const getPhats = () => axios.get(`${BASE}/Phat`);
 
-// ─── Normalizers ─────────────────────────────────────────────────────────────
-// Chuẩn hóa trangThai PhieuMuon → "active" | "overdue" | "returned" | "other"
+
 const normPhieu = (st = "") => {
   if (st === "Đang mở" || st === "DangMuon" || st === 1) return "active";
   if (st === "Quá hạn" || st === "QuaHan" || st === 2) return "overdue";
@@ -57,21 +56,18 @@ const normPhieu = (st = "") => {
   return "other";
 };
 
-// Chuẩn hóa trangThai Phat → "paid" | "waived" | "unpaid"
-// Schema: "Chưa trả" | "Đã trả" | "Miễn"
+
 const normPhat = (st = "") => {
   if (st === "Đã trả") return "paid";
   if (st === "Miễn")   return "waived";
-  return "unpaid"; // "Chưa trả" hoặc bất kỳ giá trị nào khác
+  return "unpaid"; 
 };
 
-// Chuẩn hóa trangThai BanSao → "active" | "available"
 const normBanSao = (st = "") => {
   if (st === "Đang mượn" || st === "DangMuon" || st === 1) return "active";
   return "available";
 };
 
-// ─── Helpers ─────────────────────────────────────────────────────────────────
 const MONTH_LABELS = ["T1","T2","T3","T4","T5","T6","T7","T8","T9","T10","T11","T12"];
 const COLORS = {
   new: "#1677ff",
@@ -96,7 +92,6 @@ const fmtShort = (n) => {
   return String(n);
 };
 
-// ─── Main Component ──────────────────────────────────────────────────────────
 export default function ThongKeThuvien() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -195,7 +190,6 @@ export default function ThongKeThuvien() {
     { name: `Gia hạn (${total ? Math.round(extendedCount / total * 100) : 0}%)`, value: extendedCount },
   ];
 
-  // Genre borrowing rate
   const genreStats = (() => {
     const map = {};
     theLoais.forEach((tl) => {
@@ -215,7 +209,6 @@ export default function ThongKeThuvien() {
       .slice(0, 6);
   })();
 
-  // Fine table
   const docMap = {};
   banDocs.forEach((d) => {
     docMap[d.maBanDoc || d.MaBanDoc] = d.hoTen || d.HoTen || "Không rõ";
@@ -259,7 +252,6 @@ export default function ThongKeThuvien() {
     },
   ];
 
-  // ─── Render ─────────────────────────────────────────────────────────────────
   if (error) {
     return (
       <Alert

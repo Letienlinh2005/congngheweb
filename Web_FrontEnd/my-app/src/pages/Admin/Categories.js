@@ -34,7 +34,6 @@ function CategoryList() {
         fetchCategories();
     }, []);
 
-    // handle create
     const handleCreate = async (values) => {
         try{
             await createTheLoai(values);
@@ -48,7 +47,7 @@ function CategoryList() {
             message.error("Thêm thể loại thất bại")
         }
     }
-    // mở modal sửa
+
     const handleEdit = (record) => {
         setEditingCategory(record);
         setIsModalOpen(true);
@@ -58,7 +57,6 @@ function CategoryList() {
         });
     };
 
-    // update
     const handleUpdate = async (values) => {
         try {
             await updateTheLoai(editingCategory.key, values);
@@ -73,7 +71,6 @@ function CategoryList() {
         }
     };
 
-    // delete
     const handleDelete = async (id) => {
         try {
             await deleteTheLoai(id);
@@ -87,7 +84,6 @@ function CategoryList() {
         }
     };
 
-    // columns
     const columns = [
         {
             title: "Tên thể loại",
@@ -118,7 +114,6 @@ function CategoryList() {
             <Table columns={columns} dataSource={data} />
 
 
-            {/* Modal create */}
             <Modal
                 title="Thêm thể loại"
                 open={isCreateOpen}
@@ -139,7 +134,7 @@ function CategoryList() {
                     </Button>
                 </Form>
             </Modal>
-            {/* MODAL EDIT */}
+            
             <Modal
                 title="Sửa thể loại"
                 open={isModalOpen}

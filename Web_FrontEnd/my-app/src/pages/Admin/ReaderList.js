@@ -12,7 +12,6 @@ function ReaderList() {
     const [form] = Form.useForm();
     const [createForm] = Form.useForm();
 
-    // fetch
     const fetchReaders = async () => {
         try {
             const res = await getBanDocs();
@@ -38,8 +37,6 @@ function ReaderList() {
         fetchReaders();
     }, []);
 
-    //handle create
-    // handle create — sửa setIsCreateOpen
     const handleCreate = async (values) => {
         try {
             await createBanDoc(values);
@@ -53,7 +50,7 @@ function ReaderList() {
             console.log(err.response?.data);
         }
     };
-    // mở modal
+
     const handleEdit = (record) => {
         setEditingReader(record);
         setIsModalOpen(true);
@@ -66,7 +63,6 @@ function ReaderList() {
         });
     };
 
-    // update
     const handleUpdate = async (values) => {
         try {
             await updateBanDoc(editingReader.key, values);
@@ -81,7 +77,6 @@ function ReaderList() {
         }
     };
 
-    // delete
     const handleDelete = async (id) => {
         try {
             await deleteBanDoc(id);
@@ -159,8 +154,7 @@ function ReaderList() {
         <>
             <PageHeader title="Thêm bạn đọc" extra={<Button onClick={() => setIsCreateOpen(true)}>Thêm</Button>} />
             <Table columns={columns} dataSource={data} />
-            {/* Modal create */}
-            {/* Modal Create — bỏ soThe, thêm matKhau */}
+
             <Modal title="Thêm bạn đọc" open={isCreateOpen} onCancel={() => setIsCreateOpen(false)} footer={null}>
                 <Form form={createForm} onFinish={handleCreate} layout="vertical">
                     <Form.Item name="hoTen" label="Tên bạn đọc"
@@ -190,7 +184,8 @@ function ReaderList() {
                     <Button type="primary" htmlType="submit" block>Thêm</Button>
                 </Form>
             </Modal>
-            {/* MODAL EDIT */}
+
+
             <Modal
                 title="Sửa bạn đọc"
                 open={isModalOpen}
