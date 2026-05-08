@@ -1,12 +1,6 @@
 import { useState } from "react";
 import { Row, Col, Input, Form, Button, message } from "antd";
-import {
-  MailOutlined,
-  PhoneOutlined,
-  EnvironmentOutlined,
-  ClockCircleOutlined,
-  SendOutlined,
-} from "@ant-design/icons";
+import { MailOutlined, PhoneOutlined, EnvironmentOutlined, ClockCircleOutlined, SendOutlined,} from "@ant-design/icons";
 import "../../css/Contact.css";
 
 const { TextArea } = Input;

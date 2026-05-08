@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { Row, Col, Card, Empty, Spin, Input, Select, Tag } from "antd";
-import {
-  BookOutlined, SearchOutlined, FilterOutlined,
-} from "@ant-design/icons";
+import { BookOutlined, SearchOutlined, FilterOutlined,} from "@ant-design/icons";
 import { getSachs } from "../../services/Admin_API/SachAPI"; 
 import "../../css/SearchResult.css";
 

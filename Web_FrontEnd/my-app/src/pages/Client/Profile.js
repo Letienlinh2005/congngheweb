@@ -1,23 +1,6 @@
 import { useEffect, useState } from "react";
-import {
-  Card,
-  Avatar,
-  Tag,
-  Spin,
-  Divider,
-  Button,
-  Modal,
-  Form,
-  Input,
-  message,
-} from "antd";
-import {
-  UserOutlined,
-  MailOutlined,
-  IdcardOutlined,
-  EditOutlined,
-  LockOutlined,
-} from "@ant-design/icons";
+import { Card, Avatar, Tag, Spin, Divider, Button, Modal, Form, Input, message,} from "antd";
+import { UserOutlined, MailOutlined, IdcardOutlined, EditOutlined, LockOutlined,} from "@ant-design/icons";
 import { updateTaiKhoan } from "../../services/Admin_API/TaiKhoanAPI";
 import { getBanDocById } from "../../services/Admin_API/BanDocAPI";
 import "../../css/Profile.css";

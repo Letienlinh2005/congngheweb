@@ -1,10 +1,5 @@
 import { Row, Col, Card } from "antd";
-import {
-  BookOutlined,
-  ClockCircleOutlined,
-  StarOutlined,
-  GlobalOutlined,
-} from "@ant-design/icons";
+import { BookOutlined, ClockCircleOutlined, StarOutlined, GlobalOutlined,} from "@ant-design/icons";
 import "../../css/About.css";
 
 const stats = [
