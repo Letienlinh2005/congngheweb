@@ -1,11 +1,4 @@
-import {
-    Table,
-    Space,
-    Tag,
-    message,
-    Popconfirm,
-    Button
-} from "antd";
+import { Table, Space, Tag, message, Popconfirm, Button } from "antd";
 import { useEffect, useState } from "react";
 import PageHeader from "../../components/PageHeader";
 

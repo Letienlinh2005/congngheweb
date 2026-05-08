@@ -7,6 +7,7 @@ import {
   ClockCircleOutlined,
   SendOutlined,
 } from "@ant-design/icons";
+import "../../css/Contact.css";
 
 const { TextArea } = Input;
 
@@ -14,7 +15,7 @@ const contactInfo = [
   {
     icon: <MailOutlined />,
     label: "Email",
-    value: "thuvien@library.vn",
+    value: "letienlinh2005@gmail.com",
     sub: "Phản hồi trong vòng 24 giờ",
     bg: "#E1F5EE",
     color: "#085041",
@@ -22,7 +23,7 @@ const contactInfo = [
   {
     icon: <PhoneOutlined />,
     label: "Điện thoại",
-    value: "0236 123 456",
+    value: "0338554177",
     sub: "Thứ 2 – Thứ 7, 8:00 – 20:00",
     bg: "#EEEDFE",
     color: "#3C3489",
@@ -30,8 +31,8 @@ const contactInfo = [
   {
     icon: <EnvironmentOutlined />,
     label: "Địa chỉ",
-    value: "123 Nguyễn Văn Linh",
-    sub: "Đà Nẵng, Việt Nam",
+    value: "Ân Thi",
+    sub: "Hưng Yên, Việt Nam",
     bg: "#FAECE7",
     color: "#712B13",
   },
@@ -59,48 +60,36 @@ export default function ContactPage() {
   };
 
   return (
-    <div style={{ maxWidth: 960, margin: "0 auto" }}>
+    <div className="contact-page">
 
       {/* HERO */}
-      <div style={{ marginBottom: 40 }}>
-        <div style={{
-          fontSize: 11, letterSpacing: "0.1em", color: "#888",
-          textTransform: "uppercase", marginBottom: 12,
-        }}>Liên hệ</div>
-        <h1 style={{
-          fontFamily: "'Playfair Display', serif",
-          fontSize: 36, fontWeight: 600, color: "#1a1a18",
-          lineHeight: 1.2, marginBottom: 12,
-        }}>
+      <div className="contact-hero">
+        <div className="contact-hero__eyebrow">Liên hệ</div>
+        <h1 className="contact-hero__title">
           Chúng tôi luôn sẵn sàng lắng nghe
         </h1>
-        <p style={{ fontSize: 14, color: "#777", maxWidth: 480, lineHeight: 1.75 }}>
+        <p className="contact-hero__desc">
           Có câu hỏi về sách, tài khoản hoặc dịch vụ? Hãy để lại tin nhắn —
           đội ngũ của chúng tôi sẽ phản hồi trong vòng 24 giờ làm việc.
         </p>
       </div>
 
       {/* CONTACT CARDS */}
-      <Row gutter={[14, 14]} style={{ marginBottom: 48 }}>
+      <Row gutter={[14, 14]} className="contact-cards">
         {contactInfo.map((c) => (
           <Col span={6} key={c.label}>
-            <div style={{
-              background: "#fff", border: "0.5px solid #EEECEA",
-              borderRadius: 12, padding: "18px 16px",
-            }}>
-              <div style={{
-                width: 36, height: 36, borderRadius: 9,
-                background: c.bg, color: c.color,
-                display: "flex", alignItems: "center", justifyContent: "center",
-                fontSize: 16, marginBottom: 12,
-              }}>
+            <div className="contact-card">
+              <div
+                className="contact-card__icon-wrapper"
+                style={{ background: c.bg, color: c.color }}
+              >
                 {c.icon}
               </div>
-              <div style={{ fontSize: 11, color: "#999", marginBottom: 4 }}>{c.label}</div>
-              <div style={{ fontSize: 13, fontWeight: 500, color: "#1a1a18", marginBottom: 3 }}>
+              <div className="contact-card__label">{c.label}</div>
+              <div className="contact-card__value">
                 {c.value}
               </div>
-              <div style={{ fontSize: 11, color: "#aaa" }}>{c.sub}</div>
+              <div className="contact-card__sub">{c.sub}</div>
             </div>
           </Col>
         ))}
@@ -109,14 +98,8 @@ export default function ContactPage() {
       {/* FORM + MAP */}
       <Row gutter={32}>
         <Col span={14}>
-          <div style={{
-            background: "#fff", border: "0.5px solid #EEECEA",
-            borderRadius: 14, padding: "32px 32px",
-          }}>
-            <h2 style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: 20, fontWeight: 600, color: "#1a1a18", marginBottom: 24,
-            }}>
+          <div className="contact-form-container">
+            <h2 className="contact-form-container__title">
               Gửi tin nhắn cho chúng tôi
             </h2>
             <Form form={form} layout="vertical" onFinish={handleSubmit} requiredMark={false}>
@@ -124,43 +107,43 @@ export default function ContactPage() {
                 <Col span={12}>
                   <Form.Item
                     name="name"
-                    label={<span style={{ fontSize: 12, color: "#888" }}>Họ và tên</span>}
+                    label={<span className="contact-form-label">Họ và tên</span>}
                     rules={[{ required: true, message: "Vui lòng nhập tên" }]}
                   >
-                    <Input placeholder="Nguyễn Văn A" style={{ borderRadius: 8, fontSize: 13 }} />
+                    <Input placeholder="Nguyễn Văn A" className="contact-input" />
                   </Form.Item>
                 </Col>
                 <Col span={12}>
                   <Form.Item
                     name="email"
-                    label={<span style={{ fontSize: 12, color: "#888" }}>Email</span>}
+                    label={<span className="contact-form-label">Email</span>}
                     rules={[
                       { required: true, message: "Vui lòng nhập email" },
                       { type: "email", message: "Email không hợp lệ" },
                     ]}
                   >
-                    <Input placeholder="email@example.com" style={{ borderRadius: 8, fontSize: 13 }} />
+                    <Input placeholder="email@example.com" className="contact-input" />
                   </Form.Item>
                 </Col>
               </Row>
 
               <Form.Item
                 name="subject"
-                label={<span style={{ fontSize: 12, color: "#888" }}>Tiêu đề</span>}
+                label={<span className="contact-form-label">Tiêu đề</span>}
                 rules={[{ required: true, message: "Vui lòng nhập tiêu đề" }]}
               >
-                <Input placeholder="Chủ đề bạn muốn hỏi..." style={{ borderRadius: 8, fontSize: 13 }} />
+                <Input placeholder="Chủ đề bạn muốn hỏi..." className="contact-input" />
               </Form.Item>
 
               <Form.Item
                 name="message"
-                label={<span style={{ fontSize: 12, color: "#888" }}>Nội dung</span>}
+                label={<span className="contact-form-label">Nội dung</span>}
                 rules={[{ required: true, message: "Vui lòng nhập nội dung" }]}
               >
                 <TextArea
                   rows={5}
                   placeholder="Nội dung tin nhắn của bạn..."
-                  style={{ borderRadius: 8, fontSize: 13, resize: "none" }}
+                  className="contact-textarea"
                 />
               </Form.Item>
 
@@ -169,12 +152,7 @@ export default function ContactPage() {
                   htmlType="submit"
                   loading={loading}
                   icon={<SendOutlined />}
-                  style={{
-                    width: "100%", height: 42,
-                    background: "#2C2C2A", color: "#F1EFE8",
-                    border: "none", borderRadius: 8,
-                    fontSize: 13, fontWeight: 500, cursor: "pointer",
-                  }}
+                  className="contact-btn-submit"
                 >
                   Gửi tin nhắn
                 </Button>
@@ -185,11 +163,8 @@ export default function ContactPage() {
 
         <Col span={10}>
           {/* FAQ */}
-          <div style={{ marginBottom: 20 }}>
-            <h3 style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: 18, fontWeight: 600, color: "#1a1a18", marginBottom: 16,
-            }}>
+          <div className="contact-faq-container">
+            <h3 className="contact-faq-title">
               Câu hỏi thường gặp
             </h3>
             {[
@@ -210,14 +185,11 @@ export default function ContactPage() {
                 a: "Đăng ký thành viên và mượn sách hoàn toàn miễn phí với tài khoản cơ bản.",
               },
             ].map((faq, i) => (
-              <div key={i} style={{
-                padding: "14px 16px",
-                borderBottom: "0.5px solid #EEECEA",
-              }}>
-                <div style={{ fontSize: 13, fontWeight: 500, color: "#1a1a18", marginBottom: 5 }}>
+              <div key={i} className="contact-faq-item">
+                <div className="contact-faq-item__q">
                   {faq.q}
                 </div>
-                <div style={{ fontSize: 12, color: "#888", lineHeight: 1.65 }}>
+                <div className="contact-faq-item__a">
                   {faq.a}
                 </div>
               </div>

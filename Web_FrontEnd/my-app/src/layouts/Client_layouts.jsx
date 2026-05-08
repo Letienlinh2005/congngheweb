@@ -1,30 +1,12 @@
 import { useEffect, useState } from "react";
-import {
-  Layout,
-  Input,
-  Menu,
-  Avatar,
-  Dropdown,
-  Card,
-  Row,
-  Col,
-  Carousel,
+import { Layout, Input, Menu, Avatar, Dropdown, Card, Row, Col, Carousel,
 } from "antd";
-import {
-  BookOutlined,
-  SearchOutlined,
-  DownOutlined,
-  HomeOutlined,
-  InfoCircleOutlined,
-  PhoneOutlined,
-  ArrowRightOutlined,
-  UserOutlined,
-  HistoryOutlined,
-  LogoutOutlined,
+import {BookOutlined, SearchOutlined, DownOutlined, HomeOutlined, InfoCircleOutlined, PhoneOutlined, ArrowRightOutlined, UserOutlined,HistoryOutlined,LogoutOutlined,
 } from "@ant-design/icons";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { getSachs } from "../services/Admin_API/SachAPI";
 import Footer from "../components/Footer";
+import "../css/Client_layouts.css";
 
 const { Header, Content } = Layout;
 
@@ -95,70 +77,25 @@ function HomeContent() {
   return (
     <>
       {/* SLIDER */}
-      <div style={{ width: "100%", borderBottom: "1px solid #EEECEA" }}>
+      <div className="client-home-slider-wrap">
         <Carousel autoplay autoplaySpeed={4000} effect="fade">
           {slides.map((s, i) => (
             <div key={i}>
               <div
-                style={{
-                  background: s.bg,
-                  height: 320,
-                  padding: "0 64px",
-                  display: "flex",
-                  alignItems: "center",
-                }}
+                className="client-home-slide-content"
+                style={{ background: s.bg }}
               >
                 <div>
-                  <div
-                    style={{
-                      fontSize: 11,
-                      letterSpacing: "0.1em",
-                      color: "#888780",
-                      textTransform: "uppercase",
-                      marginBottom: 10,
-                    }}
-                  >
+                  <div className="client-home-slide-tag">
                     {s.tag}
                   </div>
-                  <h1
-                    style={{
-                      fontFamily: "'Playfair Display', serif",
-                      fontSize: 36,
-                      fontWeight: 600,
-                      color: "#F1EFE8",
-                      maxWidth: 500,
-                      lineHeight: 1.25,
-                      margin: "0 0 10px",
-                    }}
-                  >
+                  <h1 className="client-home-slide-title">
                     {s.title}
                   </h1>
-                  <p
-                    style={{
-                      color: "#888780",
-                      fontSize: 14,
-                      maxWidth: 400,
-                      lineHeight: 1.7,
-                      margin: "0 0 24px",
-                    }}
-                  >
+                  <p className="client-home-slide-sub">
                     {s.sub}
                   </p>
-                  <button
-                    style={{
-                      background: "#F1EFE8",
-                      color: "#1a1a18",
-                      border: "none",
-                      padding: "9px 22px",
-                      borderRadius: 8,
-                      fontWeight: 500,
-                      fontSize: 13,
-                      cursor: "pointer",
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 8,
-                    }}
-                  >
+                  <button className="client-home-slide-btn">
                     Xem ngay <ArrowRightOutlined />
                   </button>
                 </div>
@@ -169,65 +106,29 @@ function HomeContent() {
       </div>
 
       {/* NỘI DUNG BÊN DƯỚI SLIDER */}
-      <div
-        style={{
-          padding: "36px 48px",
-          maxWidth: 1200,
-          margin: "0 auto",
-          width: "100%",
-        }}
-      >
+      <div className="client-home-content-wrap">
         {/* STATS */}
-        <Row gutter={[16, 16]} style={{ marginBottom: 44 }}>
+        <Row gutter={[16, 16]} className="client-home-stats-row">
           {statsData.map(([val, label]) => (
             <Col span={8} key={label}>
-              <div
-                style={{
-                  background: "#F5F4F0",
-                  borderRadius: 10,
-                  padding: "18px 22px",
-                }}
-              >
-                <div
-                  style={{
-                    fontFamily: "'Playfair Display', serif",
-                    fontSize: 28,
-                    fontWeight: 600,
-                    color: "#1a1a18",
-                    marginBottom: 3,
-                  }}
-                >
+              <div className="client-home-stat-item">
+                <div className="client-home-stat-val">
                   {val}
                 </div>
-                <div style={{ fontSize: 12, color: "#888" }}>{label}</div>
+                <div className="client-home-stat-label">{label}</div>
               </div>
             </Col>
           ))}
         </Row>
 
         {/* TIÊU ĐỀ SÁCH NỔI BẬT */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "baseline",
-            justifyContent: "space-between",
-            marginBottom: 20,
-          }}
-        >
-          <h2
-            style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: 22,
-              fontWeight: 600,
-              color: "#1a1a18",
-              margin: 0,
-            }}
-          >
+        <div className="client-home-books-header">
+          <h2 className="client-home-books-title">
             Sách nổi bật
           </h2>
           <span
             onClick={() => navigate("/books")}
-            style={{ fontSize: 12, color: "#888", cursor: "pointer" }}
+            className="client-home-books-link"
           >
             Xem tất cả →
           </span>
@@ -238,10 +139,7 @@ function HomeContent() {
           {loading
             ? [...Array(8)].map((_, i) => (
                 <Col span={6} key={i}>
-                  <Card
-                    loading
-                    style={{ borderRadius: 12, border: "0.5px solid #EEECEA" }}
-                  />
+                  <Card loading className="client-home-book-card" />
                 </Col>
               ))
             : books.map((b, i) => (
@@ -249,63 +147,32 @@ function HomeContent() {
                   <Card
                     hoverable
                     onClick={() => navigate(`/books/${b.key}`)}
-                    bodyStyle={{ padding: "12px 14px" }}
-                    style={{
-                      border: "0.5px solid #EEECEA",
-                      borderRadius: 12,
-                      cursor: "pointer",
-                    }}
+                    className="client-home-book-card"
                     cover={
                       b.anhBiaUrl ? (
                         <img
                           src={b.anhBiaUrl}
                           alt={b.tieuDe}
-                          style={{
-                            height: 160,
-                            width: "100%",
-                            objectFit: "cover",
-                            borderRadius: "12px 12px 0 0",
-                          }}
+                          className="client-home-book-cover"
                         />
                       ) : (
                         <div
-                          style={{
-                            height: 160,
-                            background: bgColors[i % bgColors.length],
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            borderRadius: "12px 12px 0 0",
-                          }}
+                          className="client-home-book-placeholder"
+                          style={{ background: bgColors[i % bgColors.length] }}
                         >
-                          <BookOutlined
-                            style={{ fontSize: 38, opacity: 0.35 }}
-                          />
+                          <BookOutlined />
                         </div>
                       )
                     }
                   >
-                    <div
-                      style={{
-                        fontWeight: 500,
-                        fontSize: 13,
-                        color: "#1a1a18",
-                        marginBottom: 3,
-                        display: "-webkit-box",
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: "vertical",
-                        overflow: "hidden",
-                      }}
-                    >
+                    <div className="client-home-book-title">
                       {b.tieuDe}
                     </div>
-                    <div
-                      style={{ fontSize: 11, color: "#999", marginBottom: 2 }}
-                    >
+                    <div className="client-home-book-author">
                       {b.tacGia}
                     </div>
                     {b.namXuatBan && (
-                      <div style={{ fontSize: 11, color: "#bbb" }}>
+                      <div className="client-home-book-year">
                         NXB: {b.namXuatBan}
                       </div>
                     )}
@@ -315,46 +182,18 @@ function HomeContent() {
         </Row>
 
         {/* BANNER ĐĂNG KÝ */}
-        <div
-          style={{
-            marginTop: 48,
-            background: "#1a1a18",
-            borderRadius: 14,
-            padding: "36px 40px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
+        <div className="client-home-banner">
           <div>
-            <h3
-              style={{
-                fontFamily: "'Playfair Display', serif",
-                fontSize: 22,
-                color: "#F1EFE8",
-                fontWeight: 600,
-                marginBottom: 6,
-              }}
-            >
+            <h3 className="client-home-banner-title">
               Trở thành thành viên miễn phí
             </h3>
-            <p style={{ color: "#888780", fontSize: 13, margin: 0 }}>
+            <p className="client-home-banner-sub">
               Đăng ký ngay để mượn sách, đánh giá và nhận gợi ý cá nhân hoá.
             </p>
           </div>
           <button
             onClick={() => navigate("/register")}
-            style={{
-              background: "#F1EFE8",
-              color: "#1a1a18",
-              border: "none",
-              padding: "10px 28px",
-              borderRadius: 8,
-              fontWeight: 500,
-              fontSize: 13,
-              cursor: "pointer",
-              whiteSpace: "nowrap",
-            }}
+            className="client-home-banner-btn"
           >
             Đăng ký ngay
           </button>
@@ -408,59 +247,23 @@ function ClientLayout() {
   ];
 
   return (
-    <Layout style={{ minHeight: "100vh", background: "#F7F6F2" }}>
+    <Layout className="client-layout-root">
       {/* HEADER */}
-      <Header
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 20,
-          background: "#fff",
-          borderBottom: "1px solid #EEECEA",
-          height: 64,
-          padding: "0 32px",
-          position: "sticky",
-          top: 0,
-          zIndex: 100,
-        }}
-      >
+      <Header className="client-header">
         {/* LOGO */}
         <div
           onClick={() => navigate("/")}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-            cursor: "pointer",
-          }}
+          className="client-logo-wrap"
         >
-          <div
-            style={{
-              width: 30,
-              height: 30,
-              background: "#2C2C2A",
-              borderRadius: 7,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
+          <div className="client-logo-icon-wrap">
             <BookOutlined style={{ color: "#fff", fontSize: 14 }} />
           </div>
-          <span
-            style={{
-              fontFamily: "'Playfair Display', serif",
-              fontWeight: 600,
-              fontSize: 20,
-              color: "#1a1a18",
-              letterSpacing: "-0.3px",
-            }}
-          >
+          <span className="client-logo-text">
             Library
           </span>
         </div>
 
-        <div style={{ flex: 1 }} />
+        <div className="client-header-spacer" />
 
         {/* SEARCH */}
         <Input
@@ -478,13 +281,7 @@ function ClientLayout() {
           }
           placeholder="Tìm kiếm sách..."
           variant="filled"
-          style={{
-            width: 220,
-            borderRadius: 8,
-            fontSize: 13,
-            background: "#F5F4F0",
-            border: "1px solid #EEECEA",
-          }}
+          className="client-search-input"
         />
 
         {isLoggedIn ? (
@@ -501,59 +298,30 @@ function ClientLayout() {
             }}
             trigger={["click"]}
           >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-                cursor: "pointer",
-                padding: "5px 10px",
-                borderRadius: 8,
-                border: "1px solid #EEECEA",
-                background: "#fff",
-              }}
-            >
+            <div className="client-user-dropdown">
               <Avatar
                 size={26}
-                style={{ background: "#444441", fontSize: 11, fontWeight: 500 }}
+                className="client-user-avatar"
               >
                 {user?.hoTen?.slice(0, 2).toUpperCase() || "?"}
               </Avatar>
-              <span style={{ fontSize: 13, fontWeight: 500, color: "#1a1a18" }}>
+              <span className="client-user-name">
                 {user?.hoTen || "Người dùng"}
               </span>
               <DownOutlined style={{ fontSize: 10, color: "#aaa" }} />
             </div>
           </Dropdown>
         ) : (
-          <div style={{ display: "flex", gap: 8 }}>
+          <div className="client-header-actions">
             <button
               onClick={() => navigate("/login")}
-              style={{
-                background: "#fff",
-                color: "#1a1a18",
-                border: "1px solid #EEECEA",
-                padding: "6px 16px",
-                borderRadius: 8,
-                fontWeight: 500,
-                fontSize: 13,
-                cursor: "pointer",
-              }}
+              className="client-btn-login"
             >
               Đăng nhập
             </button>
             <button
               onClick={() => navigate("/register")}
-              style={{
-                background: "#1a1a18",
-                color: "#F1EFE8",
-                border: "none",
-                padding: "6px 16px",
-                borderRadius: 8,
-                fontWeight: 500,
-                fontSize: 13,
-                cursor: "pointer",
-              }}
+              className="client-btn-register"
             >
               Đăng ký
             </button>
@@ -562,35 +330,23 @@ function ClientLayout() {
       </Header>
 
       {/* NAVBAR */}
-      <div style={{ background: "#fff", borderBottom: "1px solid #EEECEA" }}>
+      <div className="client-navbar-wrap">
         <Menu
           mode="horizontal"
           selectedKeys={[location.pathname]}
           items={menuItems}
           onClick={({ key }) => navigate(key)}
-          style={{
-            padding: "0 24px",
-            borderBottom: "none",
-            fontSize: 13,
-            fontWeight: 500,
-          }}
+          className="client-navbar-menu"
         />
       </div>
 
       {/* CONTENT */}
       {isHome ? (
-        <Content style={{ padding: 0, background: "#fff" }}>
+        <Content className="client-content-home">
           <HomeContent />
         </Content>
       ) : (
-        <Content
-          style={{
-            padding: "32px 48px",
-            maxWidth: 1200,
-            margin: "0 auto",
-            width: "100%",
-          }}
-        >
+        <Content className="client-content-page">
           <Outlet />
         </Content>
       )}

@@ -11,6 +11,7 @@ import {
 import axiosClient from "../../services/axiosClient";
 import { getSachById, getSachs } from "../../services/Admin_API/SachAPI";
 import { parseJwt } from "../../ultilities/parseJwt";
+import "../../css/ProductDetail.css";
 
 const bgColors = ["#E1F5EE", "#EEEDFE", "#FAECE7", "#FAEEDA"];
 
@@ -112,7 +113,7 @@ function BookDetail() {
   };
 
   if (!book) return (
-    <div style={{ display: "flex", justifyContent: "center", padding: 80 }}>
+    <div className="product-loading">
       <Spin size="large" />
     </div>
   );
@@ -122,13 +123,10 @@ function BookDetail() {
   const avgRating = reviews.reduce((s, r) => s + r.rating, 0) / reviews.length;
 
   return (
-    <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+    <div className="product-detail-page">
 
       {/* ── THÔNG TIN CHÍNH ── */}
-      <Card
-        style={{ borderRadius: 16, border: "0.5px solid #EEECEA", marginBottom: 24 }}
-        bodyStyle={{ padding: "36px 40px" }}
-      >
+      <Card className="product-card product-card--main">
         <Row gutter={40}>
 
           {/* ẢNH BÌA */}
@@ -137,74 +135,59 @@ function BookDetail() {
               <img
                 src={book.anhBiaUrl}
                 alt={book.tieuDe}
-                style={{
-                  width: "100%", borderRadius: 12,
-                  objectFit: "cover", maxHeight: 340,
-                  boxShadow: "0 8px 32px rgba(0,0,0,0.12)",
-                }}
+                className="product-cover"
               />
             ) : (
-              <div style={{
-                height: 300, background: bgColors[0], borderRadius: 12,
-                display: "flex", alignItems: "center", justifyContent: "center",
-              }}>
-                <BookOutlined style={{ fontSize: 52, opacity: 0.3 }} />
+              <div className="product-cover-placeholder" style={{ background: bgColors[0] }}>
+                <BookOutlined />
               </div>
             )}
           </Col>
 
           {/* THÔNG TIN */}
           <Col span={17}>
-            <h1 style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: 28, fontWeight: 600,
-              color: "#1a1a18", marginBottom: 6, lineHeight: 1.3,
-            }}>
+            <h1 className="product-title">
               {book.tieuDe}
             </h1>
 
             {/* RATING NHANH */}
-            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 18 }}>
+            <div className="product-rating">
               <Rate disabled value={Math.round(avgRating)} style={{ fontSize: 14 }} />
-              <span style={{ fontSize: 13, color: "#888" }}>
+              <span className="product-rating__text">
                 {avgRating.toFixed(1)} ({reviews.length} đánh giá)
               </span>
             </div>
 
             {/* CHI TIẾT */}
-            <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 22 }}>
+            <div className="product-details">
               {[
                 { icon: <UserOutlined />,     label: "Tác giả",      value: book.tacGia },
                 { icon: <CalendarOutlined />, label: "Năm xuất bản", value: book.namXuatBan },
                 { icon: <TagOutlined />,      label: "Thể loại",     value: book.theLoai || "Chưa phân loại" },
               ].map((row) => (
-                <div key={row.label} style={{ display: "flex", gap: 10, alignItems: "center" }}>
-                  <span style={{ color: "#aaa", width: 16 }}>{row.icon}</span>
-                  <span style={{ fontSize: 13, color: "#888", width: 110 }}>{row.label}</span>
-                  <span style={{ fontSize: 13, fontWeight: 500, color: "#1a1a18" }}>{row.value}</span>
+                <div key={row.label} className="product-detail-row">
+                  <span className="product-detail-row__icon">{row.icon}</span>
+                  <span className="product-detail-row__label">{row.label}</span>
+                  <span className="product-detail-row__value">{row.value}</span>
                 </div>
               ))}
             </div>
 
             {/* TÌNH TRẠNG BẢN SAO */}
-            <div style={{
-              background: "#F5F4F0", borderRadius: 10,
-              padding: "14px 20px", marginBottom: 22,
-              display: "flex", gap: 32, alignItems: "center",
-            }}>
+            <div className="product-copies">
               <div>
-                <div style={{ fontSize: 11, color: "#aaa", marginBottom: 4 }}>Có sẵn</div>
-                <div style={{ fontSize: 22, fontWeight: 600, color: "#27500A" }}>{coSan}</div>
+                <div className="product-copy-stat__label">Có sẵn</div>
+                <div className="product-copy-stat__value product-copy-stat__value--available">{coSan}</div>
               </div>
               <div>
-                <div style={{ fontSize: 11, color: "#aaa", marginBottom: 4 }}>Đang mượn</div>
-                <div style={{ fontSize: 22, fontWeight: 600, color: "#BA7517" }}>{dangMuon}</div>
+                <div className="product-copy-stat__label">Đang mượn</div>
+                <div className="product-copy-stat__value product-copy-stat__value--borrowed">{dangMuon}</div>
               </div>
               <div>
-                <div style={{ fontSize: 11, color: "#aaa", marginBottom: 4 }}>Tổng bản sao</div>
-                <div style={{ fontSize: 22, fontWeight: 600, color: "#1a1a18" }}>{copies.length}</div>
+                <div className="product-copy-stat__label">Tổng bản sao</div>
+                <div className="product-copy-stat__value product-copy-stat__value--total">{copies.length}</div>
               </div>
-              <div style={{ marginLeft: "auto", display: "flex", flexWrap: "wrap", gap: 4, maxWidth: 200 }}>
+              <div className="product-copies-tags">
                 {copies.map((c) => (
                   <Tag
                     key={c.maBanSao}
@@ -224,12 +207,7 @@ function BookDetail() {
             <Button
               onClick={handleBorrow}
               loading={loadingBorrow}
-              style={{
-                height: 44, padding: "0 36px",
-                background: "#2C2C2A", color: "#F1EFE8",
-                border: "none", borderRadius: 10,
-                fontWeight: 500, fontSize: 14,
-              }}
+              className="product-btn-borrow"
             >
               {coSan > 0 ? "Mượn sách" : "Đặt chỗ trước"}
             </Button>
@@ -240,54 +218,38 @@ function BookDetail() {
 
       {/* ── TÓM TẮT ── */}
       {book.tomTat && (
-        <Card
-          style={{ borderRadius: 16, border: "0.5px solid #EEECEA", marginBottom: 24 }}
-          bodyStyle={{ padding: "28px 36px" }}
-        >
-          <div style={{
-            fontSize: 11, letterSpacing: "0.08em", color: "#aaa",
-            textTransform: "uppercase", marginBottom: 14,
-          }}>
+        <Card className="product-card product-card--summary">
+          <div className="product-section-eyebrow">
             Tóm tắt nội dung
           </div>
-          <p style={{ fontSize: 14, color: "#444", lineHeight: 1.85, margin: 0 }}>
+          <p className="product-summary-text">
             {book.tomTat}
           </p>
         </Card>
       )}
 
       {/* ── ĐÁNH GIÁ ── */}
-      <Card
-        style={{ borderRadius: 16, border: "0.5px solid #EEECEA", marginBottom: 24 }}
-        bodyStyle={{ padding: "28px 36px" }}
-      >
-        <div style={{
-          fontSize: 11, letterSpacing: "0.08em", color: "#aaa",
-          textTransform: "uppercase", marginBottom: 24,
-        }}>
+      <Card className="product-card product-card--reviews">
+        <div className="product-section-eyebrow product-section-eyebrow--reviews">
           Đánh giá từ độc giả
         </div>
 
         <Row gutter={40}>
           {/* TỔNG QUAN RATING */}
           <Col span={6}>
-            <div style={{ textAlign: "center", marginBottom: 20 }}>
-              <div style={{
-                fontFamily: "'Playfair Display', serif",
-                fontSize: 52, fontWeight: 600,
-                color: "#1a1a18", lineHeight: 1,
-              }}>
+            <div className="product-rating-overview">
+              <div className="product-rating-overview__score">
                 {avgRating.toFixed(1)}
               </div>
               <Rate disabled value={avgRating} style={{ fontSize: 14, margin: "8px 0" }} />
-              <div style={{ fontSize: 12, color: "#888" }}>{reviews.length} đánh giá</div>
+              <div className="product-rating-overview__count">{reviews.length} đánh giá</div>
             </div>
             {[5, 4, 3, 2, 1].map((star) => {
               const count = reviews.filter((r) => r.rating === star).length;
               return (
-                <div key={star} style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
-                  <span style={{ fontSize: 12, color: "#888", width: 10 }}>{star}</span>
-                  <StarOutlined style={{ fontSize: 11, color: "#FFC53D" }} />
+                <div key={star} className="product-rating-bar">
+                  <span className="product-rating-bar__star">{star}</span>
+                  <StarOutlined className="product-rating-bar__icon" />
                   <Progress
                     percent={Math.round((count / reviews.length) * 100)}
                     showInfo={false}
@@ -296,7 +258,7 @@ function BookDetail() {
                     style={{ flex: 1, margin: 0 }}
                     size="small"
                   />
-                  <span style={{ fontSize: 11, color: "#aaa", width: 14 }}>{count}</span>
+                  <span className="product-rating-bar__count">{count}</span>
                 </div>
               );
             })}
@@ -305,15 +267,12 @@ function BookDetail() {
           {/* DANH SÁCH REVIEW */}
           <Col span={18}>
             {/* FORM GỬI ĐÁNH GIÁ */}
-            <div style={{
-              background: "#F5F4F0", borderRadius: 12,
-              padding: "16px 20px", marginBottom: 20,
-            }}>
-              <div style={{ fontSize: 13, fontWeight: 500, color: "#1a1a18", marginBottom: 10 }}>
+            <div className="product-review-form">
+              <div className="product-review-form__title">
                 Viết đánh giá của bạn
               </div>
               <Rate value={myRating} onChange={setMyRating} style={{ marginBottom: 10 }} />
-              <div style={{ display: "flex", gap: 10 }}>
+              <div className="product-review-form__input-group">
                 <Input.TextArea
                   rows={2}
                   placeholder="Chia sẻ cảm nhận của bạn về cuốn sách..."
@@ -324,11 +283,7 @@ function BookDetail() {
                 <Button
                   icon={<SendOutlined />}
                   onClick={handleSubmitReview}
-                  style={{
-                    background: "#2C2C2A", color: "#F1EFE8",
-                    border: "none", borderRadius: 8,
-                    height: "auto", alignSelf: "stretch",
-                  }}
+                  className="product-review-form__btn"
                 />
               </div>
             </div>
@@ -336,24 +291,21 @@ function BookDetail() {
             {/* CÁC REVIEW */}
             {reviews.map((r, i) => (
               <div key={i}>
-                <div style={{ display: "flex", gap: 12, padding: "14px 0" }}>
-                  <Avatar style={{ background: "#444441", flexShrink: 0 }}>
+                <div className="product-review-item">
+                  <Avatar className="product-review-item__avatar">
                     {r.name[0]}
                   </Avatar>
-                  <div style={{ flex: 1 }}>
-                    <div style={{
-                      display: "flex", alignItems: "center",
-                      gap: 8, marginBottom: 4,
-                    }}>
-                      <span style={{ fontSize: 13, fontWeight: 500, color: "#1a1a18" }}>
+                  <div className="product-review-item__content">
+                    <div className="product-review-item__header">
+                      <span className="product-review-item__name">
                         {r.name}
                       </span>
                       <Rate disabled value={r.rating} style={{ fontSize: 11 }} />
-                      <span style={{ fontSize: 11, color: "#aaa", marginLeft: "auto" }}>
+                      <span className="product-review-item__date">
                         {r.date}
                       </span>
                     </div>
-                    <p style={{ fontSize: 13, color: "#555", margin: 0, lineHeight: 1.65 }}>
+                    <p className="product-review-item__text">
                       {r.comment}
                     </p>
                   </div>
@@ -369,20 +321,14 @@ function BookDetail() {
 
       {/* ── SÁCH LIÊN QUAN ── */}
       {related.length > 0 && (
-        <div style={{ marginBottom: 12 }}>
-          <div style={{
-            display: "flex", alignItems: "baseline",
-            justifyContent: "space-between", marginBottom: 16,
-          }}>
-            <h2 style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: 20, fontWeight: 600, color: "#1a1a18", margin: 0,
-            }}>
+        <div className="product-related">
+          <div className="product-related-header">
+            <h2 className="product-related-header__title">
               Sách liên quan
             </h2>
             <span
               onClick={() => navigate("/books")}
-              style={{ fontSize: 12, color: "#888", cursor: "pointer" }}
+              className="product-related-header__link"
             >
               Xem tất cả →
             </span>
@@ -393,40 +339,28 @@ function BookDetail() {
                 <Card
                   hoverable
                   onClick={() => navigate(`/books/${b.maSach}`)}
-                  bodyStyle={{ padding: "12px 14px" }}
-                  style={{ border: "0.5px solid #EEECEA", borderRadius: 12, cursor: "pointer" }}
+                  className="product-related-card"
                   cover={
                     b.anhBiaUrl ? (
                       <img
                         src={b.anhBiaUrl}
                         alt={b.tieuDe}
-                        style={{
-                          height: 140, width: "100%",
-                          objectFit: "cover",
-                          borderRadius: "12px 12px 0 0",
-                        }}
+                        className="product-related-cover"
                       />
                     ) : (
-                      <div style={{
-                        height: 140,
-                        background: bgColors[i % bgColors.length],
-                        display: "flex", alignItems: "center",
-                        justifyContent: "center",
-                        borderRadius: "12px 12px 0 0",
-                      }}>
-                        <BookOutlined style={{ fontSize: 32, opacity: 0.3 }} />
+                      <div
+                        className="product-related-cover-placeholder"
+                        style={{ background: bgColors[i % bgColors.length] }}
+                      >
+                        <BookOutlined />
                       </div>
                     )
                   }
                 >
-                  <div style={{
-                    fontWeight: 500, fontSize: 13, color: "#1a1a18", marginBottom: 2,
-                    display: "-webkit-box", WebkitLineClamp: 2,
-                    WebkitBoxOrient: "vertical", overflow: "hidden",
-                  }}>
+                  <div className="product-related-card__title">
                     {b.tieuDe}
                   </div>
-                  <div style={{ fontSize: 11, color: "#999" }}>{b.tacGia}</div>
+                  <div className="product-related-card__author">{b.tacGia}</div>
                 </Card>
               </Col>
             ))}

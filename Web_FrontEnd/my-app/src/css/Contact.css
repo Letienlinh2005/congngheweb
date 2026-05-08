@@ -1,0 +1,151 @@
+/* ── Contact Page ───────────────────────────────────────────────────────── */
+
+.contact-page {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+/* HERO */
+.contact-hero {
+  margin-bottom: 40px;
+}
+
+.contact-hero__eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: #888;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.contact-hero__title {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  font-weight: 600;
+  color: #1a1a18;
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+
+.contact-hero__desc {
+  font-size: 14px;
+  color: #777;
+  max-width: 480px;
+  line-height: 1.75;
+}
+
+/* CONTACT CARDS */
+.contact-cards {
+  margin-bottom: 48px;
+}
+
+.contact-card {
+  background: #fff;
+  border: 0.5px solid #eeecea;
+  border-radius: 12px;
+  padding: 18px 16px;
+}
+
+.contact-card__icon-wrapper {
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+.contact-card__label {
+  font-size: 11px;
+  color: #999;
+  margin-bottom: 4px;
+}
+
+.contact-card__value {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1a1a18;
+  margin-bottom: 3px;
+}
+
+.contact-card__sub {
+  font-size: 11px;
+  color: #aaa;
+}
+
+/* FORM AREA */
+.contact-form-container {
+  background: #fff;
+  border: 0.5px solid #eeecea;
+  border-radius: 14px;
+  padding: 32px 32px;
+}
+
+.contact-form-container__title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #1a1a18;
+  margin-bottom: 24px;
+}
+
+.contact-form-label {
+  font-size: 12px;
+  color: #888;
+}
+
+.contact-input {
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.contact-textarea {
+  border-radius: 8px;
+  font-size: 13px;
+  resize: none;
+}
+
+.contact-btn-submit {
+  width: 100%;
+  height: 42px;
+  background: #2c2c2a;
+  color: #f1efe8;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* FAQ AREA */
+.contact-faq-container {
+  margin-bottom: 20px;
+}
+
+.contact-faq-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a18;
+  margin-bottom: 16px;
+}
+
+.contact-faq-item {
+  padding: 14px 16px;
+  border-bottom: 0.5px solid #eeecea;
+}
+
+.contact-faq-item__q {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1a1a18;
+  margin-bottom: 5px;
+}
+
+.contact-faq-item__a {
+  font-size: 12px;
+  color: #888;
+  line-height: 1.65;
+}

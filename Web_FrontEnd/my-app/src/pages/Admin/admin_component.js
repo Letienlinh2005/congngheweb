@@ -202,8 +202,7 @@ export default function ThongKeThuvien() {
     },
   ];
 
-  // Genre borrowing rate
-  // DB: BanSao.TrangThai IN ('Có sẵn', 'Đang mượn', 'Hư hỏng')
+
   const genreStats = (() => {
     const map = {};
     theLoais.forEach((tl) => {
@@ -223,7 +222,6 @@ export default function ThongKeThuvien() {
       .slice(0, 6);
   })();
 
-  // Fine table
   const docMap = {};
   banDocs.forEach((d) => {
     docMap[d.maBanDoc || d.MaBanDoc] = d.hoTen || d.HoTen || "Không rõ";

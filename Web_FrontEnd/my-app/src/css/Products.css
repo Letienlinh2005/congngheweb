@@ -1,0 +1,10 @@
+/* ── Products Page ───────────────────────────────────────────────────────── */
+
+.products-card.ant-card {
+  width: 240px;
+}
+
+.products-card-cover {
+  height: 300px;
+  object-fit: cover;
+}

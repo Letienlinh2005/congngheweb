@@ -8,6 +8,7 @@ import {
 } from "@ant-design/icons";
 import { getPhieuMuonByUser } from "../../services/Admin_API/PhieuMuonAPI";
 import dayjs from "dayjs";
+import "../../css/BorrowHistory.css";
 
 const STATUS_COLOR = {
   "Đang mượn": { color: "blue", icon: <ClockCircleOutlined /> },
@@ -90,20 +91,20 @@ export default function BorrowHistoryPage() {
       dataIndex: "maPhieuMuon",
       key: "maPhieuMuon",
       render: (val) => (
-        <span style={{ fontWeight: 500, color: "#1a1a18" }}>{val}</span>
+        <span className="borrow-cell--primary">{val}</span>
       ),
     },
     {
       title: "Mã bản sao",
       dataIndex: "maBanSao",
       key: "maBanSao",
-      render: (val) => <span style={{ color: "#666" }}>{val}</span>,
+      render: (val) => <span className="borrow-cell--secondary">{val}</span>,
     },
     {
       title: "Tên sách",
       dataIndex: "tieuDe",
       key: "tieuDe",
-      render: (val) => <span style={{ fontWeight: 500 }}>{val}</span>,
+      render: (val) => <span className="borrow-cell--primary">{val}</span>,
     },
     {
       title: "Ngày mượn",
@@ -126,7 +127,7 @@ export default function BorrowHistoryPage() {
         val ? (
           dayjs(val).format("DD/MM/YYYY")
         ) : (
-          <span style={{ color: "#bbb" }}>Chưa trả</span>
+          <span className="borrow-cell--muted">Chưa trả</span>
         ),
     },
     {
@@ -135,7 +136,7 @@ export default function BorrowHistoryPage() {
       key: "soLanGiaHan",
       align: "center",
       render: (val) => (
-        <span style={{ color: val > 0 ? "#BA7517" : "#bbb" }}>{val} lần</span>
+        <span className={val > 0 ? "borrow-cell--extended" : "borrow-cell--muted"}>{val} lần</span>
       ),
     },
     {
@@ -148,7 +149,7 @@ export default function BorrowHistoryPage() {
           <Tag
             color={s.color}
             icon={s.icon}
-            style={{ borderRadius: 6, fontSize: 12 }}
+            className="borrow-status-tag"
           >
             {val}
           </Tag>
@@ -167,21 +168,13 @@ export default function BorrowHistoryPage() {
   // ── Không có maBanDoc → chưa liên kết ─────────────────────────────────────
   if (!loading && !maBanDoc) {
     return (
-      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+      <div className="borrow-page">
         <HeaderTitle />
-        <div
-          style={{
-            textAlign: "center",
-            padding: "80px 0",
-            background: "#fff",
-            borderRadius: 12,
-            border: "0.5px solid #EEECEA",
-          }}
-        >
+        <div className="borrow-not-linked">
           <Empty
             image={Empty.PRESENTED_IMAGE_SIMPLE}
             description={
-              <span style={{ color: "#999", fontSize: 13 }}>
+              <span className="borrow-not-linked__desc">
                 Tài khoản chưa được liên kết với mã bạn đọc.
                 <br />
                 Vui lòng liên hệ thủ thư để được hỗ trợ.
@@ -195,18 +188,18 @@ export default function BorrowHistoryPage() {
 
   if (loading) {
     return (
-      <div style={{ display: "flex", justifyContent: "center", padding: 80 }}>
+      <div className="borrow-loading">
         <Spin size="large" />
       </div>
     );
   }
 
   return (
-    <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+    <div className="borrow-page">
       <HeaderTitle maBanDoc={maBanDoc} />
 
       {/* THỐNG KÊ NHANH */}
-      <Row gutter={[14, 14]} style={{ marginBottom: 28 }}>
+      <Row gutter={[14, 14]} className="borrow-stats">
         {[
           {
             label: "Tổng phiếu",
@@ -225,35 +218,24 @@ export default function BorrowHistoryPage() {
         ].map((s) => (
           <Col span={6} key={s.label}>
             <div
-              style={{
-                background: s.bg,
-                borderRadius: 10,
-                padding: "16px 20px",
-              }}
+              className="borrow-stat-card"
+              style={{ background: s.bg }}
             >
               <div
-                style={{
-                  fontSize: 26,
-                  fontWeight: 600,
-                  color: s.color,
-                  marginBottom: 3,
-                  fontFamily: "'Playfair Display', serif",
-                }}
+                className="borrow-stat-card__value"
+                style={{ color: s.color }}
               >
                 {s.value}
               </div>
-              <div style={{ fontSize: 12, color: "#888" }}>{s.label}</div>
+              <div className="borrow-stat-card__label">{s.label}</div>
             </div>
           </Col>
         ))}
       </Row>
 
       {/* BẢNG */}
-      <Card
-        style={{ borderRadius: 16, border: "0.5px solid #EEECEA" }}
-        bodyStyle={{ padding: "20px 24px" }}
-      >
-        <div style={{ marginBottom: 16 }}>
+      <Card className="borrow-table-card">
+        <div className="borrow-table-card__search">
           <Input
             prefix={<SearchOutlined style={{ color: "#aaa", fontSize: 13 }} />}
             placeholder="Tìm theo mã phiếu, mã bản sao..."
@@ -274,10 +256,8 @@ export default function BorrowHistoryPage() {
           }}
           locale={{
             emptyText: (
-              <div style={{ padding: 40, color: "#bbb", textAlign: "center" }}>
-                <BookOutlined
-                  style={{ fontSize: 32, marginBottom: 8, display: "block" }}
-                />
+              <div className="borrow-empty">
+                <BookOutlined className="borrow-empty__icon" />
                 <div>Không có lịch sử mượn sách</div>
               </div>
             ),
@@ -292,33 +272,12 @@ export default function BorrowHistoryPage() {
 // ── Sub-component tiêu đề ─────────────────────────────────────────────────────
 function HeaderTitle({ maBanDoc }) {
   return (
-    <div style={{ marginBottom: 28 }}>
-      <div
-        style={{
-          fontSize: 11,
-          letterSpacing: "0.08em",
-          color: "#aaa",
-          textTransform: "uppercase",
-          marginBottom: 8,
-        }}
-      >
-        Tài khoản
-      </div>
-      <h1
-        style={{
-          fontFamily: "'Playfair Display', serif",
-          fontSize: 28,
-          fontWeight: 600,
-          color: "#1a1a18",
-          margin: 0,
-        }}
-      >
-        Lịch sử mượn sách
-      </h1>
+    <div className="borrow-header">
+      <div className="borrow-header__eyebrow">Tài khoản</div>
+      <h1 className="borrow-header__title">Lịch sử mượn sách</h1>
       {maBanDoc && (
-        <div style={{ fontSize: 12, color: "#aaa", marginTop: 6 }}>
-          Mã bạn đọc:{" "}
-          <span style={{ color: "#555", fontWeight: 500 }}>{maBanDoc}</span>
+        <div className="borrow-header__sub">
+          Mã bạn đọc: <span>{maBanDoc}</span>
         </div>
       )}
     </div>

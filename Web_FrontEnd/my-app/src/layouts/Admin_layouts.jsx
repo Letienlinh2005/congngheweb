@@ -1,13 +1,8 @@
 import React, { useEffect } from "react";
-import {
-  LaptopOutlined,
-  UserOutlined,
-  BookOutlined,
-  TagsOutlined,
-  TeamOutlined,
-} from "@ant-design/icons";
+import { LaptopOutlined, UserOutlined, BookOutlined, TagsOutlined, TeamOutlined,} from "@ant-design/icons";
 import { Breadcrumb, Layout, Menu, Button, theme } from "antd";
 import { Outlet, useNavigate } from "react-router-dom";
+import "../css/Admin_layouts.css";
 
 const { Header, Content, Sider } = Layout;
 
@@ -18,7 +13,6 @@ const AdminLayout = () => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
-  // ✅ Protect route: nếu chưa login → đá về login
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -26,7 +20,6 @@ const AdminLayout = () => {
     }
   }, [navigate]);
 
-  // ✅ Logout
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
@@ -91,16 +84,10 @@ const AdminLayout = () => {
   ];
 
   return (
-    <Layout style={{ minHeight: "100vh" }}>
+    <Layout className="admin-layout-container">
       {/* HEADER */}
-      <Header
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <div style={{ color: "#fff", fontWeight: 600 }}>ADMIN</div>
+      <Header className="admin-layout-header">
+        <div className="admin-layout-logo">ADMIN</div>
 
         <Button type="primary" danger onClick={handleLogout}>
           Đăng xuất
@@ -114,24 +101,22 @@ const AdminLayout = () => {
             theme="dark"
             mode="inline"
             defaultOpenKeys={["sub1"]}
-            style={{ height: "100%" }}
+            className="admin-layout-menu"
             items={items2}
             onClick={({ key }) => navigate(key)}
           />
         </Sider>
 
         {/* CONTENT */}
-        <Layout style={{ padding: "0 24px 24px" }}>
+        <Layout className="admin-layout-content-wrapper">
           <Breadcrumb
             items={[{ title: "Admin" }, { title: "Dashboard" }]}
-            style={{ margin: "16px 0" }}
+            className="admin-layout-breadcrumb"
           />
 
           <Content
+            className="admin-layout-content"
             style={{
-              padding: 24,
-              margin: 0,
-              minHeight: 280,
               background: colorBgContainer,
               borderRadius: borderRadiusLG,
             }}

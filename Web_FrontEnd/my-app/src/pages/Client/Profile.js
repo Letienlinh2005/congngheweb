@@ -19,6 +19,8 @@ import {
   LockOutlined,
 } from "@ant-design/icons";
 import { updateTaiKhoan } from "../../services/Admin_API/TaiKhoanAPI";
+import { getBanDocById } from "../../services/Admin_API/BanDocAPI";
+import "../../css/Profile.css";
 
 export default function ProfilePage() {
   const [account, setAccount] = useState(null);
@@ -27,9 +29,31 @@ export default function ProfilePage() {
   const [form] = Form.useForm();
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user") || "{}");
-    setAccount(Object.keys(user).length ? user : null);
-    setLoading(false);
+    const fetchProfile = async () => {
+      const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+      if (!Object.keys(user).length) {
+        setAccount(null);
+        setLoading(false);
+        return;
+      }
+
+      // Nếu user có maBanDoc thì gọi thêm API lấy duNo
+      if (user.maBanDoc) {
+        try {
+          const res = await getBanDocById(user.maBanDoc);
+          const banDoc = res.data.data;
+          user.duNo = banDoc.duNo;
+        } catch (err) {
+          console.log("Không lấy được thông tin bạn đọc:", err);
+        }
+      }
+
+      setAccount(user);
+      setLoading(false);
+    };
+
+    fetchProfile();
   }, []);
 
   const handleEdit = () => {
@@ -57,7 +81,7 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div style={{ display: "flex", justifyContent: "center", padding: 80 }}>
+      <div className="profile-loading">
         <Spin size="large" />
       </div>
     );
@@ -65,56 +89,31 @@ export default function ProfilePage() {
 
   if (!account) {
     return (
-      <div style={{ textAlign: "center", padding: 80, color: "#888" }}>
+      <div className="profile-error">
         Không tìm thấy thông tin tài khoản. Vui lòng đăng nhập lại.
       </div>
     );
   }
 
   return (
-    <div style={{ maxWidth: 720, margin: "0 auto" }}>
+    <div className="profile-page">
       {/* HEADER CARD */}
-      <Card
-        style={{
-          borderRadius: 16,
-          border: "0.5px solid #EEECEA",
-          marginBottom: 20,
-        }}
-        bodyStyle={{ padding: "32px 36px" }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
-          <Avatar
-            size={72}
-            style={{
-              background: "#2C2C2A",
-              fontSize: 26,
-              fontWeight: 500,
-              flexShrink: 0,
-            }}
-          >
+      <Card className="profile-card profile-card--header">
+        <div className="profile-header-wrap">
+          <Avatar size={72} className="profile-avatar">
             {account.tenDangNhap?.[0]?.toUpperCase() ?? "U"}
           </Avatar>
-          <div style={{ flex: 1 }}>
-            <div
-              style={{
-                fontFamily: "'Playfair Display', serif",
-                fontSize: 22,
-                fontWeight: 600,
-                color: "#1a1a18",
-                marginBottom: 6,
-              }}
-            >
-              {account.tenDangNhap}
-            </div>
+          <div className="profile-info">
+            <div className="profile-name">{account.tenDangNhap}</div>
             <Tag
               color={
                 account.vaiTro === "Quản trị"
                   ? "volcano"
                   : account.vaiTro === "Thủ thư"
-                    ? "blue"
-                    : "green"
+                  ? "blue"
+                  : "green"
               }
-              style={{ borderRadius: 6, fontSize: 12 }}
+              className="profile-role-tag"
             >
               {account.vaiTro}
             </Tag>
@@ -122,11 +121,7 @@ export default function ProfilePage() {
           <Button
             icon={<EditOutlined />}
             onClick={handleEdit}
-            style={{
-              borderRadius: 8,
-              fontSize: 13,
-              border: "0.5px solid #EEECEA",
-            }}
+            className="profile-btn-edit"
           >
             Chỉnh sửa
           </Button>
@@ -134,69 +129,53 @@ export default function ProfilePage() {
       </Card>
 
       {/* THÔNG TIN CHI TIẾT */}
-      <Card
-        style={{
-          borderRadius: 16,
-          border: "0.5px solid #EEECEA",
-          marginBottom: 20,
-        }}
-        bodyStyle={{ padding: "24px 36px" }}
-      >
-        <div
-          style={{
-            fontSize: 11,
-            letterSpacing: "0.08em",
-            color: "#aaa",
-            textTransform: "uppercase",
-            marginBottom: 20,
-          }}
-        >
-          Thông tin tài khoản
-        </div>
+      <Card className="profile-card profile-card--detail">
+        <div className="profile-section-eyebrow">Thông tin tài khoản</div>
 
         {[
           {
-            icon: <IdcardOutlined style={{ color: "#888" }} />,
+            icon: <IdcardOutlined className="profile-detail-icon" />,
             label: "Mã tài khoản",
             value: account.maTaiKhoan,
           },
           {
-            icon: <MailOutlined style={{ color: "#888" }} />,
+            icon: <MailOutlined className="profile-detail-icon" />,
             label: "Tên đăng nhập",
             value: account.tenDangNhap,
           },
           {
-            icon: <UserOutlined style={{ color: "#888" }} />,
+            icon: <UserOutlined className="profile-detail-icon" />,
             label: "Họ tên",
             value: account.hoTen ?? "Chưa cập nhật",
           },
           {
-            icon: <UserOutlined style={{ color: "#888" }} />,
+            icon: <UserOutlined className="profile-detail-icon" />,
             label: "Vai trò",
             value: account.vaiTro,
           },
           {
-            icon: <IdcardOutlined style={{ color: "#888" }} />,
+            icon: <IdcardOutlined className="profile-detail-icon" />,
             label: "Mã bạn đọc",
             value: account.maBanDoc ?? "Chưa liên kết",
           },
+          {
+            icon: <IdcardOutlined className="profile-detail-icon" />,
+            label: "Dư nợ",
+            value:
+              account.duNo != null
+                ? `${account.duNo.toLocaleString("vi-VN")} ₫`
+                : account.maBanDoc
+                ? "Đang tải..."
+                : "Không có",
+          },
         ].map((row, i, arr) => (
           <div key={row.label}>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                padding: "14px 0",
-              }}
-            >
-              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <div className="profile-detail-row">
+              <div className="profile-detail-label-wrap">
                 {row.icon}
-                <span style={{ fontSize: 13, color: "#888" }}>{row.label}</span>
+                <span className="profile-detail-label">{row.label}</span>
               </div>
-              <span style={{ fontSize: 13, fontWeight: 500, color: "#1a1a18" }}>
-                {row.value}
-              </span>
+              <span className="profile-detail-value">{row.value}</span>
             </div>
             {i < arr.length - 1 && (
               <Divider style={{ margin: 0, borderColor: "#F0EFEA" }} />
@@ -206,47 +185,21 @@ export default function ProfilePage() {
       </Card>
 
       {/* BẢO MẬT */}
-      <Card
-        style={{ borderRadius: 16, border: "0.5px solid #EEECEA" }}
-        bodyStyle={{ padding: "24px 36px" }}
-      >
-        <div
-          style={{
-            fontSize: 11,
-            letterSpacing: "0.08em",
-            color: "#aaa",
-            textTransform: "uppercase",
-            marginBottom: 16,
-          }}
-        >
+      <Card className="profile-card profile-card--security">
+        <div className="profile-section-eyebrow profile-section-eyebrow--security">
           Bảo mật
         </div>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <LockOutlined style={{ color: "#888" }} />
+        <div className="profile-security-wrap">
+          <div className="profile-security-info">
+            <LockOutlined className="profile-detail-icon" />
             <div>
-              <div style={{ fontSize: 13, fontWeight: 500, color: "#1a1a18" }}>
-                Mật khẩu
-              </div>
-              <div style={{ fontSize: 12, color: "#aaa", marginTop: 2 }}>
+              <div className="profile-security-title">Mật khẩu</div>
+              <div className="profile-security-desc">
                 Cập nhật mật khẩu định kỳ để bảo mật tài khoản
               </div>
             </div>
           </div>
-          <Button
-            onClick={handleEdit}
-            style={{
-              borderRadius: 8,
-              fontSize: 13,
-              border: "0.5px solid #EEECEA",
-            }}
-          >
+          <Button onClick={handleEdit} className="profile-btn-edit">
             Đổi mật khẩu
           </Button>
         </div>
@@ -255,11 +208,7 @@ export default function ProfilePage() {
       {/* MODAL CHỈNH SỬA */}
       <Modal
         title={
-          <span
-            style={{ fontFamily: "'Playfair Display', serif", fontSize: 18 }}
-          >
-            Chỉnh sửa tài khoản
-          </span>
+          <span className="profile-modal-title">Chỉnh sửa tài khoản</span>
         }
         open={modalOpen}
         onCancel={() => {
@@ -282,20 +231,20 @@ export default function ProfilePage() {
           form={form}
           layout="vertical"
           onFinish={handleSave}
-          style={{ marginTop: 16 }}
+          className="profile-modal-form"
         >
           <Form.Item
             name="tenDangNhap"
             label="Tên đăng nhập"
             rules={[{ required: true, message: "Vui lòng nhập tên đăng nhập" }]}
           >
-            <Input style={{ borderRadius: 8 }} />
+            <Input className="profile-input" />
           </Form.Item>
           <Form.Item
             name="matKhauMoi"
             label="Mật khẩu mới (để trống nếu không đổi)"
           >
-            <Input.Password style={{ borderRadius: 8 }} />
+            <Input.Password className="profile-input" />
           </Form.Item>
           <Form.Item
             name="xacNhanMatKhau"
@@ -311,7 +260,7 @@ export default function ProfilePage() {
               }),
             ]}
           >
-            <Input.Password style={{ borderRadius: 8 }} />
+            <Input.Password className="profile-input" />
           </Form.Item>
         </Form>
       </Modal>

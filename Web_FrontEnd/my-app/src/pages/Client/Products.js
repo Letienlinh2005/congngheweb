@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { Card, Row, Col } from "antd";
 import { getSachs } from '../../services/Admin_API/SachAPI';
 import { useNavigate } from 'react-router-dom';
+import '../../css/Products.css';
 const { Meta } = Card;
 
 const ProductListClient = () => {
@@ -37,14 +38,14 @@ const ProductListClient = () => {
             <Col key={item.key}>
                 <Card
                     hoverable
-                    style={{ width: 240 }}
+                    className="products-card"
                     onClick={() => navigate(`/books/${item.key}`)}
                     cover={
                         <img
                             draggable={false}
                             alt={item.tenSanPham}
                             src={item.anhBiaUrl}
-                            style={{ height: 300, objectFit: "cover" }}
+                            className="products-card-cover"
                         />
                     }
                 >

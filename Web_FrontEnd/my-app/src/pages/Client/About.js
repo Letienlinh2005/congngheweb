@@ -5,6 +5,7 @@ import {
   StarOutlined,
   GlobalOutlined,
 } from "@ant-design/icons";
+import "../../css/About.css";
 
 const stats = [
   ["2018", "Năm thành lập"],
@@ -45,47 +46,26 @@ const features = [
 ];
 
 const team = [
-  { name: "Nguyễn Minh Khoa", role: "Giám đốc thư viện", initials: "NK" },
-  { name: "Trần Thị Lan Anh", role: "Quản lý bộ sưu tập", initials: "LA" },
-  { name: "Phạm Quốc Huy", role: "Hỗ trợ kỹ thuật", initials: "QH" },
+  { name: "Lê Tiến Linh", role: "Giám đốc thư viện", initials: "LL" },
+  { name: "Lê Hữu Tính", role: "Quản lý bộ sưu tập", initials: "LT" },
+  { name: "Lê Bảo Long", role: "Hỗ trợ kỹ thuật", initials: "LL" },
 ];
 
 export default function AboutPage() {
   return (
-    <div style={{ maxWidth: 960, margin: "0 auto" }}>
+    <div className="about-page">
 
       {/* HERO */}
-      <div style={{
-        background: "#1a1a18", borderRadius: 16, padding: "52px 52px",
-        marginBottom: 40, position: "relative", overflow: "hidden",
-      }}>
-        <div style={{
-          position: "absolute", right: -30, top: -30,
-          width: 260, height: 260, borderRadius: "50%",
-          background: "rgba(255,255,255,0.03)",
-        }} />
-        <div style={{
-          position: "absolute", right: 60, top: 40,
-          width: 160, height: 160, borderRadius: "50%",
-          background: "rgba(255,255,255,0.03)",
-        }} />
-        <div style={{
-          fontSize: 11, letterSpacing: "0.1em", color: "#888780",
-          textTransform: "uppercase", marginBottom: 12,
-        }}>
+      <div className="about-hero">
+        <div className="about-hero__circle-lg" />
+        <div className="about-hero__circle-sm" />
+        <div className="about-hero__eyebrow">
           Về chúng tôi
         </div>
-        <h1 style={{
-          fontFamily: "'Playfair Display', serif",
-          fontSize: 38, fontWeight: 600, color: "#F1EFE8",
-          lineHeight: 1.25, maxWidth: 520, marginBottom: 16,
-        }}>
+        <h1 className="about-hero__title">
           Nơi tri thức không có giới hạn
         </h1>
-        <p style={{
-          color: "#888780", fontSize: 14, maxWidth: 480,
-          lineHeight: 1.75, margin: 0,
-        }}>
+        <p className="about-hero__desc">
           Được thành lập từ năm 2018, Library là thư viện trực tuyến tiên phong tại
           Việt Nam với sứ mệnh đưa sách đến gần hơn với mọi người. Chúng tôi tin rằng
           tri thức là quyền lợi của tất cả mọi người — không phân biệt hoàn cảnh.
@@ -93,53 +73,37 @@ export default function AboutPage() {
       </div>
 
       {/* STATS */}
-      <Row gutter={[16, 16]} style={{ marginBottom: 48 }}>
+      <Row gutter={[16, 16]} className="about-stats">
         {stats.map(([val, label]) => (
           <Col span={6} key={label}>
-            <div style={{
-              background: "#F5F4F0", borderRadius: 10,
-              padding: "20px 22px", textAlign: "center",
-            }}>
-              <div style={{
-                fontFamily: "'Playfair Display', serif",
-                fontSize: 30, fontWeight: 600, color: "#1a1a18", marginBottom: 4,
-              }}>{val}</div>
-              <div style={{ fontSize: 12, color: "#888" }}>{label}</div>
+            <div className="about-stat-card">
+              <div className="about-stat-card__value">{val}</div>
+              <div className="about-stat-card__label">{label}</div>
             </div>
           </Col>
         ))}
       </Row>
 
       {/* SỨ MỆNH */}
-      <Row gutter={40} style={{ marginBottom: 52 }} align="middle">
+      <Row gutter={40} className="about-mission" align="middle">
         <Col span={12}>
-          <div style={{
-            fontSize: 11, letterSpacing: "0.1em", color: "#888",
-            textTransform: "uppercase", marginBottom: 12,
-          }}>Sứ mệnh</div>
-          <h2 style={{
-            fontFamily: "'Playfair Display', serif",
-            fontSize: 26, fontWeight: 600, color: "#1a1a18",
-            lineHeight: 1.35, marginBottom: 16,
-          }}>
+          <div className="about-section__eyebrow">Sứ mệnh</div>
+          <h2 className="about-section__title">
             Kết nối người đọc với những cuốn sách phù hợp
           </h2>
-          <p style={{ fontSize: 13, color: "#666", lineHeight: 1.8, marginBottom: 12 }}>
+          <p className="about-mission__body">
             Chúng tôi không chỉ là một thư viện — chúng tôi là cầu nối giữa người đọc
             và tri thức. Mỗi cuốn sách là một hành trình, và nhiệm vụ của chúng tôi là
             giúp bạn tìm đúng chuyến tàu cho mình.
           </p>
-          <p style={{ fontSize: 13, color: "#666", lineHeight: 1.8 }}>
+          <p className="about-mission__body" style={{ marginBottom: 0 }}>
             Với đội ngũ biên tập viên và chuyên gia, chúng tôi liên tục tuyển chọn và
             cập nhật những đầu sách chất lượng, đảm bảo mỗi thành viên đều tìm được
             cuốn sách yêu thích của mình.
           </p>
         </Col>
         <Col span={12}>
-          <div style={{
-            background: "#F5F4F0", borderRadius: 14, padding: 28,
-            display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12,
-          }}>
+          <div className="about-categories-grid">
             {[
               ["Sách văn học", "340+"],
               ["Sách khoa học", "220+"],
@@ -148,12 +112,9 @@ export default function AboutPage() {
               ["Lịch sử", "130+"],
               ["Tâm lý học", "110+"],
             ].map(([cat, count]) => (
-              <div key={cat} style={{
-                background: "#fff", borderRadius: 8, padding: "12px 14px",
-                border: "0.5px solid #EEECEA",
-              }}>
-                <div style={{ fontSize: 18, fontWeight: 500, color: "#1a1a18" }}>{count}</div>
-                <div style={{ fontSize: 11, color: "#888", marginTop: 2 }}>{cat}</div>
+              <div key={cat} className="about-category-item">
+                <div className="about-category-item__count">{count}</div>
+                <div className="about-category-item__name">{cat}</div>
               </div>
             ))}
           </div>
@@ -161,15 +122,9 @@ export default function AboutPage() {
       </Row>
 
       {/* TÍNH NĂNG */}
-      <div style={{ marginBottom: 52 }}>
-        <div style={{
-          fontSize: 11, letterSpacing: "0.1em", color: "#888",
-          textTransform: "uppercase", marginBottom: 12,
-        }}>Tính năng</div>
-        <h2 style={{
-          fontFamily: "'Playfair Display', serif",
-          fontSize: 24, fontWeight: 600, color: "#1a1a18", marginBottom: 24,
-        }}>
+      <div className="about-features">
+        <div className="about-section__eyebrow">Tính năng</div>
+        <h2 className="about-features__title">
           Tại sao chọn Library?
         </h2>
         <Row gutter={[16, 16]}>
@@ -177,23 +132,20 @@ export default function AboutPage() {
             <Col span={12} key={f.title}>
               <Card
                 hoverable
-                bodyStyle={{ padding: "20px 22px" }}
-                style={{ border: "0.5px solid #EEECEA", borderRadius: 12 }}
+                className="about-feature-card"
               >
-                <div style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
-                  <div style={{
-                    width: 40, height: 40, borderRadius: 10,
-                    background: f.bg, display: "flex",
-                    alignItems: "center", justifyContent: "center",
-                    fontSize: 18, color: f.color, flexShrink: 0,
-                  }}>
+                <div className="about-feature-card__inner">
+                  <div
+                    className="about-feature-card__icon"
+                    style={{ background: f.bg, color: f.color }}
+                  >
                     {f.icon}
                   </div>
                   <div>
-                    <div style={{ fontWeight: 500, fontSize: 14, color: "#1a1a18", marginBottom: 6 }}>
+                    <div className="about-feature-card__title">
                       {f.title}
                     </div>
-                    <div style={{ fontSize: 13, color: "#777", lineHeight: 1.7 }}>
+                    <div className="about-feature-card__desc">
                       {f.desc}
                     </div>
                   </div>
@@ -205,36 +157,22 @@ export default function AboutPage() {
       </div>
 
       {/* ĐỘI NGŨ */}
-      <div style={{ marginBottom: 12 }}>
-        <div style={{
-          fontSize: 11, letterSpacing: "0.1em", color: "#888",
-          textTransform: "uppercase", marginBottom: 12,
-        }}>Đội ngũ</div>
-        <h2 style={{
-          fontFamily: "'Playfair Display', serif",
-          fontSize: 24, fontWeight: 600, color: "#1a1a18", marginBottom: 24,
-        }}>
+      <div className="about-team">
+        <div className="about-section__eyebrow">Đội ngũ</div>
+        <h2 className="about-team__title">
           Những người đứng sau Library
         </h2>
         <Row gutter={[16, 16]}>
           {team.map((m) => (
             <Col span={8} key={m.name}>
-              <Card
-                bodyStyle={{ padding: "24px 20px", textAlign: "center" }}
-                style={{ border: "0.5px solid #EEECEA", borderRadius: 12 }}
-              >
-                <div style={{
-                  width: 56, height: 56, borderRadius: "50%",
-                  background: "#2C2C2A", color: "#D3D1C7",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: 16, fontWeight: 500, margin: "0 auto 14px",
-                }}>
+              <Card className="about-team-card">
+                <div className="about-team-card__avatar">
                   {m.initials}
                 </div>
-                <div style={{ fontWeight: 500, fontSize: 14, color: "#1a1a18", marginBottom: 4 }}>
+                <div className="about-team-card__name">
                   {m.name}
                 </div>
-                <div style={{ fontSize: 12, color: "#888" }}>{m.role}</div>
+                <div className="about-team-card__role">{m.role}</div>
               </Card>
             </Col>
           ))}

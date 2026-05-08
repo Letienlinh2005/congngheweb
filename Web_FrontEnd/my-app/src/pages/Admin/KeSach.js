@@ -13,8 +13,6 @@ function KeSachList() {
     const [form] = Form.useForm();
     const [createForm] = Form.useForm();
 
-
-    // fetch data
     const fetchKeSach = async () => {
         try {
             const res = await getKeSachs();
@@ -37,6 +35,7 @@ function KeSachList() {
 
     // handle create
     const handleCreate = async(values) => {
+        console.log("Dữ liệu gửi lên:", values)
         try{
             await createKeSach(values);
             message.success("Thêm kệ thành công");
@@ -45,6 +44,7 @@ function KeSachList() {
             fetchKeSach();
         }
         catch(err){
+            console.log("Errors:", err.response?.data?.errors)
             console.log(err);
             message.error("Không thể thêm kệ")
         }

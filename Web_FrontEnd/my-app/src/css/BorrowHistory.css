@@ -1,0 +1,133 @@
+/* ── Borrow History Page ─────────────────────────────────────────────────── */
+
+/* HEADER */
+.borrow-header {
+  margin-bottom: 28px;
+}
+
+.borrow-header__eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: #aaa;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.borrow-header__title {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: #1a1a18;
+  margin: 0;
+}
+
+.borrow-header__sub {
+  font-size: 12px;
+  color: #aaa;
+  margin-top: 6px;
+}
+
+.borrow-header__sub span {
+  color: #555;
+  font-weight: 500;
+}
+
+/* PAGE WRAPPER */
+.borrow-page {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* STATS ROW */
+.borrow-stats {
+  margin-bottom: 28px;
+}
+
+.borrow-stat-card {
+  border-radius: 10px;
+  padding: 16px 20px;
+}
+
+.borrow-stat-card__value {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 3px;
+  font-family: 'Playfair Display', serif;
+}
+
+.borrow-stat-card__label {
+  font-size: 12px;
+  color: #888;
+}
+
+/* TABLE CARD */
+.borrow-table-card.ant-card {
+  border-radius: 16px;
+  border: 0.5px solid #eeecea;
+}
+
+.borrow-table-card .ant-card-body {
+  padding: 20px 24px;
+}
+
+.borrow-table-card__search {
+  margin-bottom: 16px;
+}
+
+/* TABLE CELL STYLES */
+.borrow-cell--primary {
+  font-weight: 500;
+  color: #1a1a18;
+}
+
+.borrow-cell--secondary {
+  color: #666;
+}
+
+.borrow-cell--muted {
+  color: #bbb;
+}
+
+.borrow-cell--extended {
+  color: #ba7517;
+}
+
+/* STATUS TAG */
+.borrow-status-tag.ant-tag {
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+/* EMPTY STATE */
+.borrow-empty {
+  padding: 40px;
+  color: #bbb;
+  text-align: center;
+}
+
+.borrow-empty__icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+/* NOT LINKED STATE */
+.borrow-not-linked {
+  text-align: center;
+  padding: 80px 0;
+  background: #fff;
+  border-radius: 12px;
+  border: 0.5px solid #eeecea;
+}
+
+.borrow-not-linked__desc {
+  color: #999;
+  font-size: 13px;
+}
+
+/* LOADING */
+.borrow-loading {
+  display: flex;
+  justify-content: center;
+  padding: 80px;
+}

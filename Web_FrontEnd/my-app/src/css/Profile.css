@@ -1,0 +1,150 @@
+/* ── Profile Page ────────────────────────────────────────────────────────── */
+
+.profile-page {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.profile-loading {
+  display: flex;
+  justify-content: center;
+  padding: 80px;
+}
+
+.profile-error {
+  text-align: center;
+  padding: 80px;
+  color: #888;
+}
+
+.profile-card.ant-card {
+  border-radius: 16px;
+  border: 0.5px solid #eeecea;
+  margin-bottom: 20px;
+}
+
+.profile-card--header .ant-card-body {
+  padding: 32px 36px;
+}
+
+.profile-card--detail .ant-card-body,
+.profile-card--security .ant-card-body {
+  padding: 24px 36px;
+}
+
+/* HEADER INFO */
+.profile-header-wrap {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.profile-avatar.ant-avatar {
+  background: #2c2c2a;
+  font-size: 26px;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.profile-info {
+  flex: 1;
+}
+
+.profile-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #1a1a18;
+  margin-bottom: 6px;
+}
+
+.profile-role-tag.ant-tag {
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.profile-btn-edit {
+  border-radius: 8px;
+  font-size: 13px;
+  border: 0.5px solid #eeecea;
+}
+
+/* DETAILS AREA */
+.profile-section-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: #aaa;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.profile-section-eyebrow--security {
+  margin-bottom: 16px;
+}
+
+.profile-detail-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+}
+
+.profile-detail-label-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile-detail-icon {
+  color: #888;
+}
+
+.profile-detail-label {
+  font-size: 13px;
+  color: #888;
+}
+
+.profile-detail-value {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1a1a18;
+}
+
+/* SECURITY AREA */
+.profile-security-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.profile-security-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile-security-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1a1a18;
+}
+
+.profile-security-desc {
+  font-size: 12px;
+  color: #aaa;
+  margin-top: 2px;
+}
+
+/* MODAL */
+.profile-modal-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+}
+
+.profile-modal-form {
+  margin-top: 16px;
+}
+
+.profile-input {
+  border-radius: 8px;
+}

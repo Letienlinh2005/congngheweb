@@ -1,42 +1,354 @@
-.product-detail {
-  padding: 40px;
-  /* background-color: rgb(231, 231, 231);
-  border-radius: 10px; */
-  max-width: 900px;
-  margin: auto;
+/* ── Product Detail Page ─────────────────────────────────────────────────── */
+
+.product-detail-page {
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
-.container {
+/* CARDS */
+.product-card.ant-card {
+  border-radius: 16px;
+  border: 0.5px solid #eeecea;
+  margin-bottom: 24px;
+}
+
+.product-card--main .ant-card-body {
+  padding: 36px 40px;
+}
+
+.product-card--summary .ant-card-body,
+.product-card--reviews .ant-card-body {
+  padding: 28px 36px;
+}
+
+/* BOOK COVER */
+.product-cover {
+  width: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+  max-height: 340px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+}
+
+.product-cover-placeholder {
+  height: 300px;
+  border-radius: 12px;
   display: flex;
-  gap: 40px;
-  max-width: 1000px;
-  margin: auto;
+  align-items: center;
+  justify-content: center;
 }
 
-.left img {
-  width: 300px;
+.product-cover-placeholder .anticon {
+  font-size: 52px;
+  opacity: 0.3;
+}
+
+/* BOOK INFO */
+.product-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: #1a1a18;
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+.product-rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.product-rating__text {
+  font-size: 13px;
+  color: #888;
+}
+
+.product-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.product-detail-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.product-detail-row__icon {
+  color: #aaa;
+  width: 16px;
+}
+
+.product-detail-row__label {
+  font-size: 13px;
+  color: #888;
+  width: 110px;
+}
+
+.product-detail-row__value {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1a1a18;
+}
+
+/* COPY STATUS */
+.product-copies {
+  background: #f5f4f0;
   border-radius: 10px;
+  padding: 14px 20px;
+  margin-bottom: 22px;
+  display: flex;
+  gap: 32px;
+  align-items: center;
 }
 
-.right {
-  flex: 1;
+.product-copy-stat__label {
+  font-size: 11px;
+  color: #aaa;
+  margin-bottom: 4px;
 }
 
-.right h1 {
+.product-copy-stat__value {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.product-copy-stat__value--available { color: #27500A; }
+.product-copy-stat__value--borrowed { color: #BA7517; }
+.product-copy-stat__value--total { color: #1a1a18; }
+
+.product-copies-tags {
+  margin-left: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  max-width: 200px;
+}
+
+/* BUTTON */
+.product-btn-borrow {
+  height: 44px;
+  padding: 0 36px;
+  background: #2c2c2a;
+  color: #f1efe8;
+  border: none;
+  border-radius: 10px;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+/* SUMMARY & REVIEWS HEADERS */
+.product-section-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: #aaa;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.product-section-eyebrow--reviews {
+  margin-bottom: 24px;
+}
+
+.product-summary-text {
+  font-size: 14px;
+  color: #444;
+  line-height: 1.85;
+  margin: 0;
+}
+
+/* RATING OVERVIEW */
+.product-rating-overview {
+  text-align: center;
   margin-bottom: 20px;
 }
 
-.desc {
-  margin-top: 20px;
+.product-rating-overview__score {
+  font-family: 'Playfair Display', serif;
+  font-size: 52px;
+  font-weight: 600;
+  color: #1a1a18;
+  line-height: 1;
 }
 
-.btn {
-  background-color: red;
+.product-rating-overview__count {
+  font-size: 12px;
+  color: #888;
+}
+
+.product-rating-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.product-rating-bar__star {
+  font-size: 12px;
+  color: #888;
+  width: 10px;
+}
+
+.product-rating-bar__icon {
+  font-size: 11px;
+  color: #ffc53d;
+}
+
+.product-rating-bar__count {
+  font-size: 11px;
+  color: #aaa;
+  width: 14px;
+}
+
+/* REVIEW FORM */
+.product-review-form {
+  background: #f5f4f0;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+}
+
+.product-review-form__title {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1a1a18;
+  margin-bottom: 10px;
+}
+
+.product-review-form__input-group {
+  display: flex;
+  gap: 10px;
+}
+
+.product-review-form__btn {
+  background: #2c2c2a;
+  color: #f1efe8;
   border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 16px;
-  border-radius: 30px;
+  border-radius: 8px;
+  height: auto;
+  align-self: stretch;
+}
+
+/* REVIEW ITEM */
+.product-review-item {
+  display: flex;
+  gap: 12px;
+  padding: 14px 0;
+}
+
+.product-review-item__avatar {
+  background: #444441;
+  flex-shrink: 0;
+}
+
+.product-review-item__content {
+  flex: 1;
+}
+
+.product-review-item__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.product-review-item__name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1a1a18;
+}
+
+.product-review-item__date {
+  font-size: 11px;
+  color: #aaa;
+  margin-left: auto;
+}
+
+.product-review-item__text {
+  font-size: 13px;
+  color: #555;
+  margin: 0;
+  line-height: 1.65;
+}
+
+/* RELATED BOOKS */
+.product-related {
+  margin-bottom: 12px;
+}
+
+.product-related-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.product-related-header__title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #1a1a18;
+  margin: 0;
+}
+
+.product-related-header__link {
+  font-size: 12px;
+  color: #888;
+  cursor: pointer;
+}
+
+.product-related-card.ant-card {
+  border: 0.5px solid #eeecea;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.product-related-card .ant-card-body {
+  padding: 12px 14px;
+}
+
+.product-related-cover {
+  height: 140px;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 12px 12px 0 0;
+}
+
+.product-related-cover-placeholder {
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px 12px 0 0;
+}
+
+.product-related-cover-placeholder .anticon {
+  font-size: 32px;
+  opacity: 0.3;
+}
+
+.product-related-card__title {
+  font-weight: 500;
+  font-size: 13px;
+  color: #1a1a18;
+  margin-bottom: 2px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.product-related-card__author {
+  font-size: 11px;
+  color: #999;
+}
+
+.product-loading {
+  display: flex;
+  justify-content: center;
+  padding: 80px;
 }

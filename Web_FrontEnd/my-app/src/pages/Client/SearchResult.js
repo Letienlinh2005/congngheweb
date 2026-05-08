@@ -5,6 +5,7 @@ import {
   BookOutlined, SearchOutlined, FilterOutlined,
 } from "@ant-design/icons";
 import { getSachs } from "../../services/Admin_API/SachAPI"; 
+import "../../css/SearchResult.css";
 
 const { Option } = Select;
 
@@ -77,63 +78,39 @@ export default function SearchResults() {
   };
 
   return (
-    <div style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+    <div className="search-result-page">
 
       {/* ── SEARCH HEADER BAR ── */}
-      <div style={{
-        background: "#1a1a18",
-        borderRadius: 14,
-        padding: "28px 32px",
-        marginBottom: 32,
-        display: "flex",
-        alignItems: "center",
-        gap: 16,
-        flexWrap: "wrap",
-      }}>
-        <div style={{ flex: 1, minWidth: 200 }}>
-          <div style={{
-            fontSize: 11, letterSpacing: "0.12em",
-            color: "#888780", textTransform: "uppercase", marginBottom: 6,
-          }}>
+      <div className="search-header-bar">
+        <div className="search-header-info">
+          <div className="search-header-eyebrow">
             Kết quả tìm kiếm
           </div>
-          <h2 style={{
-            fontFamily: "'Playfair Display', serif",
-            fontSize: 22, fontWeight: 600, color: "#F1EFE8",
-            margin: 0,
-          }}>
+          <h2 className="search-header-title">
             {query ? `"${query}"` : "Tất cả sách"}
           </h2>
           {!loading && (
-            <div style={{ fontSize: 12, color: "#666664", marginTop: 4 }}>
+            <div className="search-header-count">
               Tìm thấy{" "}
-              <span style={{ color: "#aaa" }}>{results.length}</span>{" "}
+              <span>{results.length}</span>{" "}
               kết quả
             </div>
           )}
         </div>
 
         {/* Re-search input */}
-        <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+        <div className="search-input-wrap">
           <Input
             value={inputVal}
             onChange={(e) => setInputVal(e.target.value)}
             onPressEnter={handleSearch}
-            prefix={<SearchOutlined style={{ color: "#888780", fontSize: 13 }} />}
+            prefix={<SearchOutlined />}
             placeholder="Tìm kiếm khác..."
-            style={{
-              width: 220, borderRadius: 8, fontSize: 13,
-              background: "#2C2C2A", border: "1px solid #3a3a38",
-              color: "#F1EFE8",
-            }}
+            className="search-input"
           />
           <button
             onClick={handleSearch}
-            style={{
-              background: "#F1EFE8", color: "#1a1a18",
-              border: "none", padding: "7px 18px", borderRadius: 8,
-              fontWeight: 500, fontSize: 13, cursor: "pointer",
-            }}
+            className="search-btn-search"
           >
             Tìm
           </button>
@@ -141,19 +118,15 @@ export default function SearchResults() {
       </div>
 
       {/* ── TOOLBAR ── */}
-      <div style={{
-        display: "flex", alignItems: "center",
-        justifyContent: "space-between",
-        marginBottom: 20, flexWrap: "wrap", gap: 10,
-      }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <FilterOutlined style={{ color: "#999", fontSize: 13 }} />
-          <span style={{ fontSize: 12, color: "#999" }}>Sắp xếp theo:</span>
+      <div className="search-toolbar">
+        <div className="search-sort-wrap">
+          <FilterOutlined className="search-sort-icon" />
+          <span className="search-sort-label">Sắp xếp theo:</span>
           <Select
             value={sortBy}
             onChange={setSortBy}
             size="small"
-            style={{ width: 180, fontSize: 12 }}
+            className="search-sort-select"
             options={[
               { label: "Mặc định",          value: "default"    },
               { label: "Tên A → Z",         value: "title_asc"  },
@@ -168,11 +141,7 @@ export default function SearchResults() {
           <Tag
             closable
             onClose={() => { setSearchParams({}); setInputVal(""); }}
-            style={{
-              borderRadius: 20, padding: "2px 10px",
-              background: "#F5F4F0", border: "1px solid #EEECEA",
-              fontSize: 12, color: "#555",
-            }}
+            className="search-tag-query"
           >
             {query}
           </Tag>
@@ -181,33 +150,25 @@ export default function SearchResults() {
 
       {/* ── RESULTS ── */}
       {loading ? (
-        <div style={{ textAlign: "center", padding: "80px 0" }}>
+        <div className="search-loading">
           <Spin size="large" />
-          <div style={{ marginTop: 16, color: "#999", fontSize: 13 }}>
+          <div className="search-loading-text">
             Đang tải sách...
           </div>
         </div>
       ) : sorted.length === 0 ? (
-        <div style={{
-          textAlign: "center", padding: "80px 0",
-          background: "#fff", borderRadius: 12,
-          border: "1px solid #EEECEA",
-        }}>
+        <div className="search-empty">
           <Empty
             image={Empty.PRESENTED_IMAGE_SIMPLE}
             description={
-              <span style={{ color: "#999", fontSize: 13 }}>
+              <span className="search-empty-text">
                 Không tìm thấy sách phù hợp với <b>"{query}"</b>
               </span>
             }
           />
           <button
             onClick={() => { setSearchParams({}); setInputVal(""); }}
-            style={{
-              marginTop: 16, background: "#1a1a18", color: "#F1EFE8",
-              border: "none", padding: "8px 22px", borderRadius: 8,
-              fontWeight: 500, fontSize: 13, cursor: "pointer",
-            }}
+            className="search-empty-btn"
           >
             Xem tất cả sách
           </button>
@@ -219,59 +180,37 @@ export default function SearchResults() {
               <Card
                 hoverable
                 onClick={() => navigate(`/books/${b.key}`)}
-                bodyStyle={{ padding: "12px 14px" }}
-                style={{
-                  border: "0.5px solid #EEECEA",
-                  borderRadius: 12,
-                  cursor: "pointer",
-                  transition: "box-shadow 0.2s",
-                }}
+                className="search-card"
                 cover={
                   b.anhBiaUrl ? (
                     <img
                       src={b.anhBiaUrl}
                       alt={b.tieuDe}
-                      style={{
-                        height: 160, width: "100%",
-                        objectFit: "cover",
-                        borderRadius: "12px 12px 0 0",
-                      }}
+                      className="search-card-cover"
                     />
                   ) : (
-                    <div style={{
-                      height: 160,
-                      background: bgColors[i % bgColors.length],
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      borderRadius: "12px 12px 0 0",
-                    }}>
-                      <BookOutlined style={{ fontSize: 38, opacity: 0.35 }} />
+                    <div
+                      className="search-card-placeholder"
+                      style={{ background: bgColors[i % bgColors.length] }}
+                    >
+                      <BookOutlined />
                     </div>
                   )
                 }
               >
-                {/* Highlight matching text */}
-                <div style={{
-                  fontWeight: 500, fontSize: 13, color: "#1a1a18", marginBottom: 3,
-                  display: "-webkit-box",
-                  WebkitLineClamp: 2,
-                  WebkitBoxOrient: "vertical",
-                  overflow: "hidden",
-                }}>
+                <div className="search-card-title">
                   <HighlightText text={b.tieuDe} keyword={query} />
                 </div>
-                <div style={{ fontSize: 11, color: "#999", marginBottom: 2 }}>
+                <div className="search-card-author">
                   <HighlightText text={b.tacGia} keyword={query} />
                 </div>
                 {b.namXuatBan && (
-                  <div style={{ fontSize: 11, color: "#bbb" }}>
+                  <div className="search-card-year">
                     NXB: {b.namXuatBan}
                   </div>
                 )}
                 {b.theLoai && (
-                  <Tag style={{
-                    marginTop: 6, fontSize: 10, borderRadius: 20,
-                    background: "#F5F4F0", border: "1px solid #EEECEA", color: "#888",
-                  }}>
+                  <Tag className="search-card-category">
                     {b.theLoai}
                   </Tag>
                 )}
@@ -293,10 +232,7 @@ function HighlightText({ text, keyword }) {
     <span>
       {parts.map((part, i) =>
         regex.test(part) ? (
-          <mark key={i} style={{
-            background: "#FFF3CD", color: "#1a1a18",
-            padding: "0 1px", borderRadius: 2,
-          }}>
+          <mark key={i} className="search-highlight">
             {part}
           </mark>
         ) : (
