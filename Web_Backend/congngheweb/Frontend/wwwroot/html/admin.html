@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <link rel="stylesheet" href="../css/style_admin.css">
+    <link rel="stylesheet" href="../font/themify-icons-font/themify-icons/themify-icons.css">
+
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body{
+            font-family: Arial, sans-serif;
+            scroll-behavior: smooth;
+        }
+        #Admin{
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div id="Admin">
+        <div id="header" class="admin">
+            <div id="header-left">
+                <p  class="tx-white mg-5px">Admin</p>
+            </div>
+            <div id="header-right">
+                <label class="f13px">Admin</label>
+                <button id="Logout">
+                    <a href="../html/index.html" style="text-decoration: none; color: white;">Đăng xuất</a>
+                </button>
+            </div>
+        </div>
+        <div id="left">
+            <ul id="list-manage">
+                <!-- gọi kèm initReaderPage -->
+                <button onclick="loadPage('../html/Readermanagement.html','initReaderPage')"><li>Quản lý bạn đọc </li></button>
+                <button onclick="loadPage('../html/BanSao.html', 'initReaderPage')"><li>Quản lý bản sao </li></button>
+                <button onclick="loadPage('../html/KeSach.html','initKeSachPage')"><li>Quản lý kệ sách </li></button>
+                <button onclick="loadPage('../html/Phat.html', 'initPhatPage')"><li>Quản lý phạt</li></button>
+                <button onclick="loadPage('../html/PhieuMuon.html')"><li>Quản lý phiếu mượn</li></button>
+                <!-- gọi kèm initSachPage -->
+                <button onclick="loadPage('../html/Sach.html','initSachPage')"><li>Quản lý sách</li></button>
+                <button onclick="loadPage('../html/TheLoai.html', 'initTheLoaiPage')"><li>Quản lý thể loại</li></button>
+                <button onclick="loadPage('../html/TaiKhoan.html', 'initTaiKhoanPage')"><li>Quản lý tài khoản</li></button>
+                <button onclick="loadPage('../html/DatCho.html','initDatChoPage')"><li>Đặt chỗ</li></button>
+                <button onclick="loadPage('../html/ThanhToanPhat.html', 'initThanhToanPhatPage')"><li>Thanh toán</li></button>
+                <button onclick="loadPage('../html/TonKho.html','initTonKhoPage')"><li>Báo cáo tồn kho</li></button>
+                
+            </ul>
+        </div>
+        <div id="right">
+            <div id="content">Chọn menu bên trái để xem nội dung</div>
+        </div>
+    </div>
+    <script>
+      // loadPage GLOBAL cho tất cả trang con
+      async function loadPage(page, afterLoadFnName) {
+        try {
+          const res  = await fetch(page, { cache: 'no-store' });
+          const html = await res.text();
+
+          const host = document.getElementById('content');
+          host.innerHTML = html;
+
+          // đợi DOM của trang con gắn xong rồi mới gọi init
+          setTimeout(() => {
+            // nếu trang con là trang danh sách bạn đọc
+            if (document.getElementById('bd-body') && typeof window.initReaderPage === 'function') {
+              window.initReaderPage();
+            }
+            // nếu trang con là trang danh sách sách
+            if (document.getElementById('sach-body') && typeof window.initSachPage === 'function') {
+              window.initSachPage();
+            }
+            if(document.getElementById('pm-body') && typeof window.initPhieuMuonPage === 'function'){
+              window.initPhieuMuonPage();
+            }
+            if(document.getElementById('tl-body') && typeof window.initTheLoaiPage === 'function'){
+              window.initTheLoaiPage();
+            }
+            if(document.getElementById('tk-body') && typeof window.initTaiKhoanPage === 'function'){
+              window.initTaiKhoanPage();
+            }
+            if(document.getElementById('ks-body') && typeof window.initKeSachPage === 'function'){
+              window.initKeSachPage();
+            }
+            if(document.getElementById('bs-body') && typeof window.initBanSaoPage === 'function'){
+              window.initBanSaoPage();
+            }
+
+            // nếu lúc gọi loadPage có truyền tên hàm init thì gọi luôn
+            if (afterLoadFnName && typeof window[afterLoadFnName] === 'function') {
+              window[afterLoadFnName]();
+            }
+          }, 0);
+        } catch (e) {
+          const host = document.getElementById('content');
+          host.innerHTML = "<p style='color:red'>Không tải được trang.</p>";
+          console.error(e);
+        } 
+      }
+
+      // để nút Sửa ở trang con bạn đọc gọi được
+      function setEditBD(ma) {
+        sessionStorage.setItem('editBD', ma);
+      }
+
+      // để nút Sửa ở trang con sách gọi được
+      function setEditSach(ma) {
+        sessionStorage.setItem('editSach', ma);
+      }
+    </script>
+    <script src="../js/AuthGuard.js" defer></script>
+    <script src="../js/auth.js"></script>
+
+    <!-- JS bạn đọc -->
+    <script src="../js/BanDoc.js"></script>
+    <script src="../js/FixBD.js"></script>
+    <script src="../js/AddBD.js"></script>
+    <script src="../js/XoaBD.js"></script> 
+
+    <!-- JS sách -->
+    <script src="../js/Sach.js"></script>
+    <script src="../js/FixSach.js"></script>
+    <script src="../js/AddSach.js"></script>
+    <script src="../js/XoaSach.js"></script>
+
+    <!-- JS phiếu mượn -->
+    <script src="../js/PhieuMuon.js"></script>
+    <script src="../js/AddPM.js"></script>
+    <script src="../js/FixPM.js"></script>
+    <script src="../js/XoaPM.js"></script>
+
+    <!-- JS thể loại -->
+    <script src="../js/TheLoai.js"></script>
+    <script src="../js/AddTL.js"></script>
+    <script src="../js/FixTL.js"></script>
+    <script src="../js/XoaTL.js"></script>
+
+    <!-- JS tài khoản -->
+    <script src="../js/TaiKhoan.js"></script>
+    <script src="../js/AddTK.js"></script>
+    <script src="../js/FixTK.js"></script>
+    <script src="../js/XoaTK.js"></script>
+
+    <!-- JS kệ sách -->
+    <script src="../js/KeSach.js"></script>
+    <script src="../js/AddKS.js"></script>
+    <script src="../js/FixKS.js"></script>
+    <script src="../js/XoaKS.js"></script>
+
+    <!-- JS bản sao -->
+    <script src="../js/BanSao.js"></script>
+    <script src="../js/AddBS.js"></script>
+    <script src="../js/FixBS.js"></script>
+    <script src="../js/XoaBS.js"></script>
+
+    <script src="../js/PhieuMuon.js" defer></script>
+    <script src="../js/ThanhToanPhat.js" defer></script>
+    
+    <!-- THÊM DÒNG NÀY -->
+    <script src="../js/Phat.js"></script>
+    <script src="../js/TonKho.js"></script>
+    <script src="../js/DatCho.js"></script>
+
+</body>
+</html>

@@ -18,7 +18,6 @@ export default function BorrowHistoryPage() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
 
-  // ── Lấy maBanDoc của user đang đăng nhập ──────────────────────────────────
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   const maBanDoc = user?.maBanDoc ?? null;
 

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Báo cáo tồn kho</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-family: Arial, Helvetica, sans-serif;
+            overflow: hidden;
+        }
+
+        #Reader {
+            scroll-behavior: smooth;
+            width: calc(100% - 215px);
+            height: 95vh;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        #ThueSach {
+            overflow: hidden;
+        }
+
+        .bc-tabs {
+            display: flex;
+            gap: 8px;
+            padding: 8px 10px 4px;
+            align-items: center;
+        }
+
+        .bc-tab-btn {
+            padding: 5px 12px;
+            font-size: 13px;
+            border-radius: 4px;
+            border: 1px solid #0a7b00;
+            background: #fff;
+            color: #0a7b00;
+            cursor: pointer;
+        }
+
+        .bc-tab-btn.active {
+            background: #0a7b00;
+            color: #fff;
+        }
+
+        .bc-tab-btn#btn-refresh {
+            margin-left: auto;
+        }
+
+        .bc-msg {
+            font-size: 13px;
+            padding: 4px 10px 8px;
+            color: #b30000;
+        }
+
+        .bc-msg.success {
+            color: #0a7b00;
+        }
+
+        table.table-sm th,
+        table.table-sm td {
+            font-size: 13px;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+    <!-- Dùng lại CSS khung quản lý -->
+    <link rel="stylesheet" href="../css/style_Readermanagement.css">
+</head>
+<body>
+    <div id="ThueSach">
+        <div id="Reader">
+            <div id="header">
+                <p>Báo cáo tồn kho</p>
+            </div>
+
+            <div id="container">
+                <!-- Tabs -->
+                <div class="box-fil">
+                    <div id="fil">
+                        <p class="f13px">Chế độ xem</p>
+                    </div>
+                    <div class="bc-tabs">
+                        <button class="bc-tab-btn active" id="tab-theloai">Theo thể loại</button>
+                        <button class="bc-tab-btn" id="tab-sach">Theo sách</button>
+                        <button class="bc-tab-btn" id="btn-refresh">Tải lại</button>
+                    </div>
+                    <div id="bc-msg" class="bc-msg"></div>
+                </div>
+
+                <!-- Theo thể loại -->
+                <div class="box-fil" id="panel-theloai">
+                    <div id="fil">
+                        <p class="f13px">Tồn kho theo thể loại</p>
+                    </div>
+                    <div id="title-name">
+                        <table class="table table-hover table-sm">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Mã thể loại</th>
+                                    <th>Tên thể loại</th>
+                                    <th>Số tựa sách</th>
+                                    <th>Tổng số bản</th>
+                                    <th>Còn trong kho</th>
+                                    <th>Đang mượn</th>
+                                    <th>Hư hỏng</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bc-theloai-body">
+                                <!-- JS fill -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Theo sách -->
+                <div class="box-fil hidden" id="panel-sach">
+                    <div id="fil">
+                        <p class="f13px">Tồn kho theo sách</p>
+                    </div>
+                    <div id="title-name">
+                        <table class="table table-hover table-sm">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Mã sách</th>
+                                    <th>Tên sách</th>
+                                    <th>Thể loại</th>
+                                    <th>Tổng số bản</th>
+                                    <th>Còn trong kho</th>
+                                    <th>Đang mượn</th>
+                                    <th>Hư hỏng</th>
+                                    <th>Tiền phạt</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bc-sach-body">
+                                <!-- JS fill -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/TonKho.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Phân quyền</title>
+    <link rel="stylesheet" href="../css/phanquyen.css">
+</head>
+<body>
+<div class="pq-wrapper">
+    <h1>Phân quyền</h1>
+
+    <div class="pq-table-wrapper">
+        <table class="pq-table">
+            <thead>
+                <tr>
+                    <th class="pq-col-feature">Tính năng</th>
+                    <th class="pq-col-action">Hành động</th>
+                    <th class="pq-col-role">Quản trị viên</th>
+                    <th class="pq-col-role">Quản lý nội dung</th>
+                </tr>
+            </thead>
+            <tbody id="pq-body">
+                <!-- JS sẽ render vào đây -->
+            </tbody>
+        </table>
+    </div>
+
+    <div class="pq-footer">
+        <button id="btnSavePermission">Cập nhật</button>
+    </div>
+</div>
+
+<script src="../js/phanquyen.js"></script>
+</body>
+</html>

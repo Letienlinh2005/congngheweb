@@ -9,7 +9,7 @@ const { Meta } = Card;
 const ProductListClient = () => {
     const navigate = useNavigate();
     const [data, setData] = useState([]);
-    // fetch data
+    
     const fetchProducts = async () => {
         try {
             const res = await getSachs();

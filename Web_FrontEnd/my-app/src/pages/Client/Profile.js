@@ -21,7 +21,6 @@ export default function ProfilePage() {
         return;
       }
 
-      // Nếu user có maBanDoc thì gọi thêm API lấy duNo
       if (user.maBanDoc) {
         try {
           const res = await getBanDocById(user.maBanDoc);

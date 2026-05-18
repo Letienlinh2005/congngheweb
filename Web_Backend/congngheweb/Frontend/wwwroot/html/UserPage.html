@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Thông tin cá nhân - ThuVienXanh</title>
+  <link rel="stylesheet" href="../css/UserPage.css" />
+</head>
+<body>
+  <div class="userpage-wrapper">
+    <!-- HEADER đơn giản -->
+    <header class="up-header">
+      <div class="up-logo">ThuVi<span>enXanh</span></div>
+      <div class="up-right">
+        <span id="up-email-display" class="up-email-display"></span>
+        <button id="up-logout-btn" class="up-logout-btn">Đăng xuất</button>
+      </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="up-main">
+      <section class="up-card">
+        <h1>Thông tin cá nhân</h1>
+        <p class="up-note">
+          Bạn có thể cập nhật thông tin liên lạc để phục vụ việc thuê / trả sách.
+        </p>
+
+        <form id="up-form">
+          <div class="up-grid">
+            <div class="up-field">
+              <label for="up-hoTen">Họ tên</label>
+              <input type="text" id="up-hoTen" />
+            </div>
+
+            <div class="up-field">
+              <label for="up-email">Email</label>
+              <input type="email" id="up-email" disabled />
+            </div>
+
+            <div class="up-field">
+              <label for="up-dienThoai">Số điện thoại</label>
+              <input type="text" id="up-dienThoai" />
+            </div>
+
+            <div class="up-field">
+              <label for="up-soThe">Số thẻ</label>
+              <input type="text" id="up-soThe" disabled />
+            </div>
+
+            <div class="up-field">
+              <label for="up-hanThe">Hạn thẻ</label>
+              <input type="date" id="up-hanThe" disabled />
+            </div>
+
+            <div class="up-field">
+              <label for="up-trangThaiThe">Trạng thái</label>
+              <input type="text" id="up-trangThaiThe" disabled />
+            </div>
+
+            <div class="up-field">
+              <label for="up-duNo">Dư nợ (VND)</label>
+              <input type="text" id="up-duNo" disabled />
+            </div>
+          </div>
+
+          <div class="up-actions">
+            <span id="up-msg" class="up-msg"></span>
+            <button type="submit" class="up-save-btn">Lưu thay đổi</button>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <script src="../js/UserPage.js"></script>
+</body>
+</html>

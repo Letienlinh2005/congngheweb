@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Admin</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-family: Arial, Helvetica, sans-serif;
+            overflow: hidden; 
+        }
+
+        #Add {
+            scroll-behavior: smooth;
+            width: calc(100% - 215px);
+            height: 95vh;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+        }
+
+        #ThueSach {
+            overflow: hidden;
+        }
+    </style>
+    <link rel="stylesheet" href="../css/style_AddBD.css">
+</head>
+<body>
+    <div id="ThueSach">
+        <div id="Add">
+            <div id="header">
+                <p>Sửa thể loại</p>
+            </div>
+            <div id="container">
+                <div id="Ma">
+                    <label class="f15px pa10px">Mã thể loại</label> <br />
+                    <input type="text" class="ma10px input-btn"
+                           placeholder="Nhập mã thể loại"
+                           id="MaBD" readonly/>
+                </div>
+                <div id="the">
+                    <label class="f15px pa10px">Tên thể loại</label> <br />
+                    <input type="text" class="ma10px input-btn"
+                           placeholder="Nhập tên thể loại"
+                           id="Sothe" />
+                </div>
+                <p id="tl-add-msg" style="margin-top:8px; font-size:13px;"></p>
+            </div>
+            <div id="btn-save">
+                <button id="saveBtn" type="button">Lưu</button>
+            </div>
+            <div id="btn-back">
+                <button id="goBackbtn" type="button">
+                    <i class="ti-angle-double-left"></i>Quay lại
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../js/FixTL.js" defer></script>
+</body>
+</html>

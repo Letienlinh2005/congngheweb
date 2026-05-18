@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Admin</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-family: Arial, Helvetica, sans-serif;
+            overflow: hidden;
+        }
+
+        #Reader {
+            scroll-behavior: smooth;
+            width: calc(100% - 215px);
+            height: 95vh;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+        }
+
+        #ThueSach {
+            overflow: hidden;
+        }
+    </style>
+    <link rel="stylesheet" href="../css/style_Readermanagement.css">
+</head>
+<body>
+    <div id="ThueSach">
+        <div id="Reader">
+            <div id="header">
+                <p>Quản lý phạt</p>
+            </div>
+            <div id="container">
+                <div class="box-fil">
+                    <div id="fil">
+                        <p class="f13px">Bộ lọc và tìm kiếm</p>
+                    </div>
+                    <div id="search">
+                        <button class="btn-fil" id="All">Tất cả</button>
+                        <button class="btn-fil" id="Active">Đã trả</button>
+                        <button class="btn-fil" id="No-active">Trễ hẹn</button>
+                        <button class="btn-fil" id="en" style="background-color: green; color: white; float: right; margin-left:0px; margin-right: 10px; cursor:pointer">Tìm kiếm</button>
+                        <input type="search" placeholder="Tìm theo mã phạt, phiếu mượn, lý do..." id="search-bd" />
+                    </div>
+                </div>
+                <div class="box-fil">
+                    <div id="fil">
+                        <p class="f13px">Danh sách phạt</p>
+                    </div>
+                    
+                    <div id="title-name">
+                        <table class="table table-hover table-sm">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Mã phạt</th>
+                                    <th>Mã phiếu mượn</th>
+                                    <th>Số tiền</th>
+                                    <th>Lý do</th>
+                                    <th>Ngày tính</th>
+                                    <th>Trạng thái</th>
+                                    <th>Mã thanh toán</th>
+                                    <th>Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ph-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function loadPage(page) {
+            fetch(page)
+                .then(res => res.text())
+                .then(html => {
+                    document.getElementById('Reader').innerHTML = html;
+                })
+                .catch(err => {
+                    document.getElementById('Reader').innerHTML = "<p style='color:red'>Không tải được trang.</p>";
+                });
+        }
+    </script>
+
+    <script src="../js/Phat.js"></script>
+    <script>
+        // gọi init giống PhieuMuon.js
+        document.addEventListener('DOMContentLoaded', function () {
+            if (typeof window.initPhatPage === 'function') {
+                window.initPhatPage();
+            }
+        });
+    </script>
+</body>
+</html>

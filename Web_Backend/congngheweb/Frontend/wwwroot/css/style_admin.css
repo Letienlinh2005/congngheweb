@@ -1,0 +1,101 @@
+
+.f13px{
+    font-size: 13px !important;
+}
+.tx-white{
+    color: white !important;
+}
+.mg-5px{
+    margin: 5px !important;
+}
+#header {
+    width: 100%;
+    height: 45px;
+    background-color: #212427;
+    font-size: 25px;
+    text-transform: uppercase
+}
+
+ #header #header-left{
+    width:215px;
+    text-align: center;
+    float: left;
+}
+
+
+#header #header-right {
+    width: calc(100% - 215px);
+    height: 45px;
+    text-align: right;
+    float: right;
+    background-color:#073A4B;
+}
+#header-right label{
+    margin-right: 20px;
+    margin-top: 5px;
+    padding: 5px 15px 5px 15px;
+    background-color: #F04770;
+    color: white;
+    border: 0px;
+    border-radius: 5px;
+}
+
+#header-right #Logout {
+    margin-right: 20px;
+    margin-top: 13px;
+    padding: 5px 15px 5px 15px;
+    background-color: #F78C6A;
+    color: white;
+    border: 0px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#header p {
+    opacity: 0.7;
+    padding-top: 5px;
+}
+
+#left {
+    width: 215px;
+    height: 912px;
+    background-color: #2A2A2A;
+}
+#list-manage {
+    list-style-type: none;
+    padding-left: 0px;
+    font-size: 20px;
+    margin-top: 0px;
+    text-align: center;
+}
+    #list-manage button {
+        width: 214px;
+        padding: 13px;
+        margin: 1px;
+        cursor: pointer;
+        background-color: #2A2A2A;
+        border: 0px;
+        color: white;
+        border-radius: 5px;
+        font-size: 15px;
+    }
+#list-manage button:hover {
+    background-color: #212427;
+    
+}
+#right {
+    width: calc(100% - 215px);
+    height: 912px;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    
+}
+#content{
+    margin: 20px;
+}
+#list-manage button:focus,
+#list-manage button:active {
+    outline: none; 
+    color: white !important; 
+    background-color: #212427; 
+}

@@ -1,0 +1,159 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body {
+  background: #f5f7fb;
+}
+
+/* HEADER */
+.userpage-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.up-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 32px;
+  background: #ffffff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+.up-logo {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2c3e50;
+}
+.up-logo span {
+  color: #27ae60;
+}
+
+.up-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.up-email-display {
+  padding: 4px 10px;
+  background: #f1f3f6;
+  border-radius: 999px;
+  border: 1px solid #dde1eb;
+  font-size: 13px;
+  max-width: 240px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.up-logout-btn {
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.up-logout-btn:hover {
+  background: #c0392b;
+}
+
+/* MAIN CARD */
+
+.up-main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 32px 16px;
+}
+
+.up-card {
+  width: 100%;
+  max-width: 900px;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px 28px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+}
+
+.up-card h1 {
+  font-size: 22px;
+  margin-bottom: 6px;
+}
+
+.up-note {
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 18px;
+}
+
+/* FORM GRID */
+.up-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 24px;
+}
+
+.up-field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.up-field input {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #d0d4e4;
+  font-size: 14px;
+}
+
+.up-field input:focus {
+  outline: none;
+  border-color: #27ae60;
+  box-shadow: 0 0 0 1px rgba(39,174,96,0.3);
+}
+
+/* ACTIONS */
+.up-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+}
+
+.up-msg {
+  font-size: 13px;
+}
+
+.up-save-btn {
+  background: #27ae60;
+  color: #fff;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: 500;
+}
+.up-save-btn:hover {
+  background: #219150;
+}
+
+@media (max-width: 768px) {
+  .up-header {
+    padding: 10px 16px;
+  }
+  .up-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,24 +1,7 @@
-import {
-    Table,
-    Tag,
-    Space,
-    Modal,
-    Form,
-    Input,
-    Button,
-    message,
-    Popconfirm,
-    Select
-} from "antd";
+import { Table, Tag, Space, Modal, Form, Input, Button, message, Popconfirm, Select } from "antd";
 import { useEffect, useState } from "react";
 
-import {
-    createSach,
-    deleteSach,
-    getSachs,
-    updateSach
-} from "../../services/Admin_API/SachAPI";
-
+import { createSach, deleteSach, getSachs, updateSach } from "../../services/Admin_API/SachAPI";
 import { getTheLoais } from "../../services/Admin_API/TheLoaiAPI";
 
 import PageHeader from "../../components/PageHeader";
@@ -56,7 +39,6 @@ function ProductList() {
     };
 
     const fetchTheLoai = async () => {
-        
         try {
             const res = await getTheLoais();
             console.log(res)
@@ -119,7 +101,6 @@ function ProductList() {
         }
     };
 
-
     const handleDelete = async (id) => {
         try {
             await deleteSach(id);
@@ -130,7 +111,6 @@ function ProductList() {
             message.error("Xoá thất bại");
         }
     };
-
 
     const columns = [
         {

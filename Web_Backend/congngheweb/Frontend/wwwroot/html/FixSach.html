@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Sửa sách</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-family: Arial, Helvetica, sans-serif;
+            overflow: hidden;
+        }
+
+        #Fix {
+            scroll-behavior: smooth;
+            width: calc(100% - 215px);
+            height: 95vh;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+
+            overflow-y: auto;
+            
+        }
+
+        #ThueSach {
+            overflow: hidden;
+        }
+
+        #previewImg {
+            display: block;
+            width: 160px;
+            height: auto;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            object-fit: cover;
+        }
+    </style>
+    <link rel="stylesheet" href="../css/style_AddBD.css">
+</head>
+
+<body>
+    <div id="ThueSach">
+        <div id="Fix">
+            <div id="header">
+                <p>Sửa sách</p>
+            </div>
+
+            <!-- chỗ hiện thông báo -->
+            <p id="fix-msg" style="margin: 8px 16px; color: #666;"></p>
+
+            <div id="container">
+                <div>
+                    <label class="f15px pa10px">Mã sách</label> <br />
+                    <input type="text" class="ma10px input-btn" placeholder="Nhập mã sách" id="MaSach" readonly />
+                </div>
+                <div>
+                    <label class="f15px pa10px">Tiêu đề</label> <br />
+                    <input type="text" class="ma10px input-btn" placeholder="Nhập tiêu đề" id="TieuDe" />
+                </div>
+                <div>
+                    <label class="f15px pa10px">Tác giả</label> <br />
+                    <input type="text" class="ma10px input-btn" placeholder="Nhập tác giả" id="TacGia" />
+                </div>
+
+                <div>
+                    <label class="f15px pa10px">Thể loại</label> <br />
+                    <select id="MaTheLoai" class="ma10px input-btn">
+                        <option value="">-- Chọn thể loại --</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="f15px pa10px">Năm xuất bản</label> <br />
+                    <input type="number" class="ma10px input-btn" placeholder="Nhập năm xuất bản" id="NamXuatBan" />
+                </div>
+                <div>
+                    <label class="f15px pa10px">Ngôn ngữ</label> <br />
+                    <input type="text" class="ma10px input-btn" placeholder="Nhập ngôn ngữ" id="NgonNgu" />
+                </div>
+                <div>
+                    <label class="f15px pa10px">Tóm tắt</label> <br />
+                    <input type="text" class="ma10px input-btn" placeholder="Tóm tắt" id="TomTat" />
+                </div>
+                <div>
+                    <label class="f15px pa10px">Ảnh bìa hiện tại</label> <br />
+                    <img id="previewImg" src="" alt="Ảnh bìa">
+                </div>
+                <div>
+                    <label class="f15px pa10px">Đổi ảnh bìa</label> <br />
+                    <input type="file" class="ma10px input-btn" id="fileAnh" accept="image/*" />
+                </div>
+            </div>
+
+            <div id="btn-save">
+                <button id="saveBtn" type="button"><i class="ti-download"></i>Lưu</button>
+            </div>
+            <div id="btn-back">
+                <button id="goBackbtn" type="button"><i class="ti-angle-double-left"></i>Quay lại</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- dùng JS FixSach.js bên ngoài -->
+    <script src="../js/FixSach.js"></script>
+</body>
+
+</html>

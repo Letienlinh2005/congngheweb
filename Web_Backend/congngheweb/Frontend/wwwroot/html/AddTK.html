@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Admin</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-family: Arial, Helvetica, sans-serif;
+            overflow: hidden;
+        }
+
+        #Add {
+            scroll-behavior: smooth;
+            width: calc(100% - 215px);
+            height: 95vh;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+        }
+
+        #TaiKhoan {
+            overflow: hidden;
+        }
+    </style>
+    <link rel="stylesheet" href="../css/style_AddBD.css">
+    <script src="../js/AddTK.js"></script>
+
+</head>
+
+<body>
+    <div id="TaiKhoan">
+        <div id="Add">
+            <div id="header">
+                <p>Thêm tài khoản</p>
+            </div>
+            <div id="container">
+                <div id="Ma">
+                    <label for="MaTK" class="f15px pa10px">Mã tài khoản</label> <br />
+                    <input type="text" class="ma10px input-btn" placeholder="Nhập mã tài khoản" name="MaTK" id="MaTK" />
+                </div>
+
+                <div id="TenDN-wrap"> <!-- đổi id div, không dùng "TenDN" -->
+                    <label for="TenDN" class="f15px pa10px">Tên đăng nhập</label> <br />
+                    <input type="text" class="ma10px input-btn" placeholder="Nhập Tên đăng nhập" name="TenDN"
+                        id="TenDN" />
+                </div>
+
+                <div id="MatKhau-wrap"> <!-- đổi id div, không dùng "MatKhau" -->
+                    <label for="MatKhau" class="f15px pa10px">Mật khẩu</label> <br />
+                    <input type="password" class="ma10px input-btn" placeholder="Nhập mật khẩu" name="MatKhau"
+                        id="MatKhau" />
+                </div>
+
+                <div id="VT">
+                    <label class="f15px pa10px">Vai trò</label> <br />
+                    <input type="text" class="ma10px input-btn" name="VaiTro" id="VaiTro" value="Thủ thư" readonly />
+                </div>
+
+            </div>
+            <div id="btn-save">
+                <button id="saveBtn" type="button">+ Thêm</button>
+            </div>
+            <div id="btn-back">
+                <button id="goBackbtn" type="button"><i class="ti-angle-double-left"></i>Quay lại</button>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../js/AddTK.js"></script>
+
+</html>

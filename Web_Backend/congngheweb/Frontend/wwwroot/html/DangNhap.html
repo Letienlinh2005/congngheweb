@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <title>Đăng nhập - Thuê sách</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html, body {
+            height: 100%;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fb;
+        }
+        .auth-wrapper {
+            min-height: 100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background: linear-gradient(135deg, #4b6cb7, #182848);
+        }
+        .auth-card {
+            background:#fff;
+            width: 380px;
+            padding: 24px 28px 30px;
+            border-radius: 10px;
+            box-shadow:0 10px 25px rgba(0,0,0,0.18);
+        }
+        .auth-title {
+            font-size: 22px;
+            font-weight:600;
+            text-align:center;
+            margin-bottom:4px;
+            color:#333;
+        }
+        .auth-subtitle {
+            font-size:13px;
+            text-align:center;
+            color:#777;
+            margin-bottom:18px;
+        }
+        .form-group {
+            margin-bottom:14px;
+        }
+        label {
+            display:block;
+            font-size:13px;
+            margin-bottom:4px;
+            color:#444;
+        }
+        .auth-input {
+            width:100%;
+            padding:9px 10px;
+            border:1px solid #ccc;
+            border-radius:6px;
+            font-size:14px;
+            outline:none;
+            transition:.2s;
+        }
+        .auth-input:focus {
+            border-color:#4b6cb7;
+            box-shadow:0 0 0 2px rgba(75,108,183,0.15);
+        }
+        .auth-btn {
+            width:100%;
+            padding:9px;
+            border:none;
+            border-radius:6px;
+            background:#4b6cb7;
+            color:#fff;
+            font-size:15px;
+            font-weight:600;
+            cursor:pointer;
+            margin-top:6px;
+            transition:.2s;
+        }
+        .auth-btn:hover {
+            background:#3b57a1;
+        }
+        .auth-footer {
+            margin-top:14px;
+            font-size:13px;
+            text-align:center;
+            color:#555;
+        }
+        .auth-footer a {
+            color:#4b6cb7;
+            text-decoration:none;
+            font-weight:600;
+        }
+        .auth-footer a:hover {
+            text-decoration:underline;
+        }
+        #auth-msg {
+            margin-top:8px;
+            font-size:13px;
+            text-align:center;
+        }
+    </style>
+</head>
+<body>
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <h1 class="auth-title">Đăng nhập</h1>
+        <p class="auth-subtitle">Thuê sách online - ThuVienXanh</p>
+
+        <div class="form-group">
+            <label for="login-username">Email đăng nhập</label>
+            <input type="email" id="login-username" class="auth-input" placeholder="Nhập email của bạn" />
+        </div>
+
+        <div class="form-group">
+            <label for="login-password">Mật khẩu</label>
+            <input type="password" id="login-password" class="auth-input" placeholder="Nhập mật khẩu" />
+        </div>
+
+        <button id="btnLogin" class="auth-btn">Đăng nhập</button>
+
+        <div id="auth-msg"></div>
+
+        <div class="auth-footer">
+            Chưa có tài khoản?
+            <a href="DangKy.html">Đăng ký bạn đọc</a>
+        </div>
+    </div>
+</div>
+
+<script src="../js/DangNhap.js"></script>
+</body>
+</html>

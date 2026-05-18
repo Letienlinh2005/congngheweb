@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Sửa bản sao</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-family: Arial, Helvetica, sans-serif;
+            overflow: hidden;
+        }
+
+        #Fix {
+            scroll-behavior: smooth;
+            width: calc(100% - 215px);
+            height: 95vh;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            overflow-y: auto;
+        }
+
+        #ThueSach {
+            overflow: hidden;
+        }
+    </style>
+    <link rel="stylesheet" href="../css/style_AddBD.css">
+</head>
+<body>
+    <div id="ThueSach">
+        <div id="Fix">
+            <div id="header">
+                <p>Sửa bản sao</p>
+            </div>
+            <div id="container">
+                <div id="Ma">
+                    <label for="MaBS" class="f15px pa10px">Mã bản sao</label> <br />
+
+                    <input type="text" class="ma10px input-btn" placeholder="Nhập mã bản sao" name="MaBS" id="MaBS" readonly />
+                </div>
+                <div id="the">
+                    <label for="Sothe" class="f15px pa10px">Mã vạch</label> <br />
+                    <input type="text" class="ma10px input-btn" placeholder="Nhập vạch" name="Sothe" id="MaVach" readonly />
+                </div>
+                <div>
+                  <label class="f15px pa10px">Sách</label><br />
+                  <!-- COMBOBOX THỂ LOẠI -->
+                  <select id="MaSach" class="ma10px input-btn">
+                    <option value="">-- Chọn sách --</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="f15px pa10px">Kệ</label><br />
+                  <!-- COMBOBOX THỂ LOẠI -->
+                  <select id="MaKe" class="ma10px input-btn">
+                    <option value="">-- Chọn Kệ --</option>
+                  </select>
+                </div>
+                <div id="the">
+                    <label for="Soluong" class="f15px pa10px">Số lượng</label> <br />
+                    <input type="text" class="ma10px input-btn" placeholder="Nhập số lượng" name="Soluong" id="Soluong" />
+                </div>
+                <div id="TT">
+                    <label class="f15px pa10px">Trạng thái</label> <br />
+                    <select id="TrangThai" class="ma10px input-btn">
+                        <option value="">-- Chọn trạng thái --</option>
+                        <option value="Có sẵn">Có sẵn</option>
+                        <option value="Đang mượn">Đang mượn</option>
+                        <option value="Hư hỏng">Hư hỏng</option>
+                    </select>
+                </div>
+            </div>
+            <div id="btn-save">
+                <button id="saveBtn" type="button"><i class="ti-download"></i>Lưu</button>
+            </div>
+            <div id="btn-back">
+                <button id="goBackbtn" type="button"><i class="ti-angle-double-left"></i>Quay lại</button>
+            </div>
+            <p id="bs-fix-msg" class="f13px pa10px" style="color:red;"></p>
+        </div>
+    </div>
+
+    <script src="../js/FixBS.js"></script>
+    <script>
+        if (typeof window.initFixBS === 'function') {
+            window.initFixBS();
+        }
+    </script>
+</body>
+</html>

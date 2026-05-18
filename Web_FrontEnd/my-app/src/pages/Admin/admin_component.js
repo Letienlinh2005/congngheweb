@@ -1,40 +1,7 @@
 import { useEffect, useState } from "react";
-import {
-  Card,
-  Col,
-  Row,
-  Statistic,
-  Tag,
-  Table,
-  Select,
-  Typography,
-  Progress,
-  Spin,
-  Alert,
-  Button,
-  Space,
-  Divider,
-} from "antd";
-import {
-  BookOutlined,
-  ClockCircleOutlined,
-  ExclamationCircleOutlined,
-  DollarOutlined,
-  ArrowUpOutlined,
-  ReloadOutlined,
-} from "@ant-design/icons";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-} from "recharts";
+import { Card, Col, Row, Statistic, Tag, Table, Select, Typography, Progress, Spin, Alert, Button, Space, Divider, } from "antd";
+import { BookOutlined, ClockCircleOutlined, ExclamationCircleOutlined, DollarOutlined, ArrowUpOutlined, ReloadOutlined,} from "@ant-design/icons";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell,} from "recharts";
 import { getBanDocs } from "../../services/Admin_API/BanDocAPI";
 import { getAllPhieuMuons } from "../../services/Admin_API/PhieuMuonAPI";
 import { getBanSaos } from "../../services/Admin_API/BanSaoAPI";
@@ -148,7 +115,6 @@ export default function ThongKeThuvien() {
     (p) => (p.soLanGiaHan || p.SoLanGiaHan || 0) > 0
   ).length;
 
-  // DB: Phat.TrangThai IN ('Chưa trả', 'Đã trả', 'Miễn')
   const totalFine  = phats.reduce((s, p) => s + (p.soTien || p.SoTien || 0), 0);
   const unpaidFine = phats
     .filter((p) => (p.trangThai || p.TrangThai) === "Chưa trả")
@@ -182,7 +148,7 @@ export default function ThongKeThuvien() {
     };
   });
 
-  // Donut data
+  
   const donutData = [
     {
       name: `Đã đóng (${total ? Math.round((returnedCount / total) * 100) : 0}%)`,
@@ -269,7 +235,7 @@ export default function ThongKeThuvien() {
     },
   ];
 
-  // ─── Render ─────────────────────────────────────────────────────────────────
+  // Render
   if (error) {
     return (
       <Alert

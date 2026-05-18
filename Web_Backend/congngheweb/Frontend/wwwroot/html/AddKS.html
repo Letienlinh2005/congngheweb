@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Thêm kệ sách</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      font-family: Arial, Helvetica, sans-serif;
+      overflow: hidden;
+    }
+
+    #Add {
+      scroll-behavior: smooth;
+      width: 100%;
+      height: 95vh;
+    }
+
+    #ThueSach {
+      overflow: hidden;
+    }
+  </style>
+  <link rel="stylesheet" href="../css/style_AddBD.css">
+</head>
+<body>
+  <div id="ThueSach">
+    <div id="Add">
+      <div id="header">
+        <p>Thêm kệ sách</p>
+      </div>
+
+      <form id="form-add-ks">
+        <div id="container">
+          <div id="Ma">
+            <label for="MaKS" class="f15px pa10px">Mã kệ</label><br />
+            <input
+              type="text"
+              class="ma10px input-btn"
+              placeholder="Nhập mã kệ"
+              name="MaKe"
+              id="MaKS"
+            />
+          </div>
+          <div id="the">
+            <label for="ViTri" class="f15px pa10px">Vị trí</label><br />
+            <input
+              type="text"
+              class="ma10px input-btn"
+              placeholder="Nhập vị trí"
+              name="ViTri"
+              id="ViTri"
+            />
+          </div>
+        </div>
+
+        <div id="btn-save">
+          <button id="saveBtn" type="submit">+ Thêm</button>
+        </div>
+        <div id="btn-back">
+          <button id="goBackbtn" type="button">
+            <i class="ti-angle-double-left"></i>Quay lại
+          </button>
+        </div>
+
+        <p id="ks-add-msg" class="f13px pa10px" style="color:red;"></p>
+      </form>
+    </div>
+  </div>
+
+  <script src="../js/AddKS.js"></script>
+</body>
+</html>

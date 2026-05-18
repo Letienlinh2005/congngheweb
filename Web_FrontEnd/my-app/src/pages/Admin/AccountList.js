@@ -1,23 +1,8 @@
-import {
-    Table,
-    Space,
-    message,
-    Popconfirm,
-    Form,
-    Modal,
-    Input,
-    Button,
-    Select,
-} from "antd";
+import { Table, Space, message, Popconfirm, Form, Modal, Input, Button, Select, } from "antd";
 import { useEffect, useState } from "react";
 import PageHeader from "../../components/PageHeader";
 
-import {
-    createTaiKhoan,
-    deleteTaiKhoan,
-    getTaiKhoans,
-    updateTaiKhoan,
-} from "../../services/Admin_API/TaiKhoanAPI";
+import { createTaiKhoan, deleteTaiKhoan, getTaiKhoans, updateTaiKhoan, } from "../../services/Admin_API/TaiKhoanAPI";
 
 function AccountList() {
     const [data, setData] = useState([]);
@@ -61,7 +46,7 @@ function AccountList() {
             createForm.resetFields();
             fetchAccounts();
         } catch (err) {
-            console.log("🔥 ERROR:", err.response?.data);
+            console.log("ERROR:", err.response?.data);
             message.error("Thêm tài khoản thất bại");
         }
     };
@@ -99,7 +84,6 @@ function AccountList() {
         }
     };
 
-    // TABLE
     const columns = [
         {
             title: "Tên đăng nhập",

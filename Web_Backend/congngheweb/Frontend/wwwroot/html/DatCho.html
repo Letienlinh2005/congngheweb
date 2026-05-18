@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Admin - Quản lý đặt chỗ</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-family: Arial, Helvetica, sans-serif;
+            overflow: hidden;
+        }
+
+        #Reader {
+            scroll-behavior: smooth;
+            width: calc(100% - 215px);
+            height: 95vh;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            overflow-y: auto;
+        }
+
+        #ThueSach {
+            overflow: hidden;
+        }
+    </style>
+    <!-- dùng lại css quản lý bạn đọc/phiếu mượn -->
+    <link rel="stylesheet" href="../css/style_Readermanagement.css">
+</head>
+<body>
+    <div id="ThueSach">
+        <div id="Reader">
+            <div id="header">
+                <p>Quản lý đặt chỗ</p>
+            </div>
+            <div id="container">
+                <!-- Bộ lọc & tìm kiếm -->
+                <div class="box-fil">
+                    <div id="fil">
+                        <p class="f13px">Bộ lọc và tìm kiếm</p>
+                    </div>
+                    <div id="search">
+                        <button class="btn-fil" id="All">Tất cả</button>
+                        <button class="btn-fil" id="Wait">Chờ hàng</button>
+                        <button class="btn-fil" id="Hold">Đang giữ</button>
+                        <button class="btn-fil" id="Expired">Hết hạn</button>
+                        <button class="btn-fil" id="Canceled">Đã hủy</button>
+
+                        <button class="btn-fil" id="en"
+                            style="background-color: green; color: white; float: right;
+                                   margin-left:0px; margin-right: 10px; cursor:pointer">
+                            Tìm kiếm
+                        </button>
+                        <input type="search" placeholder="Tìm kiếm đặt chỗ" id="search-bd" />
+                    </div>
+                </div>
+
+                <!-- Danh sách đặt chỗ -->
+                <div class="box-fil">
+                    <div id="fil">
+                        <p class="f13px">Danh sách đặt chỗ</p>
+                    </div>
+                    <div id="search">
+                        <!-- Đặt chỗ tạo từ phía user nên thường không có “Thêm mới” ở admin
+                             Nếu bạn vẫn muốn cho admin tự tạo thì mở dòng dưới -->
+                        <!-- <button class="btn-fil" onclick="loadPage('../html/AddDatCho.html','initAddDatCho')">+ Thêm mới</button> -->
+                    </div>
+                    <div id="title-name">
+                        <table class="table table-hover table-sm">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Mã đặt chỗ</th>
+                                    <th>Mã sách</th>
+                                    <th>Mã bạn đọc</th>
+                                    <th>Ngày tạo</th>
+                                    <th>Trạng thái</th>
+                                    <th>Giữ đến</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dc-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // giống mẫu Phiếu mượn: load trang con vào #Reader
+        window.loadPage = async function (page, afterLoadFnName) {
+            try {
+                const res = await fetch(page);
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                const html = await res.text();
+                document.getElementById('Reader').innerHTML = html;
+
+                setTimeout(() => {
+                    if (afterLoadFnName && typeof window[afterLoadFnName] === 'function') {
+                        window[afterLoadFnName]();
+                    }
+                }, 0);
+            } catch (err) {
+                console.error(err);
+                document.getElementById('Reader').innerHTML =
+                    "<p style='color:red'>Không tải được trang.</p>";
+            }
+        };
+
+        // lưu mã đặt chỗ để trang FixDatCho (nếu có) đọc lại
+        function setEditDatCho(ma) {
+            sessionStorage.setItem('editDatCho', ma);
+        }
+    </script>
+
+    <!-- JS load danh sách đặt chỗ, filter, hủy… -->
+    <script src="../js/DatCho.js" defer></script>
+    <!-- Nếu sau này có trang sửa thì thêm:
+    <script src="../js/FixDatCho.js" defer></script>
+    -->
+</body>
+</html>

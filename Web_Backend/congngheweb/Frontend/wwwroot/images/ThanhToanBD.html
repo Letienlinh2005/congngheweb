@@ -1,0 +1,411 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Thanh toán dư nợ</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+    html {
+      font-family: Arial, Helvetica, sans-serif;
+      overflow: hidden;
+    }
+    #Reader {
+      scroll-behavior: smooth;
+      width: calc(100% - 215px);
+      height: 95vh;
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    #ThueSach {
+      overflow: hidden;
+    }
+    .info-box {
+      padding: 15px 20px;
+      border-bottom: 1px solid #ddd;
+      background: #f8f9fa;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .info-item {
+      min-width: 250px;
+      font-size: 15px;
+    }
+    .info-label {
+      font-weight: 600;
+      color: #495057;
+    }
+    .pay-summary {
+      margin-top: 15px;
+      padding: 15px 20px;
+      background: #fff3cd;
+      border: 2px solid #ffc107;
+      font-size: 16px;
+      border-radius: 4px;
+    }
+    .pay-summary span {
+      font-weight: 700;
+      color: #d9534f;
+      font-size: 20px;
+    }
+    .pay-method {
+      margin-top: 20px;
+      padding: 15px 20px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    .pay-method label {
+      font-size: 15px;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 8px;
+      color: #495057;
+    }
+    .pay-method select,
+    .pay-method textarea {
+      width: 100%;
+      max-width: 500px;
+      margin-top: 6px;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+    }
+    .pay-method textarea {
+      min-height: 100px;
+      resize: vertical;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    .pay-actions {
+      margin-top: 20px;
+      padding: 15px 20px;
+      display: flex;
+      gap: 15px;
+    }
+    .btn-pay {
+      background: #28a745;
+      color: #fff;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-pay:hover {
+      background: #218838;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    .btn-pay:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+      background: #6c757d;
+      transform: none;
+    }
+    .btn-back {
+      border: 1px solid #6c757d;
+      background: #6c757d;
+      color: #fff;
+      padding: 12px 30px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-back:hover {
+      background: #5a6268;
+      transform: translateY(-1px);
+    }
+    .box-fil {
+      margin-bottom: 20px;
+    }
+    #fil p {
+      font-size: 16px;
+      font-weight: 600;
+      padding: 15px 20px;
+      background: #e9ecef;
+      border-left: 4px solid #007bff;
+    }
+  </style>
+  <link rel="stylesheet" href="../css/style_Readermanagement.css" />
+</head>
+<body>
+  <div id="ThueSach">
+    <div id="Reader">
+      <div id="header">
+        <p>Thanh toán dư nợ bạn đọc</p>
+      </div>
+
+      <div id="container">
+        <!-- Thông tin bạn đọc -->
+        <div class="box-fil">
+          <div id="fil">
+            <p>Thông tin bạn đọc</p>
+          </div>
+          <div class="info-box">
+            <div class="info-item">
+              <span class="info-label">Mã bạn đọc:</span> 
+              <span id="info-maBD">-</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Họ tên:</span> 
+              <span id="info-hoTen">-</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Email:</span> 
+              <span id="info-email">-</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Số điện thoại:</span> 
+              <span id="info-sdt">-</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Số thẻ:</span> 
+              <span id="info-soThe">-</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Dư nợ:</span> 
+              <span id="info-duNo" style="color: #d9534f; font-weight: 600;">-</span>
+            </div>
+          </div>
+          <div class="pay-summary">
+            💰 Tổng dư nợ cần thanh toán: <span id="total-debt">0 ₫</span>
+          </div>
+        </div>
+
+        <!-- Thiết lập thanh toán -->
+        <div class="box-fil">
+          <div id="fil">
+            <p>Thiết lập thanh toán</p>
+          </div>
+
+          <div class="pay-method">
+            <label for="pay-method">Hình thức thanh toán <span style="color: red;">*</span></label>
+            <select id="pay-method">
+              <option value="Tiền mặt">Tiền mặt</option>
+              <option value="Thẻ">Thẻ</option>
+              <option value="Chuyển khoản">Chuyển khoản</option>
+              <option value="Ví điện tử">Ví điện tử</option>
+            </select>
+
+            <label for="pay-note" style="margin-top: 20px;">Ghi chú (tùy chọn)</label>
+            <textarea id="pay-note" placeholder="Nhập ghi chú nếu cần..."></textarea>
+          </div>
+
+          <div class="pay-actions">
+            <button class="btn-back" type="button" id="btnBack">← Quay lại</button>
+            <button class="btn-pay" type="button" id="btnPay">💰 Thanh toán ngay</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS xử lý thanh toán -->
+  <script>
+    const PAY_BANDOC_KEY = 'PAY_BANDOC';
+    const API_THANHTOAN = 'https://localhost:7151/api/thanhtoan/phat';
+    const API_PHAT = 'https://localhost:7151/api/phat';
+
+    let currentReader = null;
+    let cacKhoanPhat = [];
+
+    // ========== KHỞI TẠO ==========
+    (function init() {
+      console.log('🚀 Khởi tạo trang thanh toán');
+      
+      const raw = sessionStorage.getItem(PAY_BANDOC_KEY);
+      if (!raw) {
+        alert('Không tìm thấy thông tin bạn đọc. Vui lòng chọn lại.');
+        goBack();
+        return;
+      }
+
+      try {
+        currentReader = JSON.parse(raw);
+        console.log('✅ Dữ liệu bạn đọc:', currentReader);
+      } catch (err) {
+        console.error('❌ Lỗi parse:', err);
+        alert('Dữ liệu bị lỗi.');
+        goBack();
+        return;
+      }
+
+      fillReaderInfo(currentReader);
+      attachButtons();
+      loadUnpaidFines(currentReader.maBanDoc);
+    })();
+
+    // ========== HIỂN THỊ THÔNG TIN ==========
+    function fillReaderInfo(bd) {
+      document.getElementById('info-maBD').textContent = bd.maBanDoc || '-';
+      document.getElementById('info-hoTen').textContent = bd.hoTen || '-';
+      document.getElementById('info-email').textContent = bd.email || '-';
+      document.getElementById('info-sdt').textContent = bd.dienThoai || '-';
+      document.getElementById('info-soThe').textContent = bd.soThe || '-';
+      
+      const duNo = Number(bd.duNo || 0);
+      document.getElementById('info-duNo').textContent = formatMoney(duNo) + ' ₫';
+      document.getElementById('total-debt').textContent = formatMoney(duNo) + ' ₫';
+
+      const btnPay = document.getElementById('btnPay');
+      if (duNo <= 0) {
+        btnPay.disabled = true;
+        btnPay.textContent = '✅ Không có dư nợ';
+      }
+    }
+
+    // ========== GẮN SỰ KIỆN ==========
+    function attachButtons() {
+      document.getElementById('btnBack').onclick = goBack;
+      document.getElementById('btnPay').onclick = handlePayment;
+    }
+
+    function goBack() {
+      if (typeof loadPage === 'function') {
+        loadPage('../html/Readermanagement.html', 'initReaderPage');
+      } else {
+        window.history.back();
+      }
+    }
+
+    // ========== LOAD PHẠT (ẨN, CHỈ ĐỂ LẤY DANH SÁCH) ==========
+    async function loadUnpaidFines(maBanDoc) {
+      try {
+        const res = await fetch(`${API_PHAT}/chua-thanh-toan/${maBanDoc}`, { cache: 'no-store' });
+        
+        if (res.ok) {
+          let data = await res.json();
+          if (data?.data) data = data.data;
+          if (Array.isArray(data)) {
+            cacKhoanPhat = data;
+            console.log(`✅ Tìm thấy ${cacKhoanPhat.length} khoản phạt chưa thanh toán`);
+          }
+        }
+      } catch (err) {
+        console.warn('⚠️ Không load được phạt:', err);
+      }
+    }
+
+    // ========== XỬ LÝ THANH TOÁN ==========
+    async function handlePayment() {
+      const duNo = Number(currentReader.duNo || 0);
+      if (duNo <= 0) {
+        alert('Bạn đọc không có dư nợ!');
+        return;
+      }
+
+      const payMethod = document.getElementById('pay-method').value;
+      const note = document.getElementById('pay-note').value;
+
+      const confirmMsg = `Xác nhận thanh toán?\n\n` +
+                        `👤 Bạn đọc: ${currentReader.hoTen}\n` +
+                        `💰 Số tiền: ${formatMoney(duNo)} ₫\n` +
+                        `💳 Hình thức: ${payMethod}\n` +
+                        `📝 Ghi chú: ${note || '(Không có)'}`;
+
+      if (!confirm(confirmMsg)) return;
+
+      const btnPay = document.getElementById('btnPay');
+      btnPay.disabled = true;
+      btnPay.textContent = '⏳ Đang xử lý...';
+
+      // Nếu có phạt trong hệ thống, thanh toán từng phạt
+      if (cacKhoanPhat.length > 0) {
+        await payAllFines(payMethod, note);
+      } else {
+        // Nếu không có phạt, báo lỗi
+        alert('⚠️ Không tìm thấy khoản phạt nào để thanh toán.\n\nVui lòng kiểm tra lại hoặc liên hệ quản trị viên.');
+        btnPay.disabled = false;
+        btnPay.textContent = '💰 Thanh toán ngay';
+      }
+    }
+
+    // ========== THANH TOÁN TẤT CẢ PHẠT ==========
+    async function payAllFines(payMethod, note) {
+      let thanhCong = 0;
+      let thatBai = 0;
+      const errors = [];
+
+      for (let i = 0; i < cacKhoanPhat.length; i++) {
+        const phat = cacKhoanPhat[i];
+        const maPhat = phat.MaPhat || phat.maPhat;
+        const maThanhToan = 'TT' + Date.now() + '_' + i;
+
+        const payload = {
+          MaPhat: maPhat,
+          MaThanhToan: maThanhToan,
+          HinhThuc: payMethod,
+          GhiChu: note || `Thanh toán phạt ${maPhat}`
+        };
+
+        console.log(`📤 [${i+1}/${cacKhoanPhat.length}] Thanh toán ${maPhat}`);
+
+        try {
+          const res = await fetch(API_THANHTOAN, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+
+          const text = await res.text();
+          let result;
+          try { result = JSON.parse(text); } catch { result = null; }
+
+          if (res.ok && (!result || result.success !== false)) {
+            thanhCong++;
+            console.log(`✅ ${maPhat} thành công`);
+          } else {
+            thatBai++;
+            const errMsg = result?.message || text || `HTTP ${res.status}`;
+            errors.push(`${maPhat}: ${errMsg}`);
+            console.error(`❌ ${maPhat} thất bại:`, errMsg);
+          }
+        } catch (err) {
+          thatBai++;
+          errors.push(`${maPhat}: ${err.message}`);
+          console.error(`❌ ${maPhat} lỗi:`, err);
+        }
+
+        await new Promise(resolve => setTimeout(resolve, 200));
+      }
+
+      // Hiển thị kết quả
+      if (thatBai === 0) {
+        alert(`✅ Thanh toán thành công!\n\n💰 Đã thanh toán ${thanhCong} khoản phạt\n📝 Dư nợ đã được xóa`);
+        location.reload();
+      } else {
+        let msg = `Kết quả thanh toán:\n\n✅ Thành công: ${thanhCong}\n❌ Thất bại: ${thatBai}\n`;
+        if (errors.length > 0) {
+          msg += `\nLỗi:\n${errors.join('\n')}`;
+        }
+        alert(msg);
+        
+        if (thanhCong > 0) {
+          location.reload();
+        } else {
+          const btnPay = document.getElementById('btnPay');
+          btnPay.disabled = false;
+          btnPay.textContent = '💰 Thanh toán ngay';
+        }
+      }
+    }
+
+    // ========== HELPER ==========
+    function formatMoney(v) {
+      return (Number(v) || 0).toLocaleString('vi-VN');
+    }
+  </script>
+</body>
+</html>

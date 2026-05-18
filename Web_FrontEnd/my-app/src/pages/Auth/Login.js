@@ -1,4 +1,3 @@
-// ================= LOGIN PAGE =================
 import React from "react";
 import { Button, Form, Input, Card, message } from "antd";
 import { useNavigate } from "react-router-dom";
@@ -13,8 +12,7 @@ const Login = () => {
     try {
       const res = await loginAPI(values);
 
-      const token =
-        res.data?.token || res.data?.data?.token || res.data?.data?.accessToken;
+      const token = res.data?.token || res.data?.data?.token || res.data?.data?.accessToken;
 
       if (!token) {
         message.error("Không tìm thấy token");

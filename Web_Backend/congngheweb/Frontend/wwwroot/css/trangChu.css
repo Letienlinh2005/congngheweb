@@ -1,0 +1,596 @@
+/* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #fff;
+}
+
+.container {
+    width: 100%;
+    margin: 0;
+    background: #fff;
+}
+
+/* ========== USER MENU (sau đăng nhập) ========== */
+
+.user-menu {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  font-size: 14px;
+}
+
+.user-email {
+  max-width: 200px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-link {
+  color: #0077cc;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.user-link:hover {
+  text-decoration: underline;
+}
+
+.user-logout-btn {
+  border: none;
+  background: #f44336;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.user-logout-btn:hover {
+  background: #d32f2f;
+}
+
+/* cho mobile: thu nhỏ lại */
+@media (max-width: 768px) {
+  .user-menu {
+    gap: 6px;
+    padding: 4px 8px;
+  }
+  .user-email {
+    max-width: 130px;
+  }
+}
+
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 60px;
+    background: #fff;
+    border-bottom: 1px solid #e0e0e0;
+    position: relative;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    color: #2a3b4c;
+}
+
+    .logo span {
+        color: #7cc499;
+    }
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.search-container {
+    position: relative;
+}
+
+    .search-box input,
+    .search-container input {
+        padding: 10px 40px 10px 15px;
+        border: 1px solid #ddd;
+        border-radius: 25px;
+        outline: none;
+        width: 280px;
+        font-size: 14px;
+    }
+
+.search-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+    cursor: pointer;
+}
+
+.auth-buttons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.login-btn {
+    background: #f36f45;
+    border: none;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s ease;
+    text-decoration: none;
+}
+
+    .login-btn:hover {
+        background: #e55a3a;
+    }
+
+.help-link {
+    color: #666;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+/* Menu */
+.menu {
+    display: flex;
+    justify-content: center;
+    background: linear-gradient(135deg, #4a6741 0%, #2a3b4c 100%);
+    padding: 0;
+}
+
+    .menu a {
+        color: #fff;
+        text-decoration: none;
+        padding: 18px 25px;
+        font-weight: 500;
+        transition: background 0.3s ease;
+        position: relative;
+    }
+
+        .menu a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 60px;
+    position: relative;
+    overflow: hidden;
+    max-width: 1200px;
+    margin: 20px auto;
+    border-radius: 20px;
+}
+
+.hero-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.hero-text {
+    flex: 1;
+    max-width: 500px;
+}
+
+    .hero-text h1 {
+        font-size: 48px;
+        font-weight: bold;
+        color: #2a3b4c;
+        line-height: 1.2;
+        margin-bottom: 20px;
+    }
+
+    .hero-text p {
+        font-size: 18px;
+        color: #666;
+        margin-bottom: 40px;
+        line-height: 1.6;
+    }
+
+.features {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 30px;
+}
+
+.feature {
+    text-align: center;
+    flex: 1;
+}
+
+    .feature h3 {
+        color: #f36f45;
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .feature p {
+        color: #f36f45;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+.hero-image {
+    flex: 1;
+    text-align: right;
+    position: relative;
+}
+
+    .hero-image img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 20px;
+    }
+
+/* Remove old promo-banner styles */
+
+.promo-content {
+    background: linear-gradient(135deg, #f36f45 0%, #e55a3a 100%);
+    color: white;
+    padding: 20px 60px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 40px;
+    box-shadow: 0 8px 25px rgba(243, 111, 69, 0.3);
+}
+
+.promo-text {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+    .promo-text .discount {
+        font-size: 36px;
+        font-weight: bold;
+    }
+
+    .promo-text .description {
+        font-size: 16px;
+    }
+
+.promo-cta {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.signup-btn {
+    background: #fff;
+    color: #f36f45;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+    .signup-btn:hover {
+        background: #f8f8f8;
+        transform: translateY(-2px);
+    }
+
+.promo-note {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+/* Books Section */
+.books {
+    padding: 50px 20px;
+    background: #fff;
+    text-align: center;
+}
+
+.books h2 {
+    margin-bottom: 32px;
+    font-size: 32px;
+    color: #2a3b4c;
+    font-weight: bold;
+}
+
+/* Dùng grid để auto-fill cột, kích thước bìa to hơn và linh hoạt */
+.book-list {
+    display: grid;
+    /* min 190px trên mobile, có thể nở tới 240px trên desktop */
+    grid-template-columns: repeat(auto-fill, minmax(clamp(190px, 22vw, 240px), 1fr));
+    gap: 28px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Không fix width cứng cho .book nữa */
+.book {
+    width: 100%;
+    text-align: center;
+    transition: transform 0.25s ease;
+}
+
+.book:hover {
+    transform: translateY(-6px);
+}
+
+/* Dùng aspect-ratio để luôn đúng tỉ lệ 2:3, bìa sẽ lớn và đồng đều */
+.book img {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    height: auto;                /* để trình duyệt tự tính theo aspect-ratio */
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.16);
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.book img:hover {
+    box-shadow: 0 16px 40px rgba(0,0,0,0.24);
+    transform: scale(1.03);
+}
+
+
+.book {
+  display: flex;
+  flex-direction: column;
+}
+
+.book-title {
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #2a3b4c;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: calc(1.3em * 2);
+}
+
+.book:hover .book-title {
+  color: #1a73e8;
+}
+
+.info{
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px 16px 56px;
+}
+        
+.info-divider{
+    height: 14px;
+    background:#274b7a;
+    border-radius: 6px;
+    margin: 8px 0 28px;
+}
+
+.info-grid{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 28px;
+}
+
+.info-col p{
+    color: #333;
+    line-height: 1.85;
+    font-size: 16px;
+    margin: 0;
+    text-align: justify;
+}
+
+/* ===== Footer (style OpenBoox) ===== */
+:root{
+  --ft-bg: #0f1f33;          /* xanh đậm */
+  --ft-text: #c9d3e5;        /* chữ nhạt */
+  --ft-head: #ffffff;        /* tiêu đề */
+  --ft-line: rgba(255,255,255,0.08);
+  --ft-accent: #1a73e8;      /* link hover */
+}
+
+.site-footer{
+  background: var(--ft-bg);
+  color: var(--ft-text);
+  margin-top: 60px;
+  border-top: 1px solid var(--ft-line);
+  font-size: 15px;
+}
+
+.site-footer .ft-container{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 20px 28px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 32px;
+}
+
+.ft-col h4{
+  color: var(--ft-head);
+  font-size: 16px;
+  margin-bottom: 14px;
+}
+
+.ft-brand{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+  margin-bottom: 8px;
+}
+
+.ft-logo{ width: 40px; height: 40px; object-fit: contain; }
+.ft-desc{ line-height: 1.6; margin: 6px 0 14px; }
+
+.ft-socials{ display: flex; gap: 10px; }
+.ft-social{
+  width: 36px; height: 36px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  color: #fff; text-decoration: none;
+  transition: transform .2s ease, background .2s ease;
+}
+.ft-social:hover{ transform: translateY(-2px); background: rgba(255,255,255,0.18); }
+
+.ft-links{ list-style: none; padding: 0; margin: 0; }
+.ft-links li{ margin: 8px 0; }
+.ft-links a{
+  color: var(--ft-text); text-decoration: none;
+}
+.ft-links a:hover{ color: var(--ft-accent); }
+
+.ft-newsletter{
+  display: flex; gap: 8px; margin-bottom: 12px;
+}
+.ft-newsletter input{
+  flex: 1; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--ft-line);
+  background: rgba(255,255,255,0.06); color: #fff; outline: none;
+}
+.ft-newsletter input::placeholder{ color: #9fb0c9; }
+.ft-newsletter button{
+  padding: 10px 14px; border: 0; border-radius: 10px; cursor: pointer;
+  background: #1a73e8; color: #fff; font-weight: 600;
+}
+.ft-newsletter button:hover{ filter: brightness(1.08); }
+
+.ft-contact{ list-style: none; padding: 0; margin: 8px 0 0; }
+.ft-contact li{ margin: 6px 0; }
+.ft-contact span{ color: #fff; font-weight: 600; }
+
+.ft-bottom{
+  border-top: 1px solid var(--ft-line);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px;
+  max-width: 1200px; margin: 0 auto; padding: 14px 20px 24px;
+  color: #9fb0c9; font-size: 14px;
+}
+.ft-pay{ display: flex; gap: 8px; flex-wrap: wrap; }
+.ft-paychip{
+  padding: 6px 10px; border-radius: 8px;
+  background: rgba(255,255,255,0.06); color: #e6eefc; font-weight: 600;
+  border: 1px solid var(--ft-line);
+}
+
+
+
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .header {
+        padding: 15px 20px;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .header-right {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .search-container input {
+        width: 200px;
+    }
+
+    .hero {
+        padding: 40px 20px;
+    }
+
+    .hero-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero-text {
+        max-width: 100%;
+        margin-bottom: 30px;
+    }
+
+        .hero-text h1 {
+            font-size: 36px;
+        }
+
+    .features {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .promo-banner {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .promo-content {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .promo-text {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .books {
+        padding: 30px 20px;
+    }
+
+    .book-list {
+        gap: 20px;
+    }
+
+    .book {
+        width: 150px;
+    }
+
+    .menu {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+        .menu a {
+            padding: 12px 15px;
+            font-size: 14px;
+        }
+}

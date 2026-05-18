@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Admin</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-family: Arial, Helvetica, sans-serif;
+            overflow: hidden;
+        }
+
+        #Reader {
+            scroll-behavior: smooth;
+            width: calc(100% - 215px);
+            height: 95vh;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            overflow-y: auto;
+
+        }
+
+        #ThueSach {
+            overflow: hidden;
+        }
+    </style>
+    <link rel="stylesheet" href="../css/style_Readermanagement.css">
+
+</head>
+<body>
+    <div id="ThueSach">
+        <div id="Reader">
+            <div id="header">
+                <p>Quản lý bản sao</p>
+            </div>
+            <div id="container">
+                <div class="box-fil">
+                    <div id="fil">
+                        <p class="f13px">Bộ lọc và tìm kiếm</p>
+                    </div>
+                    <div id="search">
+                        <button class="btn-fil" id="All">Tất cả</button>
+                        <button class="btn-fil" id="Active">Hoạt động</button>
+                        <button class="btn-fil" id="No-active">Không hoạt động</button>
+                    
+                        <button class="btn-fil" id="en"
+                                style="background-color: green; color: white; float: right; margin-left:0px; margin-right: 10px; cursor:pointer">
+                            Tìm kiếm
+                        </button>
+                        <input type="search" placeholder="Tìm kiếm bản sao" id="search-bd" />
+                    </div>
+                </div>
+            
+                <div class="box-fil">
+                    <div id="fil">
+                        <p class="f13px">Danh sách bản sao</p>
+                    </div>
+                    <div id="search">
+                        <button class="btn-fil" onclick="loadPage('../html/AddBS.html','initAddBS')">+ Thêm mới</button>
+                    </div>
+                
+                    <div id="title-name">
+                        <table class="table table-hover table-sm">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Mã bản sao</th>
+                                    <th>Mã vạch</th>
+                                    <th>Mã kệ</th>
+                                    <th>Mã sách</th>
+                                    <th>Số lượng</th>
+                                    <th>Trạng thái</th>
+                                    <th>Hành động</th>
+                                </tr>
+                            </thead>
+                        
+                            <tbody id="bs-body">
+                                <!-- JS sẽ render dữ liệu vào đây -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../js/BanSao.js"></script> 
+    <script src="../js/AddBS.js"></script> 
+    
+    <script>
+  // gọi khi trang load xong
+      function loadPage(page, initFuncName) {
+        fetch(page)
+            .then(res => res.text())
+            .then(html => {
+                const content = document.getElementById('content') || document.getElementById('Reader');
+                content.innerHTML = html;
+                if (initFuncName && typeof window[initFuncName] === 'function') {
+                    window[initFuncName]();
+                }
+            });
+        }
+</script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-family: Arial, Helvetica, sans-serif;
+            overflow: hidden;
+        }
+
+        #Fix {
+            scroll-behavior: smooth;
+            width: calc(100% - 215px);
+            height: 95vh;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+        }
+
+        #ThueSach {
+            overflow: hidden;
+        }
+    </style>
+    <link rel="stylesheet" href="../css/style_AddBD.css">
+</head>
+<body>
+    <div id="ThueSach">
+        <div id="Fix">
+            <div id="header">
+                <p>Sửa phiếu mượn</p>
+            </div>
+            <div id="container">
+                <div id="Ma">
+                    <label for="MaBD" class="f15px pa10px">Mã phiếu mượn</label> <br />
+                    <input type="text" class="ma10px input-btn" placeholder="Nhập mã phiếu mượn" name="MaBD" id="MaBD" />
+                </div>
+                <div id="the">
+                    <label for="Sothe" class="f15px pa10px">Mã bản sao</label> <br />
+                    <input type="text" class="ma10px input-btn" placeholder="Nhập mã bản sao" name="Sothe" id="Sothe" />
+                </div>
+                <div id="ten">
+                    <label for="Hoten" class="f15px pa10px">Mã bạn đọc</label> <br />
+                    <input type="text" class="ma10px input-btn" placeholder="Nhập mã bạn đọc" name="Hoten" id="Hoten" />
+                </div>
+                <div id="mail">
+                    <label for="Email" class="f15px pa10px">Ngày mượn</label> <br />
+                    <input type="date" class="ma10px input-btn" placeholder="Nhập ngày mượn " name="Email" id="Email" />
+                </div>
+                <div id="mail">
+                    <label for="Email" class="f15px pa10px">Hạn trả</label> <br />
+                    <input type="date" class="ma10px input-btn" placeholder="Nhập hạn trả" name="Email" id="Email" />
+                </div>
+                <div id="mail">
+                    <label for="Email" class="f15px pa10px">Ngày trả thực tế</label> <br />
+                    <input type="date" class="ma10px input-btn" placeholder="Nhập trả thực tế" name="Email" id="Email" />
+                </div>
+                <div id="ten">
+                    <label for="Hoten" class="f15px pa10px">Số lần gia hạn</label> <br />
+                    <input type="text" class="ma10px input-btn" placeholder="Nhập số lần gia hạn" name="Hoten" id="Hoten" />
+                </div>
+                <div id="TT">
+                    <label class="f15px pa10px">Trạng thái</label> <br />
+                    <select id="TrangThai" name="TrangThai" class="ma10px input-btn">
+                        <option value="">-- Chọn trạng thái --</option>
+                        <option value="1">Đang mở</option>
+                        <option value="0">Đã hỏng</option>
+                    </select>
+                </div>
+            </div>
+            <div id="btn-save">
+                <button id = "saveBtn" type="button"><i class = "ti-download"></i>Lưu</button>
+            </div>
+            <div id="btn-back">
+                <button id = "goBackbtn" type="button"><i class = "ti-angle-double-left"></i>Quay lại</button>
+            </div>
+
+
+        </div>
+    </div>
+</body>
+</html>

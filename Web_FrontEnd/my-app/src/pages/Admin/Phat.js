@@ -2,11 +2,7 @@ import { Table, Space, Tag, message, Popconfirm, Button } from "antd";
 import { useEffect, useState } from "react";
 import PageHeader from "../../components/PageHeader";
 
-import {
-    getAllPhats,
-    getPhatByMaBanDoc,
-    thanhToanPhat
-} from "../../services/Admin_API/PhatAPI";
+import { getAllPhats, getPhatByMaBanDoc, thanhToanPhat } from "../../services/Admin_API/PhatAPI";
 
 function PhatList() {
     const [data, setData] = useState([]);
@@ -50,7 +46,6 @@ function PhatList() {
         } catch (err) {
             message.error("Thanh toán thất bại");
         }
-
     };
 
     const columns = [

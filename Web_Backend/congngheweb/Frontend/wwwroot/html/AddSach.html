@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Thêm sách</title>
+  <style>
+    * { padding: 0; margin: 0; box-sizing: border-box; }
+    html { font-family: Arial, Helvetica, sans-serif; overflow: hidden; }
+    #Add {
+      scroll-behavior: smooth;
+      width: calc(100% - 215px);
+      height: 95vh;
+      position: fixed;
+      bottom: 0;
+      right: 0;
+    }
+    #ThueSach { overflow: hidden; }
+    #previewImgAdd {
+      display: block;
+      width: 120px;
+      height: auto;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      object-fit: cover;
+    }
+  </style>
+  <link rel="stylesheet" href="../css/style_AddBD.css">
+</head>
+<body>
+  <div id="ThueSach">
+    <div id="Add">
+      <div id="header">
+        <p>Thêm sách</p>
+      </div>
+      <div id="container">
+        <div>
+          <label class="f15px pa10px">Mã sách</label><br />
+          <input type="text" class="ma10px input-btn" id="MaSach" placeholder="Nhập mã sách" />
+        </div>
+        <div>
+          <label class="f15px pa10px">Tiêu đề</label><br />
+          <input type="text" class="ma10px input-btn" id="TieuDe" placeholder="Nhập tiêu đề" />
+        </div>
+        <div>
+          <label class="f15px pa10px">Tác giả</label><br />
+          <input type="text" class="ma10px input-btn" id="TacGia" placeholder="Nhập tác giả" />
+        </div>
+        <div>
+          <label class="f15px pa10px">Thể loại</label><br />
+          <!-- COMBOBOX THỂ LOẠI -->
+          <select id="MaTheLoai" class="ma10px input-btn">
+            <option value="">-- Chọn thể loại --</option>
+          </select>
+        </div>
+        <div>
+          <label class="f15px pa10px">Năm xuất bản</label><br />
+          <input type="number" class="ma10px input-btn" id="NamXuatBan" placeholder="Nhập năm xuất bản" />
+        </div>
+        <div>
+          <label class="f15px pa10px">Ngôn ngữ</label><br />
+          <input type="text" class="ma10px input-btn" id="NgonNgu" placeholder="Nhập ngôn ngữ" />
+        </div>
+        <div>
+          <label class="f15px pa10px">Tóm tắt</label><br />
+          <input type="text" class="ma10px input-btn" id="TomTat" placeholder="Tóm tắt" />
+        </div>
+        <div>
+          <label class="f15px pa10px">Link ảnh bìa</label><br />
+          <input type="text" class="ma10px input-btn" id="LienKetAnh" placeholder="Dán link ảnh bìa" />
+          <img id="previewImgAdd" src="" alt="Preview ảnh bìa" />
+        </div>
+        <p id="add-sach-msg" style="margin-top:8px; font-size:13px;"></p>
+      </div>
+
+      <div id="btn-save">
+        <button id="saveBtn" type="button">+ Thêm</button>
+      </div>
+      <div id="btn-back">
+        <button id="goBackbtn" type="button"><i class="ti-angle-double-left"></i>Quay lại</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/AddSach.js"></script>
+</body>
+</html>

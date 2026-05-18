@@ -41,6 +41,7 @@ function App() {
       } />
 
       {/* ADMIN - chỉ Quản trị + Thủ thư */}
+      
       <Route
         path="/admin"
         element={
@@ -58,7 +59,6 @@ function App() {
         <Route path="kesach" element={<KeSachList />} />
         <Route path="bansao" element={<BanSaoList />} />
 
-        {/* Chỉ Quản trị mới vào được accounts */}
         <Route
           path="accounts"
           element={

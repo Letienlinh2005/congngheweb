@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <title>Thanh toán phạt</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      font-family: Arial, Helvetica, sans-serif;
+      overflow: hidden;
+    }
+
+    #Reader {
+      scroll-behavior: smooth;
+      width: calc(100% - 215px);
+      height: 95vh;
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      overflow-y: auto;
+    }
+
+    #ThueSach {
+      overflow: hidden;
+    }
+
+    /* ---- phần riêng cho form thanh toán ---- */
+    .tt-section-body {
+      padding: 10px 15px 15px 15px;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .field {
+      flex: 1;
+      min-width: 220px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 3px;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      padding: 6px 8px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    .field textarea {
+      resize: vertical;
+      min-height: 60px;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      padding: 6px 14px;
+      font-size: 14px;
+      border-radius: 4px;
+      border: 1px solid #555;
+      background: #333;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .btn-outline {
+      display: inline-block;
+      padding: 6px 14px;
+      font-size: 14px;
+      border-radius: 4px;
+      border: 1px solid #555;
+      background: #fff;
+      color: #333;
+      cursor: pointer;
+      margin-left: 8px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 6px 18px;
+      font-size: 14px;
+      margin-top: 8px;
+    }
+    .info-label {
+      font-weight: 600;
+    }
+    .info-value {
+      margin-left: 4px;
+    }
+
+    .msg {
+      margin-top: 6px;
+      font-size: 13px;
+      color: #b30000;
+    }
+    .msg.success {
+      color: #0a7b00;
+    }
+  </style>
+
+  <!-- dùng lại css admin -->
+  <link rel="stylesheet" href="../css/style_Readermanagement.css">
+</head>
+<body>
+  <div id="ThueSach">
+    <div id="Reader">
+      <div id="header">
+        <p>Thanh toán phạt</p>
+      </div>
+
+      <div id="container">
+        <!-- 1. Trả sách & tính phạt -->
+        <div class="box-fil">
+          <div id="fil">
+            <p class="f13px">1. Trả sách &amp; tính phạt</p>
+          </div>
+          <div class="tt-section-body">
+            <div class="row">
+              <div class="field">
+                <label for="pm-ma">Mã phiếu mượn</label>
+                <input id="pm-ma" type="text" placeholder="VD: PM1002" readonly/>
+              </div>
+              <div class="field">
+                <label for="pm-ngay-tra">Ngày trả thực tế</label>
+                <input id="pm-ngay-tra" type="date" />
+              </div>
+              <div class="field" style="align-self:flex-end; max-width:180px;">
+                <button id="btnTinhPhat" class="btn-primary">
+                  Trả sách &amp; tính phạt
+                </button>
+              </div>
+            </div>
+
+            <div id="pm-msg" class="msg"></div>
+
+            <div class="info-grid">
+              <div>
+                <span class="info-label">Ngày mượn:</span>
+                <span id="pm-ngay-muon" class="info-value">-</span>
+              </div>
+              <div>
+                <span class="info-label">Hạn trả:</span>
+                <span id="pm-han-tra" class="info-value">-</span>
+              </div>
+              <div>
+                <span class="info-label">Trạng thái:</span>
+                <span id="pm-trang-thai" class="info-value">-</span>
+              </div>
+              <div>
+                <span class="info-label">Số ngày trễ:</span>
+                <span id="pm-so-ngay-tre" class="info-value">0</span>
+              </div>
+              <div>
+                <span class="info-label">Tiền phạt:</span>
+                <span id="pm-tien-phat" class="info-value">0 ₫</span>
+              </div>
+              <div>
+                <span class="info-label">Mã phạt (tạo mới):</span>
+                <span id="pm-ma-phat" class="info-value">-</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Thanh toán phạt -->
+        <div class="box-fil">
+          <div id="fil">
+            <p class="f13px">2. Thanh toán phạt</p>
+          </div>
+          <div class="tt-section-body">
+            <div class="row">
+              <div class="field">
+                <label for="tt-ma-phat">Mã phạt</label>
+                <input id="tt-ma-phat" type="text"
+                  placeholder="VD: P251018093644 (tự fill sau bước 1 hoặc từ Quản lý phạt)" />
+              </div>
+              <div class="field">
+                <label for="tt-hinh-thuc">Hình thức thanh toán</label>
+                <select id="tt-hinh-thuc">
+                  <option value="Tiền mặt">Tiền mặt</option>
+                  <option value="Chuyển khoản">Chuyển khoản</option>
+                  <option value="Thẻ">Thẻ</option>
+                  <option value="Ví điện tử">Ví điện tử</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="field">
+                <label for="tt-ghi-chu">Ghi chú</label>
+                <textarea id="tt-ghi-chu"
+                  placeholder="VD: Thanh toán tại quầy, nhân viên A xử lý..."></textarea>
+              </div>
+            </div>
+
+            <div class="row" style="justify-content:flex-end;">
+              <button id="btnThanhToan" class="btn-primary">
+                Thanh toán phạt
+              </button>
+              <button id="btnReset" class="btn-outline">
+                Làm mới
+              </button>
+            </div>
+
+            <div id="tt-msg" class="msg"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/ThanhToanPhat.js"></script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Admin</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-family: Arial, Helvetica, sans-serif;
+            overflow: hidden;
+        }
+
+        #Reader {
+            scroll-behavior: smooth;
+            width: calc(100% - 215px);
+            height: 95vh;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+
+            overflow-y: auto;
+        }
+
+        #ThueSach {
+            overflow: hidden;
+        }
+    </style>
+    <link rel="stylesheet" href="../css/style_Readermanagement.css">
+</head>
+<body>
+    <div id="ThueSach">
+        <div id="Reader">
+            <div id="header">
+                <p>Quản lý phiếu mượn</p>
+            </div>
+            <div id="container">
+                <div class="box-fil">
+                    <div id="fil">
+                        <p class="f13px">Bộ lọc và tìm kiếm</p>
+                    </div>
+                    <div id="search">
+                        <button class="btn-fil" id="All">Tất cả</button>
+                        <button class="btn-fil" id="Active">Đang mượn</button>
+                        <button class="btn-fil" id="No-active">Đã trả</button>
+                        <button class="btn-fil" id="en"
+                            style="background-color: green; color: white; float: right; margin-left:0px; margin-right: 10px; cursor:pointer">
+                            Tìm kiếm
+                        </button>
+                        <input type="search" placeholder="Tìm kiếm phiếu mượn" id="search-bd" />
+                    </div>
+                </div>
+                <div class="box-fil">
+                    <div id="fil">
+                        <p class="f13px">Danh sách phiếu mượn</p>
+                    </div>
+                    <div id="search">
+                        <button class="btn-fil" onclick="loadPage('../html/AddPM.html','initAddPM')">+ Thêm mới</button>
+                    </div>
+                    <div id="title-name">
+                        <table class="table table-hover table-sm">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Mã phiếu mượn</th>
+                                    <th>Mã bản sao</th>
+                                    <th>Mã bạn đọc</th>
+                                    <th>Ngày mượn</th>
+                                    <th>Hạn trả</th>
+                                    <th>Ngày trả thực tế</th>
+                                    <th>Số lần gia hạn</th>
+                                    <th>Trạng thái</th>
+                                    <th>Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pm-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // hàm load trang con vào #Reader
+        window.loadPage = async function (page, afterLoadFnName) {
+            try {
+                const res = await fetch(page);
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                const html = await res.text();
+                document.getElementById('Reader').innerHTML = html;
+
+                setTimeout(() => {
+                    if (afterLoadFnName && typeof window[afterLoadFnName] === 'function') {
+                        window[afterLoadFnName]();
+                    }
+                }, 0);
+            } catch (err) {
+                console.error(err);
+                document.getElementById('Reader').innerHTML =
+                    "<p style='color:red'>Không tải được trang.</p>";
+            }
+        };
+
+        // lưu mã phiếu mượn để trang sửa đọc lại
+        function setEditPM(ma) {
+            sessionStorage.setItem('editPM', ma);
+        }
+    </script>
+    <script src="../js/PhieuMuon.js" defer></script>
+    <!-- <script src="../js/FixPM.js" defer></script>
+    <script src="../js/AddPM.js"></script> -->
+</body>
+</html>

@@ -33,7 +33,9 @@ function PhieuMuonList() {
         }
     };
 
-    useEffect(() => { fetchPhieuMuon(); }, []);
+    useEffect(() => { 
+        fetchPhieuMuon(); 
+    }, []);
 
     const handleReturn = async (id) => {
         try {

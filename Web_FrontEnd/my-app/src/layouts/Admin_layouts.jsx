@@ -113,7 +113,6 @@ const AdminLayout = () => {
             items={[{ title: "Admin" }, { title: "Dashboard" }]}
             className="admin-layout-breadcrumb"
           />
-
           <Content
             className="admin-layout-content"
             style={{

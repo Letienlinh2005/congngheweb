@@ -20,7 +20,6 @@ export default function SearchResults() {
   const [sortBy, setSortBy]         = useState("default");
   const [inputVal, setInputVal]     = useState(query);
 
-  // Fetch all books once
   useEffect(() => {
     const fetchAll = async () => {
       try {
@@ -44,8 +43,8 @@ export default function SearchResults() {
     fetchAll();
   }, []);
 
-  // Filter whenever query or allBooks changes
   useEffect(() => {
+    // params rỗng
     if (!query.trim()) {
       setResults(allBooks);
       return;
@@ -60,7 +59,6 @@ export default function SearchResults() {
     setResults(filtered);
   }, [query, allBooks]);
 
-  // Sort
   const sorted = [...results].sort((a, b) => {
     if (sortBy === "title_asc")  return a.tieuDe.localeCompare(b.tieuDe);
     if (sortBy === "title_desc") return b.tieuDe.localeCompare(a.tieuDe);

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Admin</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-family: Arial, Helvetica, sans-serif;
+            overflow: hidden;
+        }
+
+        #Reader {
+            scroll-behavior: smooth;
+            width: calc(100% - 215px);
+            height: 95vh;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+
+            overflow-y: auto;   /* cho phép cuộn dọc bên trong panel sách */
+            overflow-x: hidden;
+        }
+
+        #ThueSach {
+            overflow: hidden;
+        }
+    </style>
+    <link rel="stylesheet" href="../css/style_Readermanagement.css">
+</head>
+<body>
+    <div id="ThueSach">
+        <div id="Reader">
+            <div id="header">
+                <p>Quản lý tài khoản</p>
+            </div>
+            <div id="container">
+                <div class="box-fil">
+                    <div id="fil">
+                        <p class="f13px">Bộ lọc và tìm kiếm</p>
+                    </div>
+                    <div id="search">
+                        <button class="btn-fil" id="All">Tất cả</button>
+                        <button class="btn-fil" id="en"
+                            style="background-color: green; color: white; float: right; margin-left:0px; margin-right: 10px; cursor:pointer">
+                            Tìm kiếm
+                        </button>
+                        <input type="search" placeholder="Tìm kiếm tài khoản" id="search-bd" />
+                    </div>
+                </div>
+                <div class="box-fil">
+                    <div id="fil">
+                        <p class="f13px">Danh sách tài khoản</p>
+                    </div>
+                    <div id="search">
+                        <button class="btn-fil" onclick="loadPage('../html/AddTK.html','initAddTK')">+ Thêm mới</button>
+                    </div>
+                    <div id="title-name">
+                        <table class="table table-hover table-sm">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Mã tài khoản</th>
+                                    <th>Tên đăng nhập</th>
+                                    <th>Vai trò</th>
+                                    <th>Mã bạn đọc</th>
+                                    <th>Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tk-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        window.loadPage = async function (page, afterLoadFnName) {
+            try {
+                const res = await fetch(page);
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                const html = await res.text();
+                document.getElementById('Reader').innerHTML = html;
+
+                setTimeout(() => {
+                    if (afterLoadFnName && typeof window[afterLoadFnName] === 'function') {
+                        window[afterLoadFnName]();
+                    }
+                }, 0);
+            } catch (err) {
+                console.error(err);
+                document.getElementById('Reader').innerHTML =
+                    "<p style='color:red'>Không tải được trang.</p>";
+            }
+        };
+
+        function setEditTK(ma) {
+            sessionStorage.setItem('editTK', ma);
+        }
+    </script>
+    <script src="../js/TaiKhoan.js" defer></script>
+    <!-- <script src="../js/FixTK.js" defer></script>
+    <script src="../js/AddTK.js"></script> -->
+</body>
+</html>
